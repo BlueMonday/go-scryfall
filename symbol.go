@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-// A Card Symbol represents an illustrated symbol that may appear in card’s
+// CardSymbol represents an illustrated symbol that may appear in card’s
 // mana cost or Oracle text. Symbols are based on the notation used in the
 // Comprehensive Rules.
 //
