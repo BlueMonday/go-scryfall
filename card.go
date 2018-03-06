@@ -52,7 +52,7 @@ type Card struct {
 
 	// Layout is a computer-readable designation for this card’s
 	// layout. See the layout article.
-	Layout string `json:"layout"`
+	Layout Layout `json:"layout"`
 
 	// CMC is the card’s converted mana cost. Note that some funny cards
 	// have fractional mana costs.
@@ -271,7 +271,7 @@ const (
 // Legalities describes the legality of a card across formats.
 type Legalities struct {
 	Standard     Legality `json:"standard"`
-	Fronteir     Legality `json:"fronteir"`
+	Frontier     Legality `json:"frontier"`
 	Modern       Legality `json:"modern"`
 	Pauper       Legality `json:"pauper"`
 	Legacy       Legality `json:"legacy"`
