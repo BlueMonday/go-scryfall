@@ -46,7 +46,7 @@ type Set struct {
 	// Foil is true if this set contains only foil cards.
 	Foil bool `json:"foil"`
 
-	// ICONSVGURL is a URI to an SVG file for this set’s icon on Scryfall’s
+	// IconSVGURL is a URI to an SVG file for this set’s icon on Scryfall’s
 	// CDN. Hotlinking this image isn’t recommended, because it may change
 	// slightly over time. You should download it and use it locally for your
 	// particular user interface needs.

@@ -21,8 +21,8 @@ type Catalog struct {
 }
 
 func (c *Client) getCatalog(ctx context.Context, name string) (Catalog, error) {
-	cardsURL := fmt.Sprintf("%s/catalog/%s", baseURL, name)
-	req, err := http.NewRequest("GET", cardsURL, nil)
+	catalogURL := fmt.Sprintf("%s/catalog/%s", baseURL, name)
+	req, err := http.NewRequest("GET", catalogURL, nil)
 	if err != nil {
 		return Catalog{}, err
 	}
