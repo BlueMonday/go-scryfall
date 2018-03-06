@@ -3,7 +3,6 @@ package scryfall
 import (
 	"context"
 	"fmt"
-	"net/http"
 )
 
 // Catalog contains an array of Magic datapoints (words, card values,
@@ -22,13 +21,8 @@ type Catalog struct {
 
 func (c *Client) getCatalog(ctx context.Context, name string) (Catalog, error) {
 	catalogURL := fmt.Sprintf("%s/catalog/%s", baseURL, name)
-	req, err := http.NewRequest("GET", catalogURL, nil)
-	if err != nil {
-		return Catalog{}, err
-	}
-
 	catalog := Catalog{}
-	err = c.doReq(ctx, req, &catalog)
+	err := c.doGETReq(ctx, catalogURL, &catalog)
 	if err != nil {
 		return Catalog{}, err
 	}

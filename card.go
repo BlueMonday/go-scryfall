@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
 	"net/url"
 )
 
@@ -288,13 +287,8 @@ type Legalities struct {
 // TODO(serenst): Handle pagination.
 func (c *Client) ListCards(ctx context.Context) ([]Card, error) {
 	cardsURL := fmt.Sprintf("%s/cards", baseURL)
-	req, err := http.NewRequest("GET", cardsURL, nil)
-	if err != nil {
-		return nil, err
-	}
-
 	listResponse := &ListResponse{}
-	err = c.doReq(ctx, req, listResponse)
+	err := c.doGETReq(ctx, cardsURL, listResponse)
 	if err != nil {
 		return nil, err
 	}
@@ -315,17 +309,12 @@ func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error
 	if err != nil {
 		return Catalog{}, err
 	}
-
 	values := autocompleteCardURL.Query()
 	values.Set("q", s)
 	autocompleteCardURL.RawQuery = values.Encode()
-	req, err := http.NewRequest("GET", autocompleteCardURL.String(), nil)
-	if err != nil {
-		return Catalog{}, err
-	}
 
 	catalog := Catalog{}
-	err = c.doReq(ctx, req, &catalog)
+	err = c.doGETReq(ctx, autocompleteCardURL.String(), &catalog)
 	if err != nil {
 		return Catalog{}, err
 	}
@@ -336,13 +325,8 @@ func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error
 // GetRandomCard returns a random card.
 func (c *Client) GetRandomCard(ctx context.Context) (Card, error) {
 	randomCardURL := fmt.Sprintf("%s/cards/random", baseURL)
-	req, err := http.NewRequest("GET", randomCardURL, nil)
-	if err != nil {
-		return Card{}, err
-	}
-
 	card := Card{}
-	err = c.doReq(ctx, req, &card)
+	err := c.doGETReq(ctx, randomCardURL, &card)
 	if err != nil {
 		return Card{}, err
 	}
@@ -354,13 +338,8 @@ func (c *Client) GetRandomCard(ctx context.Context) (Card, error) {
 // set code and collector number.
 func (c *Client) GetCardBySetCodeAndCollectorNumber(ctx context.Context, setCode string, collectorNumber string) (Card, error) {
 	cardURL := fmt.Sprintf("%s/cards/%s/%s", baseURL, setCode, collectorNumber)
-	req, err := http.NewRequest("GET", cardURL, nil)
-	if err != nil {
-		return Card{}, err
-	}
-
 	card := Card{}
-	err = c.doReq(ctx, req, &card)
+	err := c.doGETReq(ctx, cardURL, &card)
 	if err != nil {
 		return Card{}, err
 	}
@@ -371,13 +350,8 @@ func (c *Client) GetCardBySetCodeAndCollectorNumber(ctx context.Context, setCode
 // GetCard returns a single card with the given Scryfall ID.
 func (c *Client) GetCard(ctx context.Context, id string) (Card, error) {
 	cardURL := fmt.Sprintf("%s/cards/%s", baseURL, id)
-	req, err := http.NewRequest("GET", cardURL, nil)
-	if err != nil {
-		return Card{}, err
-	}
-
 	card := Card{}
-	err = c.doReq(ctx, req, &card)
+	err := c.doGETReq(ctx, cardURL, &card)
 	if err != nil {
 		return Card{}, err
 	}

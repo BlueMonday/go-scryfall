@@ -134,7 +134,11 @@ func NewClient(options ...ClientOption) *Client {
 	}
 }
 
-func (c *Client) doReq(ctx context.Context, req *http.Request, v interface{}) error {
+func (c *Client) doGETReq(ctx context.Context, url string, v interface{}) error {
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return err
+	}
 	reqWithContext := req.WithContext(ctx)
 	resp, err := c.client.Do(reqWithContext)
 	if err != nil {

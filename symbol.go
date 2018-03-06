@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
 )
 
 // CardSymbol represents an illustrated symbol that may appear in card’s
@@ -55,14 +54,9 @@ type CardSymbol struct {
 
 // ListCardSymbols returns a list of all card symbols.
 func (c *Client) ListCardSymbols(ctx context.Context) ([]CardSymbol, error) {
-	cardsURL := fmt.Sprintf("%s/symbology", baseURL)
-	req, err := http.NewRequest("GET", cardsURL, nil)
-	if err != nil {
-		return nil, err
-	}
-
+	symbologyURL := fmt.Sprintf("%s/symbology", baseURL)
 	listResponse := &ListResponse{}
-	err = c.doReq(ctx, req, listResponse)
+	err := c.doGETReq(ctx, symbologyURL, listResponse)
 	if err != nil {
 		return nil, err
 	}

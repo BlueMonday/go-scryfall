@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
 )
 
 // Ruling represents an Oracle ruling, Wizards of the Coast set release notes,
@@ -25,13 +24,8 @@ type Ruling struct {
 // GetRulings returns the rulings for a card with the given Scryfall ID.
 func (c *Client) GetRulings(ctx context.Context, id string) ([]Ruling, error) {
 	rulingsURL := fmt.Sprintf("%s/cards/%s/rulings", baseURL, id)
-	req, err := http.NewRequest("GET", rulingsURL, nil)
-	if err != nil {
-		return nil, err
-	}
-
 	listResponse := &ListResponse{}
-	err = c.doReq(ctx, req, listResponse)
+	err := c.doGETReq(ctx, rulingsURL, listResponse)
 	if err != nil {
 		return nil, err
 	}

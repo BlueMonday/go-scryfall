@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"net/http"
 )
 
 // Set is an object which represents a group of related Magic cards. All Card
@@ -61,13 +60,8 @@ type Set struct {
 // TODO(serenst): Handle pagination.
 func (c *Client) ListSets(ctx context.Context) ([]Set, error) {
 	setsURL := fmt.Sprintf("%s/sets", baseURL)
-	req, err := http.NewRequest("GET", setsURL, nil)
-	if err != nil {
-		return nil, err
-	}
-
 	listResponse := &ListResponse{}
-	err = c.doReq(ctx, req, listResponse)
+	err := c.doGETReq(ctx, setsURL, listResponse)
 	if err != nil {
 		return nil, err
 	}
@@ -84,13 +78,8 @@ func (c *Client) ListSets(ctx context.Context) ([]Set, error) {
 // GetSet returns a set with the given set code.
 func (c *Client) GetSet(ctx context.Context, code string) (Set, error) {
 	setURL := fmt.Sprintf("%s/sets/%s", baseURL, code)
-	req, err := http.NewRequest("GET", setURL, nil)
-	if err != nil {
-		return Set{}, err
-	}
-
 	set := Set{}
-	err = c.doReq(ctx, req, &set)
+	err := c.doGETReq(ctx, setURL, &set)
 	if err != nil {
 		return Set{}, err
 	}
