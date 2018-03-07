@@ -2,7 +2,6 @@ package scryfall
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 )
 
@@ -63,14 +62,8 @@ type Set struct {
 // TODO(serenst): Handle pagination.
 func (c *Client) ListSets(ctx context.Context) ([]Set, error) {
 	setsURL := fmt.Sprintf("%s/sets", baseURL)
-	listResponse := &ListResponse{}
-	err := c.doGETReq(ctx, setsURL, listResponse)
-	if err != nil {
-		return nil, err
-	}
-
 	sets := []Set{}
-	err = json.Unmarshal(listResponse.Data, &sets)
+	err := c.doListGETReq(ctx, setsURL, &sets)
 	if err != nil {
 		return nil, err
 	}

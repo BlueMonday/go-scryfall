@@ -2,7 +2,6 @@ package scryfall
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/url"
 )
@@ -188,6 +187,17 @@ type Card struct {
 
 	// Futureshifted is true if this card is from the future.
 	Futureshifted bool `json:"futureshifted"`
+
+	// USD is the price of the card in US dollars.
+	USD string `json:"usd"`
+
+	// Tix is the price of the card in MTGO event tickets.
+	Tix string `json:"tix"`
+
+	// EUR is the price of the card in Euros.
+	EUR string `json:"eur"`
+
+	// TODO(serenst): Add related URIs, purchase URIs.
 }
 
 // RelatedCard is a card that is closely related to another card (because it
@@ -316,14 +326,8 @@ func (c *Client) getCard(ctx context.Context, url string) (Card, error) {
 // TODO(serenst): Handle pagination.
 func (c *Client) ListCards(ctx context.Context) ([]Card, error) {
 	cardsURL := fmt.Sprintf("%s/cards", baseURL)
-	listResponse := &ListResponse{}
-	err := c.doGETReq(ctx, cardsURL, listResponse)
-	if err != nil {
-		return nil, err
-	}
-
 	cards := []Card{}
-	err = json.Unmarshal(listResponse.Data, &cards)
+	err := c.doListGETReq(ctx, cardsURL, &cards)
 	if err != nil {
 		return nil, err
 	}

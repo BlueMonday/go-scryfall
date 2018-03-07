@@ -159,3 +159,13 @@ func (c *Client) doGETReq(ctx context.Context, url string, v interface{}) error 
 
 	return decoder.Decode(v)
 }
+
+func (c *Client) doListGETReq(ctx context.Context, url string, v interface{}) error {
+	listResponse := &ListResponse{}
+	err := c.doGETReq(ctx, url, listResponse)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(listResponse.Data, v)
+}

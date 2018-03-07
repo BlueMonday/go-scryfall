@@ -2,7 +2,6 @@ package scryfall
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 )
 
@@ -22,14 +21,8 @@ type Ruling struct {
 }
 
 func (c *Client) getRulings(ctx context.Context, url string) ([]Ruling, error) {
-	listResponse := &ListResponse{}
-	err := c.doGETReq(ctx, url, listResponse)
-	if err != nil {
-		return nil, err
-	}
-
 	rulings := []Ruling{}
-	err = json.Unmarshal(listResponse.Data, &rulings)
+	err := c.doListGETReq(ctx, url, &rulings)
 	if err != nil {
 		return nil, err
 	}

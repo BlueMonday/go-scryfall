@@ -2,7 +2,6 @@ package scryfall
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/url"
 )
@@ -79,14 +78,8 @@ type ManaCost struct {
 // ListCardSymbols returns a list of all card symbols.
 func (c *Client) ListCardSymbols(ctx context.Context) ([]CardSymbol, error) {
 	symbologyURL := fmt.Sprintf("%s/symbology", baseURL)
-	listResponse := &ListResponse{}
-	err := c.doGETReq(ctx, symbologyURL, listResponse)
-	if err != nil {
-		return nil, err
-	}
-
 	symbols := []CardSymbol{}
-	err = json.Unmarshal(listResponse.Data, &symbols)
+	err := c.doListGETReq(ctx, symbologyURL, &symbols)
 	if err != nil {
 		return nil, err
 	}
