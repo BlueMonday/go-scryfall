@@ -302,6 +302,16 @@ type Legalities struct {
 	Future       Legality `json:"future"`
 }
 
+func (c *Client) getCard(ctx context.Context, url string) (Card, error) {
+	card := Card{}
+	err := c.doGETReq(ctx, url, &card)
+	if err != nil {
+		return Card{}, err
+	}
+
+	return card, nil
+}
+
 // ListCards lists all the cards in Scryfall's database.
 // TODO(serenst): Handle pagination.
 func (c *Client) ListCards(ctx context.Context) ([]Card, error) {
@@ -344,36 +354,34 @@ func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error
 // GetRandomCard returns a random card.
 func (c *Client) GetRandomCard(ctx context.Context) (Card, error) {
 	randomCardURL := fmt.Sprintf("%s/cards/random", baseURL)
-	card := Card{}
-	err := c.doGETReq(ctx, randomCardURL, &card)
-	if err != nil {
-		return Card{}, err
-	}
+	return c.getCard(ctx, randomCardURL)
+}
 
-	return card, nil
+// GetCardByMultiverseID returns a single card with the given Multiverse ID. If
+// the card has multiple multiverse IDs, GetCardByMultiverseID can find either of
+// them.
+func (c *Client) GetCardByMultiverseID(ctx context.Context, multiverseID int) (Card, error) {
+	cardURL := fmt.Sprintf("%s/cards/multiverse/%d", baseURL, multiverseID)
+	return c.getCard(ctx, cardURL)
+}
+
+// GetCardByMTGOID returns a single card with the given MTGO ID (also known as
+// the Catalog ID). The ID can either be the card’s MTGO ID or its MTGO foil
+// ID.
+func (c *Client) GetCardByMTGOID(ctx context.Context, mtgoID int) (Card, error) {
+	cardURL := fmt.Sprintf("%s/cards/mtgo/%d", baseURL, mtgoID)
+	return c.getCard(ctx, cardURL)
 }
 
 // GetCardBySetCodeAndCollectorNumber returns a single card with the given
 // set code and collector number.
 func (c *Client) GetCardBySetCodeAndCollectorNumber(ctx context.Context, setCode string, collectorNumber string) (Card, error) {
 	cardURL := fmt.Sprintf("%s/cards/%s/%s", baseURL, setCode, collectorNumber)
-	card := Card{}
-	err := c.doGETReq(ctx, cardURL, &card)
-	if err != nil {
-		return Card{}, err
-	}
-
-	return card, nil
+	return c.getCard(ctx, cardURL)
 }
 
 // GetCard returns a single card with the given Scryfall ID.
 func (c *Client) GetCard(ctx context.Context, id string) (Card, error) {
 	cardURL := fmt.Sprintf("%s/cards/%s", baseURL, id)
-	card := Card{}
-	err := c.doGETReq(ctx, cardURL, &card)
-	if err != nil {
-		return Card{}, err
-	}
-
-	return card, nil
+	return c.getCard(ctx, cardURL)
 }
