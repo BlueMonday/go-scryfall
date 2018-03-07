@@ -24,6 +24,8 @@ type Set struct {
 
 	// ReleasedAt is the date the set was released (in GMT-8 Pacific
 	// time). Not all sets have a known release date.
+	//
+	// TODO(serenst): convert these to time.Time.
 	ReleasedAt *string `json:"released_at"`
 
 	// BlockCode is the block code for this set, if any.
@@ -57,6 +59,7 @@ type Set struct {
 }
 
 // ListSets lists all of the sets on Scryfall.
+//
 // TODO(serenst): Handle pagination.
 func (c *Client) ListSets(ctx context.Context) ([]Set, error) {
 	setsURL := fmt.Sprintf("%s/sets", baseURL)

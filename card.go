@@ -250,12 +250,31 @@ type CardFace struct {
 	ImageURIs ImageURIs `json:"image_uris"`
 }
 
+// ImageURIs contains links to the different image sizes and crops for a given
+// card.
 type ImageURIs struct {
-	Small      string `json:"small"`
-	Normal     string `json:"normal"`
-	Large      string `json:"large"`
-	PNG        string `json:"png"`
-	ArtCrop    string `json:"art_crop"`
+	// Small is a small full card image. Designed for use as thumbnail or
+	// list icon.
+	Small string `json:"small"`
+
+	// Normal is a medium-sized full card image.
+	Normal string `json:"normal"`
+
+	// Large is a large full card image.
+	Large string `json:"large"`
+
+	// PNG is a transparent, rounded full card PNG. This is the best image
+	// to use for videos or other high-quality content.
+	PNG string `json:"png"`
+
+	// ArtCrop is a rectangular crop of the card’s art only. Not guaranteed
+	// to be perfect for cards with outlier designs or strange frame
+	// arrangements
+	ArtCrop string `json:"art_crop"`
+
+	// BorderCrop is a full card image with the rounded corners and the
+	// majority of the border cropped off. Designed for dated contexts where
+	// rounded images can’t be used.
 	BorderCrop string `json:"border_crop"`
 }
 
