@@ -59,8 +59,8 @@ const (
 	FrameFuture Frame = "future"
 )
 
-// APIError is a Scryfall API error response.
-type APIError struct {
+// Error is a Scryfall API error response.
+type Error struct {
 	Status   int      `json:"status"`
 	Code     string   `json:"code"`
 	Details  string   `json:"details"`
@@ -68,7 +68,7 @@ type APIError struct {
 	Warnings []string `json:"warnings"`
 }
 
-func (e *APIError) Error() string {
+func (e *Error) Error() string {
 	return fmt.Sprintf("%s: %s", e.Code, e.Details)
 }
 
@@ -148,13 +148,13 @@ func (c *Client) doGETReq(ctx context.Context, url string, v interface{}) error 
 
 	decoder := json.NewDecoder(resp.Body)
 	if resp.StatusCode != http.StatusOK {
-		apiError := &APIError{}
-		err = decoder.Decode(apiError)
+		scryfallErr := &Error{}
+		err = decoder.Decode(scryfallErr)
 		if err != nil {
 			return err
 		}
 
-		return apiError
+		return scryfallErr
 	}
 
 	return decoder.Decode(v)

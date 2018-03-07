@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/url"
 )
 
 // CardSymbol represents an illustrated symbol that may appear in card’s
@@ -52,6 +53,29 @@ type CardSymbol struct {
 	Colors []Color `json:"colors"`
 }
 
+// ManaCost is Scryfall's interpretation of a mana cost.
+type ManaCost struct {
+	// Cost is the normalized cost, with correctly-ordered and wrapped mana
+	// symbols.
+	Cost string `json:"cost"`
+
+	// CMC is the converted mana cost. If you submit Un-set mana symbols,
+	// this decimal could include fractional parts.
+	CMC float64 `json:"cmc"`
+
+	// Colors is the colors of the given cost.
+	Colors []Color `json:"colors"`
+
+	// Colorless is true if the cost is colorless.
+	Colorless bool `json:"colorless"`
+
+	// Monocolored is true if the cost is monocolored.
+	Monocolored bool `json:"monocolored"`
+
+	// Multicolored is true if the cost is multicolored.
+	Multicolored bool `json:"multicolored"`
+}
+
 // ListCardSymbols returns a list of all card symbols.
 func (c *Client) ListCardSymbols(ctx context.Context) ([]CardSymbol, error) {
 	symbologyURL := fmt.Sprintf("%s/symbology", baseURL)
@@ -68,4 +92,27 @@ func (c *Client) ListCardSymbols(ctx context.Context) ([]CardSymbol, error) {
 	}
 
 	return symbols, nil
+}
+
+// ParseManaCost parses a string mana cost and returns Scryfall's interpretation.
+//
+// The server understands most community shorthand for mana costs (such as 2WW
+// for {2}{W}{W}). Symbols can also be out of order, lowercase, or have multiple
+// colorless costs (such as 2{g}2 for {4}{G}).
+func (c *Client) ParseManaCost(ctx context.Context, cost string) (ManaCost, error) {
+	parseManaURL, err := url.Parse(fmt.Sprintf("%s/symbology/parse-mana", baseURL))
+	if err != nil {
+		return ManaCost{}, err
+	}
+	values := parseManaURL.Query()
+	values.Set("cost", cost)
+	parseManaURL.RawQuery = values.Encode()
+
+	manaCost := ManaCost{}
+	err = c.doGETReq(ctx, parseManaURL.String(), manaCost)
+	if err != nil {
+		return ManaCost{}, err
+	}
+
+	return manaCost, nil
 }
