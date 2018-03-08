@@ -5,12 +5,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 )
 
 const (
 	baseURL        = "https://api.scryfall.com"
 	defaultTimeout = 30 * time.Second
+
+	dateFormat = "2006-01-02"
 )
 
 // Color represents a color in Magic: The Gathering.
@@ -24,40 +27,29 @@ const (
 	ColorGreen Color = "G"
 )
 
-// Layout categorizes the arrangement of card parts, faces, and other bounded
-// regions on cards. The layout can be used to programmatically determine which
-// other properties on a card you can expect.
-type Layout string
+// Date is a date returned by the Scryfall API.
+type Date struct {
+	time.Time
+}
 
-const (
-	LayoutNormal           Layout = "normal"
-	LayoutSplit            Layout = "split"
-	LayoutFlip             Layout = "flip"
-	LayoutTransform        Layout = "transform"
-	LayoutMeld             Layout = "meld"
-	LayoutLeveler          Layout = "leveler"
-	LayoutPlanar           Layout = "planar"
-	LayoutScheme           Layout = "scheme"
-	LayoutVanguard         Layout = "vanguard"
-	LayoutToken            Layout = "token"
-	LayoutDoubleFacedToken Layout = "double_faced_token"
-	LayoutEmblem           Layout = "emblem"
-	LayoutAugment          Layout = "augment"
-	LayoutHost             Layout = "host"
-)
+func (d *Date) UnmarshalJSON(b []byte) error {
+	s := strings.Trim(string(b), "\"")
+	if s == "null" {
+		d.Time = time.Time{}
+		return nil
+	}
 
-// Frame tracks the major edition of the card frame of used for the re/print in
-// question. The frame has gone though several major revisions in Magic’s
-// lifetime.
-type Frame string
-
-const (
-	Frame1993   Frame = "1993"
-	Frame1997   Frame = "1997"
-	Frame2003   Frame = "2003"
-	Frame2015   Frame = "2015"
-	FrameFuture Frame = "future"
-)
+	loc, err := time.LoadLocation("Etc/GMT-8")
+	if err != nil {
+		return err
+	}
+	parsedTime, err := time.ParseInLocation(dateFormat, s, loc)
+	if err != nil {
+		return err
+	}
+	d.Time = parsedTime
+	return nil
+}
 
 // Error is a Scryfall API error response.
 type Error struct {

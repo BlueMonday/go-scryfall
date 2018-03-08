@@ -23,9 +23,7 @@ type Set struct {
 
 	// ReleasedAt is the date the set was released (in GMT-8 Pacific
 	// time). Not all sets have a known release date.
-	//
-	// TODO(serenst): convert these to time.Time.
-	ReleasedAt *string `json:"released_at"`
+	ReleasedAt *Date `json:"released_at"`
 
 	// BlockCode is the block code for this set, if any.
 	BlockCode *string `json:"block_code"`
@@ -46,7 +44,7 @@ type Set struct {
 	// Foil is true if this set contains only foil cards.
 	Foil bool `json:"foil"`
 
-	// IconSVGURL is a URI to an SVG file for this set’s icon on Scryfall’s
+	// IconSVGURI is a URI to an SVG file for this set’s icon on Scryfall’s
 	// CDN. Hotlinking this image isn’t recommended, because it may change
 	// slightly over time. You should download it and use it locally for your
 	// particular user interface needs.

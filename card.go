@@ -6,6 +6,51 @@ import (
 	"net/url"
 )
 
+// Layout categorizes the arrangement of card parts, faces, and other bounded
+// regions on cards. The layout can be used to programmatically determine which
+// other properties on a card you can expect.
+type Layout string
+
+const (
+	LayoutNormal           Layout = "normal"
+	LayoutSplit            Layout = "split"
+	LayoutFlip             Layout = "flip"
+	LayoutTransform        Layout = "transform"
+	LayoutMeld             Layout = "meld"
+	LayoutLeveler          Layout = "leveler"
+	LayoutPlanar           Layout = "planar"
+	LayoutScheme           Layout = "scheme"
+	LayoutVanguard         Layout = "vanguard"
+	LayoutToken            Layout = "token"
+	LayoutDoubleFacedToken Layout = "double_faced_token"
+	LayoutEmblem           Layout = "emblem"
+	LayoutAugment          Layout = "augment"
+	LayoutHost             Layout = "host"
+)
+
+// Legality is the legality of a card in a particular format.
+type Legality string
+
+const (
+	LegalityLegal      Legality = "legal"
+	LegalityNotLegal   Legality = "not_legal"
+	LegalityBanned     Legality = "banned"
+	LegalityRestricted Legality = "restricted"
+)
+
+// Frame tracks the major edition of the card frame of used for the re/print in
+// question. The frame has gone though several major revisions in Magic’s
+// lifetime.
+type Frame string
+
+const (
+	Frame1993   Frame = "1993"
+	Frame1997   Frame = "1997"
+	Frame2003   Frame = "2003"
+	Frame2015   Frame = "2015"
+	FrameFuture Frame = "future"
+)
+
 // Card represents individual Magic: The Gathering cards that players could
 // obtain and add to their collection (with a few minor exceptions).
 type Card struct {
@@ -197,7 +242,11 @@ type Card struct {
 	// EUR is the price of the card in Euros.
 	EUR string `json:"eur"`
 
-	// TODO(serenst): Add related URIs, purchase URIs.
+	// RelatedURIs contains links related to a card.
+	RelatedURIs RelatedURIs `json:"related_uris"`
+
+	// PurchaseURIs contains links to the card on online card stores.
+	PurchaseURIs PurchaseURIs `json:"purchase_uris"`
 }
 
 // RelatedCard is a card that is closely related to another card (because it
@@ -288,15 +337,6 @@ type ImageURIs struct {
 	BorderCrop string `json:"border_crop"`
 }
 
-type Legality string
-
-const (
-	LegalityLegal      Legality = "legal"
-	LegalityNotLegal   Legality = "not_legal"
-	LegalityBanned     Legality = "banned"
-	LegalityRestricted Legality = "restricted"
-)
-
 // Legalities describes the legality of a card across formats.
 type Legalities struct {
 	Standard     Legality `json:"standard"`
@@ -310,6 +350,26 @@ type Legalities struct {
 	Commander    Legality `json:"commander"`
 	OneVersusOne Legality `json:"1v1"`
 	Future       Legality `json:"future"`
+}
+
+// RelatedURIs contains links related to a card.
+type RelatedURIs struct {
+	Gatherer       string `json:"gatherer"`
+	TCGPlayerDecks string `json:"tcgplayer_decks"`
+	EDHREC         string `json:"edhrec"`
+	MTGTop8        string `json:"mtgtop8"`
+}
+
+// PurchaseURIs contains links to the card on online card stores.
+type PurchaseURIs struct {
+	Amazon          string `json:"amazon"`
+	Ebay            string `json:"ebay"`
+	TCGPlayer       string `json:"tcgplayer"`
+	MagicCardMarket string `json:"magiccardmarket"`
+	CardHoarder     string `json:"cardhoarder"`
+	CardKingdom     string `json:"card_kingdom"`
+	MTGOTraders     string `json:"mtgo_traders"`
+	CoolStuffInc    string `json:"coolstuffinc"`
 }
 
 func (c *Client) getCard(ctx context.Context, url string) (Card, error) {

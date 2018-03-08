@@ -5,6 +5,14 @@ import (
 	"fmt"
 )
 
+// Source indicates which company produced the ruling.
+type Source string
+
+const (
+	SourceWOTC     = "wotc"
+	SourceScryfall = "scryfall"
+)
+
 // Ruling represents an Oracle ruling, Wizards of the Coast set release notes,
 // or Scryfall notes for a particular card.
 //
@@ -15,9 +23,14 @@ import (
 // to provide additional context for the card, or explain how the card works in an
 // unofficial format (such as Duel Commander).
 type Ruling struct {
-	Source      string `json:"source"`
-	PublishedAt string `json:"published_at"`
-	Comment     string `json:"comment"`
+	// Source indicates which company produced the ruling.
+	Source Source `json:"source"`
+
+	// PublishedAt is the date when the ruling or note was published.
+	PublishedAt Date `json:"published_at"`
+
+	// Comment is the text of the ruling.
+	Comment string `json:"comment"`
 }
 
 func (c *Client) getRulings(ctx context.Context, url string) ([]Ruling, error) {
