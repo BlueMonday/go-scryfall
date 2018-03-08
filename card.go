@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+
+	"github.com/google/go-querystring/query"
 )
 
 // Layout categorizes the arrangement of card parts, faces, and other bounded
@@ -372,22 +374,143 @@ type PurchaseURIs struct {
 	CoolStuffInc    string `json:"coolstuffinc"`
 }
 
-func (c *Client) getCard(ctx context.Context, url string) (Card, error) {
-	card := Card{}
-	err := c.doGETReq(ctx, url, &card)
-	if err != nil {
-		return Card{}, err
-	}
-
-	return card, nil
-}
-
 // ListCards lists all the cards in Scryfall's database.
 // TODO(serenst): Handle pagination.
 func (c *Client) ListCards(ctx context.Context) ([]Card, error) {
 	cardsURL := fmt.Sprintf("%s/cards", baseURL)
 	cards := []Card{}
 	err := c.doListGETReq(ctx, cardsURL, &cards)
+	if err != nil {
+		return nil, err
+	}
+
+	return cards, nil
+}
+
+// UniqueMode specifies whether Scryfall should remove duplicates from search
+// results.
+type UniqueMode string
+
+const (
+	// UniqueModeCards removes duplicate gameplay objects (cards that share
+	// a name and have the same functionality). For example, if your search
+	// matches more than one print of Pacifism, only one copy of Pacifism will
+	// be returned.
+	UniqueModeCards UniqueMode = "cards"
+
+	// UniqueModeArt returns only one copy of each unique artwork for
+	// matching cards. For example, if your search matches more than one print
+	// of Pacifism, one card with each different illustration for Pacifism
+	// will be returned, but any cards that duplicate artwork already in the
+	// results will be omitted.
+	UniqueModeArt UniqueMode = "art"
+
+	// UniqueModePrint returns all prints for all cards matched (disables
+	// rollup). For example, if your search matches more than one print of
+	// Pacifism, all matching prints will be returned.
+	UniqueModePrint UniqueMode = "print"
+)
+
+// Order is a method used to sort cards.
+type Order string
+
+const (
+	// OrderName sorts cards by name, A → Z.
+	OrderName Order = "name"
+
+	// OrderSet sorts cards by their set and collector number: oldest →
+	// newest.
+	OrderSet Order = "set"
+
+	// OrderRarity sorts cards by their rarity: Common → Mythic.
+	OrderRarity Order = "rarity"
+
+	// OrderColor sorts cards by their color and color identity: WUBRG →
+	// multicolor → colorless.
+	OrderColor Order = "color"
+
+	// OrderUSD sorts cards by their lowest known U.S. Dollar price: 0.01 →
+	// highest, null last.
+	OrderUSD Order = "usd"
+
+	// OrderTix sorts cards by their lowest known TIX price: 0.01 →
+	// highest, null last.
+	OrderTix Order = "tix"
+
+	// OrderEUR sorts cards by their lowest known Euro price: 0.01 →
+	// highest, null last.
+	OrderEUR Order = "eur"
+
+	// OrderCMC sorts cards by their converted mana cost: 0 → highest.
+	OrderCMC Order = "cmc"
+
+	// OrderPower sorts cards by their power: null → highest.
+	OrderPower Order = "power"
+
+	// OrderToughness sorts cards by their toughness: null → highest.
+	OrderToughness Order = "toughness"
+
+	// OrderEDHREC sorts cards by their EDHREC ranking: lowest → highest.
+	OrderEDHREC Order = "edhrec"
+
+	// OrderArtist sorts cards by their front-side artist name: A → Z.
+	OrderArtist Order = "artist"
+)
+
+// Dir is a direction used to sort cards.
+type Dir string
+
+const (
+	// DirAuto lets Scryfall automatically choose the most intuitive
+	// direction to sort.
+	DirAuto Dir = "auto"
+
+	// DirAsc sorts cards in ascending order.
+	DirAsc Dir = "asc"
+
+	// DirDesc sorts cards in descending order.
+	DirDesc Dir = "desc"
+)
+
+// SearchConfig holds the configuration used to search for a card.
+type SearchConfig struct {
+	// Query is the full text search query. See the search reference docs
+	// for more information on the full text search query format:
+	// https://scryfall.com/docs/reference.
+	Query string `url:"q"`
+
+	// Unique is the strategy for omitting similar cards. The default
+	// strategy is UniqueModeCards.
+	Unique UniqueMode `url:"unique,omitempty"`
+
+	// Order is the method used to sort the cards. The default method is
+	// OrderName.
+	Order Order `url:"order,omitempty"`
+
+	// Dir is the direction to sort the cards. The default direction is
+	// DirAuto.
+	Dir Dir `url:"dir,omitempty"`
+
+	// IncludeExtras determines whether extra cards (tokens, planes, etc.)
+	// should be included.
+	IncludeExtras bool `url:"include_extras,omitempty"`
+}
+
+// SearchCards returns a list cards found using a full text search.
+func (c *Client) SearchCards(ctx context.Context, searchConfig SearchConfig) ([]Card, error) {
+	cardsURL, err := url.Parse(fmt.Sprintf("%s/cards/search", baseURL))
+	if err != nil {
+		return nil, err
+	}
+
+	values, err := query.Values(searchConfig)
+	if err != nil {
+		return nil, err
+	}
+	cardsURL.RawQuery = values.Encode()
+
+	cards := []Card{}
+	err = c.doListGETReq(ctx, cardsURL.String(), &cards)
 	if err != nil {
 		return nil, err
 	}
@@ -413,6 +536,16 @@ func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error
 	}
 
 	return catalog, nil
+}
+
+func (c *Client) getCard(ctx context.Context, url string) (Card, error) {
+	card := Card{}
+	err := c.doGETReq(ctx, url, &card)
+	if err != nil {
+		return Card{}, err
+	}
+
+	return card, nil
 }
 
 // GetRandomCard returns a random card.

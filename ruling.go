@@ -9,8 +9,8 @@ import (
 type Source string
 
 const (
-	SourceWOTC     = "wotc"
-	SourceScryfall = "scryfall"
+	SourceWOTC     Source = "wotc"
+	SourceScryfall Source = "scryfall"
 )
 
 // Ruling represents an Oracle ruling, Wizards of the Coast set release notes,
