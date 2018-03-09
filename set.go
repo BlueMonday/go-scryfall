@@ -59,7 +59,7 @@ type Set struct {
 func (c *Client) ListSets(ctx context.Context) ([]Set, error) {
 	setsURL := fmt.Sprintf("%s/sets", baseURL)
 	sets := []Set{}
-	err := c.doListGETReq(ctx, setsURL, &sets)
+	err := c.listGet(ctx, setsURL, &sets)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +71,7 @@ func (c *Client) ListSets(ctx context.Context) ([]Set, error) {
 func (c *Client) GetSet(ctx context.Context, code string) (Set, error) {
 	setURL := fmt.Sprintf("%s/sets/%s", baseURL, code)
 	set := Set{}
-	err := c.doGETReq(ctx, setURL, &set)
+	err := c.get(ctx, setURL, &set)
 	if err != nil {
 		return Set{}, err
 	}

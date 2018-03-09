@@ -35,7 +35,7 @@ type Ruling struct {
 
 func (c *Client) getRulings(ctx context.Context, url string) ([]Ruling, error) {
 	rulings := []Ruling{}
-	err := c.doListGETReq(ctx, url, &rulings)
+	err := c.listGet(ctx, url, &rulings)
 	if err != nil {
 		return nil, err
 	}

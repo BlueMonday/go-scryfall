@@ -408,7 +408,7 @@ func (c *Client) ListCards(ctx context.Context, opts ListCardsOptions) (ListCard
 
 	cardsURL := fmt.Sprintf("%s/cards?%s", baseURL, values.Encode())
 	result := ListCardsResult{}
-	err = c.doGETReq(ctx, cardsURL, &result)
+	err = c.get(ctx, cardsURL, &result)
 	if err != nil {
 		return ListCardsResult{}, err
 	}
@@ -562,7 +562,7 @@ func (c *Client) SearchCards(ctx context.Context, query string, opts SearchCards
 	cardsURL := fmt.Sprintf("%s/cards/search?%s", baseURL, values.Encode())
 
 	result := SearchCardsResult{}
-	err = c.doGETReq(ctx, cardsURL, &result)
+	err = c.get(ctx, cardsURL, &result)
 	if err != nil {
 		return SearchCardsResult{}, err
 	}
@@ -572,7 +572,7 @@ func (c *Client) SearchCards(ctx context.Context, query string, opts SearchCards
 
 func (c *Client) getCard(ctx context.Context, url string) (Card, error) {
 	card := Card{}
-	err := c.doGETReq(ctx, url, &card)
+	err := c.get(ctx, url, &card)
 	if err != nil {
 		return Card{}, err
 	}
@@ -630,7 +630,7 @@ func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error
 	autocompleteCardURL := fmt.Sprintf("%s/cards/autocomplete?%s", baseURL, values.Encode())
 
 	catalog := Catalog{}
-	err := c.doGETReq(ctx, autocompleteCardURL, &catalog)
+	err := c.get(ctx, autocompleteCardURL, &catalog)
 	if err != nil {
 		return Catalog{}, err
 	}

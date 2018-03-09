@@ -12,6 +12,7 @@ import (
 const (
 	baseURL        = "https://api.scryfall.com"
 	defaultTimeout = 30 * time.Second
+	userAgent      = "go-scryfall"
 
 	dateFormat = "2006-01-02"
 )
@@ -126,11 +127,12 @@ func NewClient(options ...ClientOption) *Client {
 	}
 }
 
-func (c *Client) doGETReq(ctx context.Context, url string, v interface{}) error {
+func (c *Client) get(ctx context.Context, url string, v interface{}) error {
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return err
 	}
+	req.Header.Set("User-Agent", userAgent)
 	reqWithContext := req.WithContext(ctx)
 	resp, err := c.client.Do(reqWithContext)
 	if err != nil {
@@ -152,9 +154,9 @@ func (c *Client) doGETReq(ctx context.Context, url string, v interface{}) error 
 	return decoder.Decode(v)
 }
 
-func (c *Client) doListGETReq(ctx context.Context, url string, v interface{}) error {
+func (c *Client) listGet(ctx context.Context, url string, v interface{}) error {
 	listResponse := &ListResponse{}
-	err := c.doGETReq(ctx, url, listResponse)
+	err := c.get(ctx, url, listResponse)
 	if err != nil {
 		return err
 	}

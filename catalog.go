@@ -22,7 +22,7 @@ type Catalog struct {
 func (c *Client) getCatalog(ctx context.Context, name string) (Catalog, error) {
 	catalogURL := fmt.Sprintf("%s/catalog/%s", baseURL, name)
 	catalog := Catalog{}
-	err := c.doGETReq(ctx, catalogURL, &catalog)
+	err := c.get(ctx, catalogURL, &catalog)
 	if err != nil {
 		return Catalog{}, err
 	}
