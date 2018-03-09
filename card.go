@@ -570,6 +570,58 @@ func (c *Client) SearchCards(ctx context.Context, query string, opts SearchCards
 	return result, nil
 }
 
+func (c *Client) getCard(ctx context.Context, url string) (Card, error) {
+	card := Card{}
+	err := c.doGETReq(ctx, url, &card)
+	if err != nil {
+		return Card{}, err
+	}
+
+	return card, nil
+}
+
+// GetCardByNameOptions holds the options used to get a card by name.
+type GetCardByNameOptions struct {
+	// Set limits the search to the specified set.
+	Set string `url:"set,omitempty"`
+}
+
+// GetCardByName returns a Card based on a name search string. This method is
+// designed for building chat bots, forum bots, and other services that need card
+// details quickly.
+//
+// If the exact parameter is set to true, a card with that exact name is
+// returned. Otherwise, an error is returned because no card matches.
+//
+// If the exact parameter is set to false and a card name matches that string,
+// then that card is returned. If not, a fuzzy search is executed for your card
+// name. The server allows misspellings and partial words to be provided. For
+// example: jac bel will match Jace Beleren.
+//
+// When fuzzy searching, a card is returned if the server is confident that you
+// unambiguously identified a unique name with your string. Otherwise, you will
+// receive an error describing the problem: either more than 1 one card matched
+// your search, or zero cards matched.
+//
+// For both exact and fuzzy, card names are case-insensitive and punctuation is
+// optional (you can drop apostrophes and periods etc). For example: fIReBALL is
+// the same as Fireball and smugglers copter is the same as Smuggler's Copter
+func (c *Client) GetCardByName(ctx context.Context, name string, exact bool, opts GetCardByNameOptions) (Card, error) {
+	values, err := qs.Values(opts)
+	if err != nil {
+		return Card{}, err
+	}
+
+	if exact {
+		values.Set("exact", name)
+	} else {
+		values.Set("fuzzy", name)
+	}
+
+	cardURL := fmt.Sprintf("%s/cards/named?%s", baseURL, values.Encode())
+	return c.getCard(ctx, cardURL)
+}
+
 // AutocompleteCard returns a Catalog containing up to 20 full English card
 // names that could be autocompletions of the given string parameter.
 func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error) {
@@ -584,16 +636,6 @@ func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error
 	}
 
 	return catalog, nil
-}
-
-func (c *Client) getCard(ctx context.Context, url string) (Card, error) {
-	card := Card{}
-	err := c.doGETReq(ctx, url, &card)
-	if err != nil {
-		return Card{}, err
-	}
-
-	return card, nil
 }
 
 // GetRandomCard returns a random card.
