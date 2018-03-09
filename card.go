@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/google/go-querystring/query"
+	qs "github.com/google/go-querystring/query"
 )
 
 // Layout categorizes the arrangement of card parts, faces, and other bounded
@@ -374,17 +374,46 @@ type PurchaseURIs struct {
 	CoolStuffInc    string `json:"coolstuffinc"`
 }
 
+// ListCardsOptions holds the options used to list cards.
+type ListCardsOptions struct {
+	// Page is the page number to return. Page numbers start at 1 and the
+	// default is 1.
+	Page int `url:"page,omitempty"`
+}
+
+// ListCardsResult represents the result of a list cards operation.
+type ListCardsResult struct {
+	// Cards contains the retrieved cards.
+	Cards []Card `json:"data"`
+
+	// HasMore is true if this List is paginated and there is a page beyond
+	// the current page.
+	HasMore bool `json:"has_more"`
+
+	// NextPage contains a full API URI to next page if there is a page
+	// beyond the current page.
+	NextPage *string `json:"next_page"`
+
+	// TotalCards contains the total number of cards found across all
+	// pages.
+	TotalCards int `json:"total_cards"`
+}
+
 // ListCards lists all the cards in Scryfall's database.
-// TODO(serenst): Handle pagination.
-func (c *Client) ListCards(ctx context.Context) ([]Card, error) {
-	cardsURL := fmt.Sprintf("%s/cards", baseURL)
-	cards := []Card{}
-	err := c.doListGETReq(ctx, cardsURL, &cards)
+func (c *Client) ListCards(ctx context.Context, opts ListCardsOptions) (ListCardsResult, error) {
+	values, err := qs.Values(opts)
 	if err != nil {
-		return nil, err
+		return ListCardsResult{}, err
 	}
 
-	return cards, nil
+	cardsURL := fmt.Sprintf("%s/cards?%s", baseURL, values.Encode())
+	result := ListCardsResult{}
+	err = c.doGETReq(ctx, cardsURL, &result)
+	if err != nil {
+		return ListCardsResult{}, err
+	}
+
+	return result, nil
 }
 
 // UniqueMode specifies whether Scryfall should remove duplicates from search
@@ -472,13 +501,8 @@ const (
 	DirDesc Dir = "desc"
 )
 
-// SearchConfig holds the configuration used to search for a card.
-type SearchConfig struct {
-	// Query is the full text search query. See the search reference docs
-	// for more information on the full text search query format:
-	// https://scryfall.com/docs/reference.
-	Query string `url:"q"`
-
+// SearchCardsOptions holds the options used to search for cards.
+type SearchCardsOptions struct {
 	// Unique is the strategy for omitting similar cards. The default
 	// strategy is UniqueModeCards.
 	Unique UniqueMode `url:"unique,omitempty"`
@@ -494,43 +518,67 @@ type SearchConfig struct {
 	// IncludeExtras determines whether extra cards (tokens, planes, etc.)
 	// should be included.
 	IncludeExtras bool `url:"include_extras,omitempty"`
+
+	// Page is the page number to return. Page numbers start at 1 and the
+	// default is 1.
+	Page int `url:"page,omitempty"`
 }
 
-// SearchCards returns a list cards found using a full text search.
-func (c *Client) SearchCards(ctx context.Context, searchConfig SearchConfig) ([]Card, error) {
-	cardsURL, err := url.Parse(fmt.Sprintf("%s/cards/search", baseURL))
+// SearchCardsResult represents the result of a cards search query.
+type SearchCardsResult struct {
+	// Cards contains the cards which matched the search query.
+	Cards []Card `json:"data"`
+
+	// HasMore is true if this List is paginated and there is a page beyond
+	// the current page.
+	HasMore bool `json:"has_more"`
+
+	// NextPage contains a full API URI to next page if there is a page
+	// beyond the current page.
+	NextPage *string `json:"next_page"`
+
+	// TotalCards contains the total number of cards found across all
+	// pages.
+	TotalCards int `json:"total_cards"`
+
+	// Warnings is a list of human-readable warnings issued when generating
+	// this list, as strings. Warnings are non-fatal issues that the API
+	// discovered with your input. In general, they indicate that the List
+	// will not contain the all of the information you requested. You should
+	// fix the warnings and re-submit your request.
+	Warnings []string `json:"warnings"`
+}
+
+// SearchCards returns a list cards found using a full text search. The query
+// parameter is the full text search query. See the search reference docs for more
+// information on the full text search query format:
+// https://scryfall.com/docs/reference.
+func (c *Client) SearchCards(ctx context.Context, query string, opts SearchCardsOptions) (SearchCardsResult, error) {
+	values, err := qs.Values(opts)
 	if err != nil {
-		return nil, err
+		return SearchCardsResult{}, err
+	}
+	values.Set("q", query)
+	cardsURL := fmt.Sprintf("%s/cards/search?%s", baseURL, values.Encode())
+
+	result := SearchCardsResult{}
+	err = c.doGETReq(ctx, cardsURL, &result)
+	if err != nil {
+		return SearchCardsResult{}, err
 	}
 
-	values, err := query.Values(searchConfig)
-	if err != nil {
-		return nil, err
-	}
-	cardsURL.RawQuery = values.Encode()
-
-	cards := []Card{}
-	err = c.doListGETReq(ctx, cardsURL.String(), &cards)
-	if err != nil {
-		return nil, err
-	}
-
-	return cards, nil
+	return result, nil
 }
 
 // AutocompleteCard returns a Catalog containing up to 20 full English card
 // names that could be autocompletions of the given string parameter.
 func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error) {
-	autocompleteCardURL, err := url.Parse(fmt.Sprintf("%s/cards/autocomplete", baseURL))
-	if err != nil {
-		return Catalog{}, err
-	}
-	values := autocompleteCardURL.Query()
+	values := url.Values{}
 	values.Set("q", s)
-	autocompleteCardURL.RawQuery = values.Encode()
+	autocompleteCardURL := fmt.Sprintf("%s/cards/autocomplete?%s", baseURL, values.Encode())
 
 	catalog := Catalog{}
-	err = c.doGETReq(ctx, autocompleteCardURL.String(), &catalog)
+	err := c.doGETReq(ctx, autocompleteCardURL, &catalog)
 	if err != nil {
 		return Catalog{}, err
 	}

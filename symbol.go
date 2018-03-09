@@ -93,16 +93,12 @@ func (c *Client) ListCardSymbols(ctx context.Context) ([]CardSymbol, error) {
 // for {2}{W}{W}). Symbols can also be out of order, lowercase, or have multiple
 // colorless costs (such as 2{g}2 for {4}{G}).
 func (c *Client) ParseManaCost(ctx context.Context, cost string) (ManaCost, error) {
-	parseManaURL, err := url.Parse(fmt.Sprintf("%s/symbology/parse-mana", baseURL))
-	if err != nil {
-		return ManaCost{}, err
-	}
-	values := parseManaURL.Query()
+	values := url.Values{}
 	values.Set("cost", cost)
-	parseManaURL.RawQuery = values.Encode()
+	parseManaURL := fmt.Sprintf("%s/symbology/parse-mana?%s", baseURL, values.Encode())
 
 	manaCost := ManaCost{}
-	err = c.doGETReq(ctx, parseManaURL.String(), manaCost)
+	err := c.doGETReq(ctx, parseManaURL, manaCost)
 	if err != nil {
 		return ManaCost{}, err
 	}
