@@ -20,7 +20,7 @@ type Catalog struct {
 }
 
 func (c *Client) getCatalog(ctx context.Context, name string) (Catalog, error) {
-	catalogURL := fmt.Sprintf("%s/catalog/%s", baseURL, name)
+	catalogURL := fmt.Sprintf("catalog/%s", name)
 	catalog := Catalog{}
 	err := c.get(ctx, catalogURL, &catalog)
 	if err != nil {

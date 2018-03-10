@@ -18,6 +18,12 @@ type Set struct {
 	// Name is the English name of the set.
 	Name string `json:"name"`
 
+	// URI is a link to this set object on Scryfall’s API.
+	URI string `json:"uri"`
+
+	// ScryfallURI is a link to this card’s permapage on Scryfall’s website.
+	ScryfallURI string `json:"scryfall_uri"`
+
 	// SetType is a computer-readable classification for this set
 	SetType string `json:"set_type"`
 
@@ -57,9 +63,8 @@ type Set struct {
 
 // ListSets lists all of the sets on Scryfall.
 func (c *Client) ListSets(ctx context.Context) ([]Set, error) {
-	setsURL := fmt.Sprintf("%s/sets", baseURL)
 	sets := []Set{}
-	err := c.listGet(ctx, setsURL, &sets)
+	err := c.listGet(ctx, "sets", &sets)
 	if err != nil {
 		return nil, err
 	}
@@ -69,7 +74,7 @@ func (c *Client) ListSets(ctx context.Context) ([]Set, error) {
 
 // GetSet returns a set with the given set code.
 func (c *Client) GetSet(ctx context.Context, code string) (Set, error) {
-	setURL := fmt.Sprintf("%s/sets/%s", baseURL, code)
+	setURL := fmt.Sprintf("sets/%s", code)
 	set := Set{}
 	err := c.get(ctx, setURL, &set)
 	if err != nil {

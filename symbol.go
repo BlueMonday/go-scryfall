@@ -77,9 +77,8 @@ type ManaCost struct {
 
 // ListCardSymbols returns a list of all card symbols.
 func (c *Client) ListCardSymbols(ctx context.Context) ([]CardSymbol, error) {
-	symbologyURL := fmt.Sprintf("%s/symbology", baseURL)
 	symbols := []CardSymbol{}
-	err := c.listGet(ctx, symbologyURL, &symbols)
+	err := c.listGet(ctx, "symbology", &symbols)
 	if err != nil {
 		return nil, err
 	}
@@ -95,10 +94,10 @@ func (c *Client) ListCardSymbols(ctx context.Context) ([]CardSymbol, error) {
 func (c *Client) ParseManaCost(ctx context.Context, cost string) (ManaCost, error) {
 	values := url.Values{}
 	values.Set("cost", cost)
-	parseManaURL := fmt.Sprintf("%s/symbology/parse-mana?%s", baseURL, values.Encode())
+	parseManaURL := fmt.Sprintf("symbology/parse-mana?%s", values.Encode())
 
 	manaCost := ManaCost{}
-	err := c.get(ctx, parseManaURL, manaCost)
+	err := c.get(ctx, parseManaURL, &manaCost)
 	if err != nil {
 		return ManaCost{}, err
 	}

@@ -406,7 +406,7 @@ func (c *Client) ListCards(ctx context.Context, opts ListCardsOptions) (ListCard
 		return ListCardsResult{}, err
 	}
 
-	cardsURL := fmt.Sprintf("%s/cards?%s", baseURL, values.Encode())
+	cardsURL := fmt.Sprintf("cards?%s", values.Encode())
 	result := ListCardsResult{}
 	err = c.get(ctx, cardsURL, &result)
 	if err != nil {
@@ -559,7 +559,7 @@ func (c *Client) SearchCards(ctx context.Context, query string, opts SearchCards
 		return SearchCardsResult{}, err
 	}
 	values.Set("q", query)
-	cardsURL := fmt.Sprintf("%s/cards/search?%s", baseURL, values.Encode())
+	cardsURL := fmt.Sprintf("cards/search?%s", values.Encode())
 
 	result := SearchCardsResult{}
 	err = c.get(ctx, cardsURL, &result)
@@ -618,7 +618,7 @@ func (c *Client) GetCardByName(ctx context.Context, name string, exact bool, opt
 		values.Set("fuzzy", name)
 	}
 
-	cardURL := fmt.Sprintf("%s/cards/named?%s", baseURL, values.Encode())
+	cardURL := fmt.Sprintf("cards/named?%s", values.Encode())
 	return c.getCard(ctx, cardURL)
 }
 
@@ -627,7 +627,7 @@ func (c *Client) GetCardByName(ctx context.Context, name string, exact bool, opt
 func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error) {
 	values := url.Values{}
 	values.Set("q", s)
-	autocompleteCardURL := fmt.Sprintf("%s/cards/autocomplete?%s", baseURL, values.Encode())
+	autocompleteCardURL := fmt.Sprintf("cards/autocomplete?%s", values.Encode())
 
 	catalog := Catalog{}
 	err := c.get(ctx, autocompleteCardURL, &catalog)
@@ -640,15 +640,14 @@ func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error
 
 // GetRandomCard returns a random card.
 func (c *Client) GetRandomCard(ctx context.Context) (Card, error) {
-	randomCardURL := fmt.Sprintf("%s/cards/random", baseURL)
-	return c.getCard(ctx, randomCardURL)
+	return c.getCard(ctx, "cards/random")
 }
 
 // GetCardByMultiverseID returns a single card with the given Multiverse ID. If
 // the card has multiple multiverse IDs, GetCardByMultiverseID can find either of
 // them.
 func (c *Client) GetCardByMultiverseID(ctx context.Context, multiverseID int) (Card, error) {
-	cardURL := fmt.Sprintf("%s/cards/multiverse/%d", baseURL, multiverseID)
+	cardURL := fmt.Sprintf("cards/multiverse/%d", multiverseID)
 	return c.getCard(ctx, cardURL)
 }
 
@@ -656,19 +655,19 @@ func (c *Client) GetCardByMultiverseID(ctx context.Context, multiverseID int) (C
 // the Catalog ID). The ID can either be the card’s MTGO ID or its MTGO foil
 // ID.
 func (c *Client) GetCardByMTGOID(ctx context.Context, mtgoID int) (Card, error) {
-	cardURL := fmt.Sprintf("%s/cards/mtgo/%d", baseURL, mtgoID)
+	cardURL := fmt.Sprintf("cards/mtgo/%d", mtgoID)
 	return c.getCard(ctx, cardURL)
 }
 
 // GetCardBySetCodeAndCollectorNumber returns a single card with the given
 // set code and collector number.
 func (c *Client) GetCardBySetCodeAndCollectorNumber(ctx context.Context, setCode string, collectorNumber string) (Card, error) {
-	cardURL := fmt.Sprintf("%s/cards/%s/%s", baseURL, setCode, collectorNumber)
+	cardURL := fmt.Sprintf("cards/%s/%s", setCode, collectorNumber)
 	return c.getCard(ctx, cardURL)
 }
 
 // GetCard returns a single card with the given Scryfall ID.
 func (c *Client) GetCard(ctx context.Context, id string) (Card, error) {
-	cardURL := fmt.Sprintf("%s/cards/%s", baseURL, id)
+	cardURL := fmt.Sprintf("cards/%s", id)
 	return c.getCard(ctx, cardURL)
 }

@@ -43,31 +43,31 @@ func (c *Client) getRulings(ctx context.Context, url string) ([]Ruling, error) {
 	return rulings, nil
 }
 
+// GetRulingsByMultiverseID returns the rulings for a card with the given
+// multiverse ID. If the card has multiple multiverse IDs,
+// GetRulingsByMultiverseID can find either of them.
+func (c *Client) GetRulingsByMultiverseID(ctx context.Context, multiverseID int) ([]Ruling, error) {
+	rulingsURL := fmt.Sprintf("cards/multiverse/%d/rulings", multiverseID)
+	return c.getRulings(ctx, rulingsURL)
+}
+
 // GetRulingsByMTGOID returns rulings for a card with the given MTGO ID (also
 // known as the Catalog ID). The ID can either be the card’s MTGO ID or its
 // MTGO foil ID.
 func (c *Client) GetRulingsByMTGOID(ctx context.Context, mtgoID int) ([]Ruling, error) {
-	rulingsURL := fmt.Sprintf("%s/cards/mtgo/%d/rulings", baseURL, mtgoID)
+	rulingsURL := fmt.Sprintf("cards/mtgo/%d/rulings", mtgoID)
 	return c.getRulings(ctx, rulingsURL)
 }
 
 // GetRulingsBySetCodeAndCollectorNumber returns a list of rulings for the card
 // with the given set code and collector number.
-func (c *Client) GetRulingsBySetCodeAndCollectorNumber(ctx context.Context, setCode int, collectorNumber int) ([]Ruling, error) {
-	rulingsURL := fmt.Sprintf("%s/cards/%d/%d/rulings", baseURL, setCode, collectorNumber)
-	return c.getRulings(ctx, rulingsURL)
-}
-
-// GetRulingsByMultiverseID returns the rulings for a card with the given
-// multiverse ID. If the card has multiple multiverse IDs,
-// GetRulingsByMultiverseID can find either of them.
-func (c *Client) GetRulingsByMultiverseID(ctx context.Context, multiverseID int) ([]Ruling, error) {
-	rulingsURL := fmt.Sprintf("%s/cards/multiverse/%d/rulings", baseURL, multiverseID)
+func (c *Client) GetRulingsBySetCodeAndCollectorNumber(ctx context.Context, setCode string, collectorNumber int) ([]Ruling, error) {
+	rulingsURL := fmt.Sprintf("cards/%s/%d/rulings", setCode, collectorNumber)
 	return c.getRulings(ctx, rulingsURL)
 }
 
 // GetRulings returns the rulings for a card with the given Scryfall ID.
 func (c *Client) GetRulings(ctx context.Context, id string) ([]Ruling, error) {
-	rulingsURL := fmt.Sprintf("%s/cards/%s/rulings", baseURL, id)
+	rulingsURL := fmt.Sprintf("cards/%s/rulings", id)
 	return c.getRulings(ctx, rulingsURL)
 }

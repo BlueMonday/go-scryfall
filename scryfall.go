@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 )
 
 const (
-	baseURL        = "https://api.scryfall.com"
+	defaultBaseURL = "https://api.scryfall.com"
 	defaultTimeout = 30 * time.Second
 	userAgent      = "go-scryfall"
 
@@ -93,11 +94,19 @@ type ListResponse struct {
 }
 
 type clientOptions struct {
-	client *http.Client
+	baseURL string
+	client  *http.Client
 }
 
 // ClientOption configures the Scryfall API client.
 type ClientOption func(*clientOptions)
+
+// WithBaseURL returns an option which overrides the base URL.
+func WithBaseURL(baseURL string) ClientOption {
+	return func(o *clientOptions) {
+		o.baseURL = baseURL
+	}
+}
 
 // WithHTTPClient returns an option which overrides the default HTTP client.
 func WithHTTPClient(client *http.Client) ClientOption {
@@ -108,12 +117,15 @@ func WithHTTPClient(client *http.Client) ClientOption {
 
 // Client is a Scryfall API client.
 type Client struct {
+	baseURL *url.URL
+
 	client *http.Client
 }
 
 // NewClient returns a new Scryfall API client.
-func NewClient(options ...ClientOption) *Client {
+func NewClient(options ...ClientOption) (*Client, error) {
 	co := &clientOptions{
+		baseURL: defaultBaseURL,
 		client: &http.Client{
 			Timeout: defaultTimeout,
 		},
@@ -122,13 +134,25 @@ func NewClient(options ...ClientOption) *Client {
 		option(co)
 	}
 
-	return &Client{
-		client: co.client,
+	baseURL, err := url.Parse(co.baseURL)
+	if err != nil {
+		return nil, err
 	}
+
+	c := &Client{
+		baseURL: baseURL,
+		client:  co.client,
+	}
+	return c, nil
 }
 
-func (c *Client) get(ctx context.Context, url string, v interface{}) error {
-	req, err := http.NewRequest("GET", url, nil)
+func (c *Client) get(ctx context.Context, relativeURL string, v interface{}) error {
+	absoluteURL, err := c.baseURL.Parse(relativeURL)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest("GET", absoluteURL.String(), nil)
 	if err != nil {
 		return err
 	}
