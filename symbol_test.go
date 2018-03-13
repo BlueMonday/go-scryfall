@@ -60,7 +60,6 @@ func TestListCardSymbols(t *testing.T) {
 			Colors:             []Color{ColorWhite, ColorBlue},
 		},
 	}
-
 	if !reflect.DeepEqual(cardSymbols, want) {
 		t.Errorf("got: %#v want: %#v", cardSymbols, want)
 	}

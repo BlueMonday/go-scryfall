@@ -38,7 +38,6 @@ func TestGetRulingsByMultiverseID(t *testing.T) {
 			Comment:     "The ability is a mana ability, so it is activated and resolves as a mana ability, but it can only be activated at times when you can cast an instant. Yes, this is a bit weird.",
 		},
 	}
-
 	if !reflect.DeepEqual(rulings, want) {
 		t.Errorf("got: %#v want: %#v", rulings, want)
 	}
@@ -97,7 +96,6 @@ func TestGetRulingsByMTGOID(t *testing.T) {
 			Comment:     "Yes, if the fourth mode is the only one remaining, you must choose it. You read the whole contract, right?",
 		},
 	}
-
 	if !reflect.DeepEqual(rulings, want) {
 		t.Errorf("got: %#v want: %#v", rulings, want)
 	}
@@ -141,7 +139,6 @@ func TestGetRulingsBySetCodeAndCollectorNumber(t *testing.T) {
 			Comment:     "Mana Drain’s delayed triggered ability will usually trigger at the beginning of your precombat main phase. However, if you cast Mana Drain during your precombat main phase or during your combat phase, its delayed triggered ability will trigger at the beginning of that turn’s postcombat main phase.",
 		},
 	}
-
 	if !reflect.DeepEqual(rulings, want) {
 		t.Errorf("got: %#v want: %#v", rulings, want)
 	}
@@ -180,7 +177,6 @@ func TestGetRulings(t *testing.T) {
 			Comment:     "Only cards touched when it stops moving are affected. Not ones touched while it is moving.",
 		},
 	}
-
 	if !reflect.DeepEqual(rulings, want) {
 		t.Errorf("got: %#v want: %#v", rulings, want)
 	}

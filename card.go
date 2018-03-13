@@ -172,6 +172,9 @@ type Card struct {
 	// numbers can contain non-numeric characters, such as letters or ★.
 	CollectorNumber string `json:"collector_number"`
 
+	// SetURI is a link to this card's set on Scryfall’s API.
+	SetURI string `json:"set_uri"`
+
 	// SetSearchURI is a link to where you can begin paginating this card’s
 	// set on the Scryfall API.
 	SetSearchURI string `json:"set_search_uri"`
@@ -622,9 +625,9 @@ func (c *Client) GetCardByName(ctx context.Context, name string, exact bool, opt
 	return c.getCard(ctx, cardURL)
 }
 
-// AutocompleteCard returns a Catalog containing up to 20 full English card
-// names that could be autocompletions of the given string parameter.
-func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error) {
+// AutocompleteCard returns a slice containing up to 20 full English card names
+// that could be autocompletions of the given string parameter.
+func (c *Client) AutocompleteCard(ctx context.Context, s string) ([]string, error) {
 	values := url.Values{}
 	values.Set("q", s)
 	autocompleteCardURL := fmt.Sprintf("cards/autocomplete?%s", values.Encode())
@@ -632,10 +635,10 @@ func (c *Client) AutocompleteCard(ctx context.Context, s string) (Catalog, error
 	catalog := Catalog{}
 	err := c.get(ctx, autocompleteCardURL, &catalog)
 	if err != nil {
-		return Catalog{}, err
+		return nil, err
 	}
 
-	return catalog, nil
+	return catalog.Data, nil
 }
 
 // GetRandomCard returns a random card.

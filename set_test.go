@@ -31,8 +31,6 @@ func TestListSets(t *testing.T) {
 		t.Fatalf("Error loading location: %v", err)
 	}
 
-	ixalanBlockCode := "xln"
-	ixalanBlock := "Ixalan"
 	want := []Set{
 		{
 			Code:        "dom",
@@ -74,12 +72,11 @@ func TestListSets(t *testing.T) {
 			CardCount:   205,
 			Digital:     false,
 			Foil:        false,
-			BlockCode:   &ixalanBlockCode,
-			Block:       &ixalanBlock,
+			BlockCode:   stringPointer("xln"),
+			Block:       stringPointer("Ixalan"),
 			IconSVGURI:  "https://assets.scryfall.com/assets/sets/rix.svg",
 		},
 	}
-
 	if !reflect.DeepEqual(sets, want) {
 		t.Errorf("got: %#v want: %#v", sets, want)
 	}
@@ -124,7 +121,6 @@ func TestGetSet(t *testing.T) {
 		Block:       &aetherRevoltBlock,
 		IconSVGURI:  "https://assets.scryfall.com/assets/sets/aer.svg",
 	}
-
 	if !reflect.DeepEqual(set, want) {
 		t.Errorf("got: %#v want: %#v", set, want)
 	}

@@ -5,6 +5,69 @@ import (
 	"fmt"
 )
 
+type SetType string
+
+const (
+	// SetTypeCore is a yearly Magic core set (Tenth Edition, etc).
+	SetTypeCore SetType = "Core"
+
+	// SetTypeExpansion is a rotational expansion set in a block (Zendikar,
+	// etc).
+	SetTypeExpansion SetType = "expansion"
+
+	// SetTypeMasters is a reprint set that contains no new cards (Modern
+	// Masters, etc).
+	SetTypeMasters SetType = "masters"
+
+	// SetTypeMasterpiece is a set that contains masterpiece series premium
+	// foil cards.
+	SetTypeMasterpiece SetType = "masterpiece"
+
+	// SetTypeFromTheVault is a From the Vault gift set.
+	SetTypeFromTheVault SetType = "from_the_vault"
+
+	// SetTypePremiumDeck is a premium Deck Series decks set.
+	SetTypePremiumDeck SetType = "premium_deck"
+
+	// SetTypeDuelDeck is a Duel Decks set.
+	SetTypeDuelDeck SetType = "duel_deck"
+
+	// SetTypeCommander is a commander preconstructed set.
+	SetTypeCommander SetType = "commander"
+
+	// SetTypePlanechase is a Planechase set.
+	SetTypePlanechase SetType = "planechase"
+
+	// SetTypeConspiracy is a Conspiracy set.
+	SetTypeConspiracy SetType = "conspiracy"
+
+	// SetTypeArchenemy is an Archenemy set.
+	SetTypeArchenemy SetType = "archenemy"
+
+	// SetTypeVanguard is a Vanguard card set.
+	SetTypeVanguard SetType = "vanguard"
+
+	// SetTypeFunny is a funny un-set or set with funny promos (Unglued,
+	// Happy Holidays, etc).
+	SetTypeFunny SetType = "funny"
+
+	// SetTypeStarter is a starter/introductory set (Portal, etc).
+	SetTypeStarter SetType = "starter"
+
+	// SetTypeBox is a gift box set.
+	SetTypeBox SetType = "box"
+
+	// SetTypePromo is a set that contains purely promotional cards.
+	SetTypePromo SetType = "promo"
+
+	// SetTypeToken is a set made up of tokens and emblems.
+	SetTypeToken SetType = "token"
+
+	// SetTypeMemorabilia is a set made up of gold-bordered, oversize, or
+	// trophy cards that are not legal.
+	SetTypeMemorabilia SetType = "memorabilia"
+)
+
 // Set is an object which represents a group of related Magic cards. All Card
 // objects on Scryfall belong to exactly one set.
 type Set struct {
@@ -25,7 +88,7 @@ type Set struct {
 	ScryfallURI string `json:"scryfall_uri"`
 
 	// SetType is a computer-readable classification for this set
-	SetType string `json:"set_type"`
+	SetType SetType `json:"set_type"`
 
 	// ReleasedAt is the date the set was released (in GMT-8 Pacific
 	// time). Not all sets have a known release date.
