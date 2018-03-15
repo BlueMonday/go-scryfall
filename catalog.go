@@ -66,18 +66,25 @@ func (c *Client) GetLandTypesCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "land-types")
 }
 
+// GetLandTypesCatalog returns a Catalog of all artifact types in Scryfall’s
+// database. Values are updated as soon as a new card is entered for spoiler
+// seasons.
+func (c *Client) GetArtifactTypesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "artifact-types")
+}
+
+// GetEnchantmentTypesCatalog returns a Catalog of all enchantment types in
+// Scryfall’s database. Values are updated as soon as a new card is entered for
+// spoiler seasons.
+func (c *Client) GetEnchantmentTypesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "enchantment-types")
+}
+
 // GetSpellTypesCatalog returns a Catalog of all spell types in Scryfall’s
 // database. Values are updated as soon as a new card is entered for spoiler
 // seasons.
 func (c *Client) GetSpellTypesCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "spell-types")
-}
-
-// GetArtifactTypesCatalog returns a Catalog of all artifact types in
-// Scryfall’s database. Values are updated as soon as a new card is entered for
-// spoiler seasons.
-func (c *Client) GetArtifactTypesCatalog(ctx context.Context) (Catalog, error) {
-	return c.getCatalog(ctx, "artifact-types")
 }
 
 // GetPowersCatalog returns a Catalog of all possible values for a creature or
