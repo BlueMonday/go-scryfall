@@ -9,7 +9,10 @@ import (
 type Source string
 
 const (
-	SourceWOTC     Source = "wotc"
+	// SourceWOTC is a Wizards of the Coast ruling source.
+	SourceWOTC Source = "wotc"
+
+	// SourceScryfall is a Scryfall ruling source.
 	SourceScryfall Source = "scryfall"
 )
 

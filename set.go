@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// SetType is a computer-readable classification for a set.
 type SetType string
 
 const (
@@ -87,7 +88,7 @@ type Set struct {
 	// ScryfallURI is a link to this card’s permapage on Scryfall’s website.
 	ScryfallURI string `json:"scryfall_uri"`
 
-	// SetType is a computer-readable classification for this set
+	// SetType is a computer-readable classification for this set.
 	SetType SetType `json:"set_type"`
 
 	// ReleasedAt is the date the set was released (in GMT-8 Pacific

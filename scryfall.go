@@ -34,6 +34,7 @@ type Date struct {
 	time.Time
 }
 
+// UnmarshalJSON parses a JSON encoded Scryfall date and stores the result.
 func (d *Date) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), "\"")
 	if s == "null" {
