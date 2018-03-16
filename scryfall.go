@@ -22,10 +22,19 @@ const (
 type Color string
 
 const (
+	// ColorWhite is the white mana color.
 	ColorWhite Color = "W"
-	ColorBlue  Color = "U"
+
+	// ColorBlue is the blue mana color.
+	ColorBlue Color = "U"
+
+	// ColorBlack is the black mana color.
 	ColorBlack Color = "B"
-	ColorRed   Color = "R"
+
+	// ColorRed is the red mana color.
+	ColorRed Color = "R"
+
+	// ColorGreen is the green mana color.
 	ColorGreen Color = "G"
 )
 

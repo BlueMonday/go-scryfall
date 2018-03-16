@@ -4,23 +4,19 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"net/http/httptest"
 	"reflect"
 	"testing"
 )
 
 func TestListCardSymbols(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/symbology", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"object": "list", "has_more": false, "data": [{"object": "card_symbol", "symbol": "{T}", "loose_variant": null, "english": "tap this permanent", "transposable": false, "represents_mana": false, "appears_in_mana_costs": false, "cmc": 0, "funny": false, "colors": []}, {"object": "card_symbol", "symbol": "{Q}", "loose_variant": null, "english": "untap this permanent", "transposable": false, "represents_mana": false, "appears_in_mana_costs": false, "cmc": 0, "funny": false, "colors": []}, {"object": "card_symbol", "symbol": "{W/U}", "loose_variant": null, "english": "one white or blue mana", "transposable": true, "represents_mana": true, "appears_in_mana_costs": true, "cmc": 1, "funny": false, "colors": ["W", "U"]}]}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/symbology", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	cardSymbols, err := client.ListCardSymbols(ctx)
@@ -69,8 +65,7 @@ func TestListCardSymbols(t *testing.T) {
 }
 
 func TestParseManaCost(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/symbology/parse-mana", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cost := r.URL.Query().Get("cost")
 		if cost != "RUx" {
 			w.WriteHeader(http.StatusBadRequest)
@@ -78,14 +73,12 @@ func TestParseManaCost(t *testing.T) {
 		}
 
 		fmt.Fprintln(w, `{"object": "mana_cost", "cost": "{X}{U}{R}", "colors": ["U", "R"], "cmc": 2, "colorless": false, "monocolored": false, "multicolored": true}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/symbology/parse-mana", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	manaCost, err := client.ParseManaCost(ctx, "RUx")

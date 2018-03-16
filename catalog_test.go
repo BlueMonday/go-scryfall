@@ -4,23 +4,19 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"net/http/httptest"
 	"reflect"
 	"testing"
 )
 
 func TestGetCardNamesCatalog(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/catalog/card-names", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"object": "catalog", "uri": "https://api.scryfall.com/catalog/card-names", "total_values": 7, "data": ["\"Ach! Hans, Run!\"", "\"Rumors of My Death . . .\"", "1996 World Champion", "A Display of My Dark Power", "A Reckoning Approaches", "AWOL", "Abandon Hope"]}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/catalog/card-names", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	catalog, err := client.GetCardNamesCatalog(ctx)
@@ -47,17 +43,14 @@ func TestGetCardNamesCatalog(t *testing.T) {
 }
 
 func TestGetWordBankCatalog(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/catalog/word-bank", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"object": "catalog", "uri": "https://api.scryfall.com/catalog/word-bank", "total_values": 11, "data": ["abandon", "abandoned", "abattoir", "abbey", "abbot", "abc's", "abdallah", "abduction", "aberrant", "aberration", "abeyance"]}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/catalog/word-bank", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	catalog, err := client.GetWordBankCatalog(ctx)
@@ -88,17 +81,14 @@ func TestGetWordBankCatalog(t *testing.T) {
 }
 
 func TestGetCreatureTypesCatalog(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/catalog/creature-types", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"object": "catalog", "uri": "https://api.scryfall.com/catalog/creature-types", "total_values": 11, "data": ["Advisor", "Aetherborn", "Ally", "Angel", "Antelope", "Ape", "Archer", "Archon", "Artificer", "Assassin", "Assembly-Worker", "Atog"]}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/catalog/creature-types", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	catalog, err := client.GetCreatureTypesCatalog(ctx)
@@ -130,17 +120,14 @@ func TestGetCreatureTypesCatalog(t *testing.T) {
 }
 
 func TestGetPlaneswalkerTypesCatalog(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/catalog/planeswalker-types", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"object": "catalog", "uri": "https://api.scryfall.com/catalog/planeswalker-types", "total_values": 10, "data": ["Ajani", "Angrath", "Arlinn", "Ashiok", "Bolas", "Chandra", "Dack", "Daretti", "Domri", "Dovin"]}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/catalog/planeswalker-types", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	catalog, err := client.GetPlaneswalkerTypesCatalog(ctx)
@@ -170,17 +157,14 @@ func TestGetPlaneswalkerTypesCatalog(t *testing.T) {
 }
 
 func TestGetLandTypesCatalog(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/catalog/land-types", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"object": "catalog", "uri": "https://api.scryfall.com/catalog/land-types", "total_values": 13, "data": ["Desert", "Forest", "Gate", "Island", "Lair", "Locus", "Mine", "Mountain", "Plains", "Power-Plant", "Swamp", "Tower", "Urza’s"]}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/catalog/land-types", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	catalog, err := client.GetLandTypesCatalog(ctx)
@@ -213,17 +197,14 @@ func TestGetLandTypesCatalog(t *testing.T) {
 }
 
 func TestGetSpellTypesCatalog(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/catalog/spell-types", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"object": "catalog", "uri": "https://api.scryfall.com/catalog/spell-types", "total_values": 2, "data": ["Arcane", "Trap"]}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/catalog/spell-types", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	catalog, err := client.GetSpellTypesCatalog(ctx)

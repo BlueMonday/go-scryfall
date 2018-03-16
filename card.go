@@ -14,29 +14,69 @@ import (
 type Layout string
 
 const (
-	LayoutNormal           Layout = "normal"
-	LayoutSplit            Layout = "split"
-	LayoutFlip             Layout = "flip"
-	LayoutTransform        Layout = "transform"
-	LayoutMeld             Layout = "meld"
-	LayoutLeveler          Layout = "leveler"
-	LayoutPlanar           Layout = "planar"
-	LayoutScheme           Layout = "scheme"
-	LayoutVanguard         Layout = "vanguard"
-	LayoutToken            Layout = "token"
+	// LayoutNormal is a standard Magic card layout with one face.
+	LayoutNormal Layout = "normal"
+
+	// LayoutSplit is a split-faced card layout.
+	LayoutSplit Layout = "split"
+
+	// LayoutFlip is a card layout that inverts vertically with the flip
+	// keyword.
+	LayoutFlip Layout = "flip"
+
+	// LayoutTransform is a double-sided card layout that transforms.
+	LayoutTransform Layout = "transform"
+
+	// LayoutMeld is a card layout with meld parts printed on the back.
+	LayoutMeld Layout = "meld"
+
+	// LayoutLeveler is a level up card layout.
+	LayoutLeveler Layout = "leveler"
+
+	// LayoutSaga is saga card layout.
+	LayoutSaga Layout = "saga"
+
+	// LayoutPlanar is a plane and phenomenon card layout.
+	LayoutPlanar Layout = "planar"
+
+	// LayoutScheme is a scheme card layout.
+	LayoutScheme Layout = "scheme"
+
+	// LayoutVanguard is a vanguard card layout.
+	LayoutVanguard Layout = "vanguard"
+
+	// LayoutToken is a token card layout.
+	LayoutToken Layout = "token"
+
+	// LayoutDoubleFacedToken is a card token layout with another token
+	// printed on the back.
 	LayoutDoubleFacedToken Layout = "double_faced_token"
-	LayoutEmblem           Layout = "emblem"
-	LayoutAugment          Layout = "augment"
-	LayoutHost             Layout = "host"
+
+	// LayoutEmblem is an emblem card layout.
+	LayoutEmblem Layout = "emblem"
+
+	// LayoutAugment is an augment card layout.
+	LayoutAugment Layout = "augment"
+
+	// LayoutHost is host card layout.
+	LayoutHost Layout = "host"
 )
 
 // Legality is the legality of a card in a particular format.
 type Legality string
 
 const (
-	LegalityLegal      Legality = "legal"
-	LegalityNotLegal   Legality = "not_legal"
-	LegalityBanned     Legality = "banned"
+	// LegalityLegal indicates the card is legal in the format.
+	LegalityLegal Legality = "legal"
+
+	// LegalityNotLegal indicates the card is not legal in the format.
+	LegalityNotLegal Legality = "not_legal"
+
+	// LegalityBanned indicates the card is banned in the format.
+	LegalityBanned Legality = "banned"
+
+	// LegalityRestricted indicates the card is restricted to one copy in
+	// the format.
 	LegalityRestricted Legality = "restricted"
 )
 
@@ -46,10 +86,22 @@ const (
 type Frame string
 
 const (
-	Frame1993   Frame = "1993"
-	Frame1997   Frame = "1997"
-	Frame2003   Frame = "2003"
-	Frame2015   Frame = "2015"
+	// Frame1993 is the original Magic card frame, starting from Limited
+	// Edition Alpha.
+	Frame1993 Frame = "1993"
+
+	// Frame1997 is the updated classic frame starting from Mirage block.
+	Frame1997 Frame = "1997"
+
+	// Frame2003 is the “modern” Magic card frame, introduced in Eighth
+	// Edition and Mirrodin block.
+	Frame2003 Frame = "2003"
+
+	// Frame2015 is the holofoil-stamp Magic card frame, introduced in
+	// Magic 2015.
+	Frame2015 Frame = "2015"
+
+	// FrameFuture is the frame used on cards from the future.
 	FrameFuture Frame = "future"
 )
 

@@ -66,9 +66,9 @@ func (c *Client) GetLandTypesCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "land-types")
 }
 
-// GetLandTypesCatalog returns a Catalog of all artifact types in Scryfall’s
-// database. Values are updated as soon as a new card is entered for spoiler
-// seasons.
+// GetArtifactTypesCatalog returns a Catalog of all artifact types in
+// Scryfall’s database. Values are updated as soon as a new card is entered for
+// spoiler seasons.
 func (c *Client) GetArtifactTypesCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "artifact-types")
 }

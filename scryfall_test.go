@@ -18,6 +18,20 @@ func intPointer(v int) *int {
 	return &v
 }
 
+func setupTestServer(pattern string, handler func(http.ResponseWriter, *http.Request)) (*Client, *httptest.Server, error) {
+	mux := http.NewServeMux()
+	mux.HandleFunc(pattern, handler)
+	ts := httptest.NewServer(mux)
+
+	client, err := NewClient(WithBaseURL(ts.URL))
+	if err != nil {
+		ts.Close()
+		return nil, nil, err
+	}
+
+	return client, ts, nil
+}
+
 func TestDateUnmarshalJSON(t *testing.T) {
 	loc, err := time.LoadLocation("Etc/GMT-8")
 	if err != nil {
@@ -53,19 +67,30 @@ func TestDateUnmarshalJSON(t *testing.T) {
 	}
 }
 
+func TestErrorError(t *testing.T) {
+	want := "not_found: The requested object or REST method was not found."
+	err := Error{
+		Status:   404,
+		Code:     "not_found",
+		Details:  "The requested object or REST method was not found.",
+		Type:     nil,
+		Warnings: []string{},
+	}
+	if err.Error() != want {
+		t.Errorf("got: %s want: %s", err.Error(), want)
+	}
+}
+
 func TestError(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/cards/nope", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		fmt.Fprintln(w, `{"object": "error", "code": "not_found", "status": 404, "details": "The requested object or REST method was not found."}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/cards/nope", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	_, err = client.GetCard(ctx, "nope")

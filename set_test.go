@@ -4,24 +4,20 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"net/http/httptest"
 	"reflect"
 	"testing"
 	"time"
 )
 
 func TestListSets(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/sets", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"object": "list", "has_more": false, "data": [{"object": "set", "code": "dom", "mtgo_code": "dom", "name": "Dominaria", "uri": "https://api.scryfall.com/sets/dom", "scryfall_uri": "https://scryfall.com/sets/dom", "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Adom&unique=prints", "released_at": "2018-04-27", "set_type": "expansion", "card_count": 142, "digital": false, "foil": false, "icon_svg_uri": "https://assets.scryfall.com/assets/sets/dom.svg"}, {"object": "set", "code": "a25", "name": "Masters 25", "uri": "https://api.scryfall.com/sets/a25", "scryfall_uri": "https://scryfall.com/sets/a25", "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aa25&unique=prints", "released_at": "2018-03-16", "set_type": "masters", "card_count": 249, "digital": false, "foil": false, "icon_svg_uri": "https://assets.scryfall.com/assets/sets/a25.svg"},{"object":"set","code":"rix","mtgo_code":"rix","name":"Rivals of Ixalan","uri":"https://api.scryfall.com/sets/rix","scryfall_uri":"https://scryfall.com/sets/rix","search_uri":"https://api.scryfall.com/cards/search?order=set\u0026q=e%3Arix\u0026unique=prints","released_at":"2018-01-19","set_type":"expansion","card_count":205,"digital":false,"foil":false,"block_code":"xln","block":"Ixalan","icon_svg_uri":"https://assets.scryfall.com/assets/sets/rix.svg"}]}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/sets", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	sets, err := client.ListSets(ctx)
@@ -86,17 +82,14 @@ func TestListSets(t *testing.T) {
 }
 
 func TestGetSet(t *testing.T) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/sets/aer", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, `{"object": "set", "code": "aer", "mtgo_code": "aer", "name": "Aether Revolt", "uri": "https://api.scryfall.com/sets/aer", "scryfall_uri": "https://scryfall.com/sets/aer", "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aaer&unique=prints", "released_at": "2017-01-20", "set_type": "expansion", "card_count": 194, "digital": false, "foil": false, "block_code": "kld", "block": "Kaladesh", "icon_svg_uri": "https://assets.scryfall.com/assets/sets/aer.svg"}`)
-	}))
-	ts := httptest.NewServer(mux)
-	defer ts.Close()
-
-	client, err := NewClient(WithBaseURL(ts.URL))
+	})
+	client, ts, err := setupTestServer("/sets/aer", handler)
 	if err != nil {
-		t.Fatalf("Error creating new client: %v", err)
+		t.Fatalf("Error setting up test server: %v", err)
 	}
+	defer ts.Close()
 
 	ctx := context.Background()
 	set, err := client.GetSet(ctx, "aer")
