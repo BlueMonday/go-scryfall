@@ -11,7 +11,7 @@ func ExampleClient_SearchCards() {
 	ctx := context.Background()
 	client, err := scryfall.NewClient()
 	if err != nil {
-		fmt.Println("NewClient error:", err)
+		fmt.Println(err.Error())
 	}
 
 	so := scryfall.SearchCardsOptions{
@@ -22,7 +22,7 @@ func ExampleClient_SearchCards() {
 	}
 	result, err := client.SearchCards(ctx, "storm cro", so)
 	if err != nil {
-		fmt.Println("Search error: ", err)
+		fmt.Println(err.Error())
 	}
 
 	fmt.Printf("%s\n", result.Cards[0].Colors)
