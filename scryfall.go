@@ -76,33 +76,6 @@ func (e *Error) Error() string {
 	return fmt.Sprintf("%s: %s", e.Code, e.Details)
 }
 
-// ListResponse represents a requested sequence of other objects (Cards, Sets,
-// etc). List objects may be paginated, and also include information about issues
-// raised when generating the list.
-type ListResponse struct {
-	// Data is a list of the requested objects, in a specific order.
-	Data json.RawMessage `json:"data"`
-
-	// HasMore is true if this List is paginated and there is a page beyond
-	// the current page.
-	HasMore bool `json:"has_more"`
-
-	// NextPage contains a full API URI to next page if there is a page
-	// beyond the current page.
-	NextPage *string `json:"next_page"`
-
-	// TotalCards contains the total number of cards found across all pages
-	// if this is a list of Card objects.
-	TotalCards *int `json:"total_cards"`
-
-	// Warnings is a list of human-readable warnings issued when generating
-	// this list, as strings. Warnings are non-fatal issues that the API
-	// discovered with your input. In general, they indicate that the List
-	// will not contain the all of the information you requested. You should
-	// fix the warnings and re-submit your request.
-	Warnings []string `json:"warnings"`
-}
-
 type clientOptions struct {
 	baseURL string
 	client  *http.Client
@@ -188,12 +161,39 @@ func (c *Client) get(ctx context.Context, relativeURL string, v interface{}) err
 	return decoder.Decode(v)
 }
 
+// listResponse represents a requested sequence of other objects (Cards, Sets,
+// etc). List objects may be paginated, and also include information about issues
+// raised when generating the list.
+type listResponse struct {
+	// Data is a list of the requested objects, in a specific order.
+	Data json.RawMessage `json:"data"`
+
+	// HasMore is true if this List is paginated and there is a page beyond
+	// the current page.
+	HasMore bool `json:"has_more"`
+
+	// NextPage contains a full API URI to next page if there is a page
+	// beyond the current page.
+	NextPage *string `json:"next_page"`
+
+	// TotalCards contains the total number of cards found across all pages
+	// if this is a list of Card objects.
+	TotalCards *int `json:"total_cards"`
+
+	// Warnings is a list of human-readable warnings issued when generating
+	// this list, as strings. Warnings are non-fatal issues that the API
+	// discovered with your input. In general, they indicate that the List
+	// will not contain the all of the information you requested. You should
+	// fix the warnings and re-submit your request.
+	Warnings []string `json:"warnings"`
+}
+
 func (c *Client) listGet(ctx context.Context, url string, v interface{}) error {
-	listResponse := &ListResponse{}
-	err := c.get(ctx, url, listResponse)
+	response := &listResponse{}
+	err := c.get(ctx, url, response)
 	if err != nil {
 		return err
 	}
 
-	return json.Unmarshal(listResponse.Data, v)
+	return json.Unmarshal(response.Data, v)
 }

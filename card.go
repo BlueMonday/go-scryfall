@@ -429,16 +429,11 @@ type PurchaseURIs struct {
 	CoolStuffInc    string `json:"coolstuffinc"`
 }
 
-// ListCardsOptions holds the options used to list cards.
-type ListCardsOptions struct {
-	// Page is the page number to return. Page numbers start at 1 and the
-	// default is 1.
-	Page int `url:"page,omitempty"`
-}
-
-// ListCardsResult represents the result of a list cards operation.
-type ListCardsResult struct {
-	// Cards contains the retrieved cards.
+// CardListResponse represents a requested sequence of card
+// objects. CardListResponse objects may be paginated, and also include
+// information about issues raised when generating the list.
+type CardListResponse struct {
+	// Cards is a list of the requested cards.
 	Cards []Card `json:"data"`
 
 	// HasMore is true if this List is paginated and there is a page beyond
@@ -452,20 +447,34 @@ type ListCardsResult struct {
 	// TotalCards contains the total number of cards found across all
 	// pages.
 	TotalCards int `json:"total_cards"`
+
+	// Warnings is a list of human-readable warnings issued when generating
+	// this list, as strings. Warnings are non-fatal issues that the API
+	// discovered with your input. In general, they indicate that the List
+	// will not contain the all of the information you requested. You should
+	// fix the warnings and re-submit your request.
+	Warnings []string `json:"warnings"`
+}
+
+// ListCardsOptions holds the options used to list cards.
+type ListCardsOptions struct {
+	// Page is the page number to return. Page numbers start at 1 and the
+	// default is 1.
+	Page int `url:"page,omitempty"`
 }
 
 // ListCards lists all the cards in Scryfall's database.
-func (c *Client) ListCards(ctx context.Context, opts ListCardsOptions) (ListCardsResult, error) {
+func (c *Client) ListCards(ctx context.Context, opts ListCardsOptions) (CardListResponse, error) {
 	values, err := qs.Values(opts)
 	if err != nil {
-		return ListCardsResult{}, err
+		return CardListResponse{}, err
 	}
 
 	cardsURL := fmt.Sprintf("cards?%s", values.Encode())
-	result := ListCardsResult{}
+	result := CardListResponse{}
 	err = c.get(ctx, cardsURL, &result)
 	if err != nil {
-		return ListCardsResult{}, err
+		return CardListResponse{}, err
 	}
 
 	return result, nil
@@ -579,47 +588,22 @@ type SearchCardsOptions struct {
 	Page int `url:"page,omitempty"`
 }
 
-// SearchCardsResult represents the result of a cards search query.
-type SearchCardsResult struct {
-	// Cards contains the cards which matched the search query.
-	Cards []Card `json:"data"`
-
-	// HasMore is true if this List is paginated and there is a page beyond
-	// the current page.
-	HasMore bool `json:"has_more"`
-
-	// NextPage contains a full API URI to next page if there is a page
-	// beyond the current page.
-	NextPage *string `json:"next_page"`
-
-	// TotalCards contains the total number of cards found across all
-	// pages.
-	TotalCards int `json:"total_cards"`
-
-	// Warnings is a list of human-readable warnings issued when generating
-	// this list, as strings. Warnings are non-fatal issues that the API
-	// discovered with your input. In general, they indicate that the List
-	// will not contain the all of the information you requested. You should
-	// fix the warnings and re-submit your request.
-	Warnings []string `json:"warnings"`
-}
-
 // SearchCards returns a list cards found using a full text search. The query
 // parameter is the full text search query. See the search reference docs for more
 // information on the full text search query format:
 // https://scryfall.com/docs/reference.
-func (c *Client) SearchCards(ctx context.Context, query string, opts SearchCardsOptions) (SearchCardsResult, error) {
+func (c *Client) SearchCards(ctx context.Context, query string, opts SearchCardsOptions) (CardListResponse, error) {
 	values, err := qs.Values(opts)
 	if err != nil {
-		return SearchCardsResult{}, err
+		return CardListResponse{}, err
 	}
 	values.Set("q", query)
 	cardsURL := fmt.Sprintf("cards/search?%s", values.Encode())
 
-	result := SearchCardsResult{}
+	result := CardListResponse{}
 	err = c.get(ctx, cardsURL, &result)
 	if err != nil {
-		return SearchCardsResult{}, err
+		return CardListResponse{}, err
 	}
 
 	return result, nil

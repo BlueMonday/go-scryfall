@@ -103,6 +103,85 @@ var duskDawn = Card{
 	},
 }
 
+func TestListCards(t *testing.T) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		page := r.URL.Query().Get("page")
+		if page != "2" {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		fmt.Fprintln(w, `{"object": "list", "total_cards": 1000, "has_more": true, "next_page": "https://api.scryfall.com/cards?page=3", "data": [`+duskDawnJSON+`]}`)
+	})
+	client, ts, err := setupTestServer("/cards", handler)
+	if err != nil {
+		t.Fatalf("Error setting up test server: %v", err)
+	}
+	defer ts.Close()
+
+	ctx := context.Background()
+	opts := ListCardsOptions{
+		Page: 2,
+	}
+	cards, err := client.ListCards(ctx, opts)
+	if err != nil {
+		t.Fatalf("Error listing cards: %v", err)
+	}
+
+	want := CardListResponse{
+		Cards:      []Card{duskDawn},
+		HasMore:    true,
+		NextPage:   stringPointer("https://api.scryfall.com/cards?page=3"),
+		TotalCards: 1000,
+	}
+	if !reflect.DeepEqual(cards, want) {
+		t.Errorf("got: %#v want: %#v", cards, want)
+	}
+}
+func TestSearchCards(t *testing.T) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		query := r.URL.Query()
+		q := query.Get("q")
+		unique := query.Get("unique")
+		order := query.Get("order")
+		dir := query.Get("dir")
+		includeExtras := query.Get("include_extras")
+		page := query.Get("page")
+		if q != "dusk" && unique != "cards" && order != "power" && dir != "auto" && includeExtras != "true" && page != "2" {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+		fmt.Fprintln(w, `{"object": "list", "total_cards": 1000, "has_more": true, "next_page": "https://api.scryfall.com/cards?page=3", "data": [`+duskDawnJSON+`]}`)
+	})
+	client, ts, err := setupTestServer("/cards/search", handler)
+	if err != nil {
+		t.Fatalf("Error setting up test server: %v", err)
+	}
+	defer ts.Close()
+
+	ctx := context.Background()
+	opts := SearchCardsOptions{
+		Unique:        UniqueModeCards,
+		Order:         OrderPower,
+		Dir:           DirAuto,
+		IncludeExtras: true,
+		Page:          2,
+	}
+	cards, err := client.SearchCards(ctx, "dusk", opts)
+	if err != nil {
+		t.Fatalf("Error listing cards: %v", err)
+	}
+
+	want := CardListResponse{
+		Cards:      []Card{duskDawn},
+		HasMore:    true,
+		NextPage:   stringPointer("https://api.scryfall.com/cards?page=3"),
+		TotalCards: 1000,
+	}
+	if !reflect.DeepEqual(cards, want) {
+		t.Errorf("got: %#v want: %#v", cards, want)
+	}
+}
+
 func TestGetCardByName(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		query := r.URL.Query()
@@ -153,7 +232,7 @@ func TestAutocompleteCard(t *testing.T) {
 	ctx := context.Background()
 	autocompletions, err := client.AutocompleteCard(ctx, "thal")
 	if err != nil {
-		t.Fatalf("Error getting card: %v", err)
+		t.Fatalf("Error auto completing card: %v", err)
 	}
 
 	want := []string{
