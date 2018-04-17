@@ -22,7 +22,7 @@ func main() {
 	}
 
 	sco := scryfall.SearchCardsOptions{
-		Unique:        scryfall.UniqueModePrint,
+		Unique:        scryfall.UniqueModePrints,
 		Order:         scryfall.OrderSet,
 		Dir:           scryfall.DirDesc,
 		IncludeExtras: true,
