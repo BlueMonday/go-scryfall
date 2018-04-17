@@ -498,10 +498,10 @@ const (
 	// results will be omitted.
 	UniqueModeArt UniqueMode = "art"
 
-	// UniqueModePrint returns all prints for all cards matched (disables
+	// UniqueModePrints returns all prints for all cards matched (disables
 	// rollup). For example, if your search matches more than one print of
 	// Pacifism, all matching prints will be returned.
-	UniqueModePrint UniqueMode = "prints"
+	UniqueModePrints UniqueMode = "prints"
 )
 
 // Order is a method used to sort cards.
