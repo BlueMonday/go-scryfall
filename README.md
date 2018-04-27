@@ -6,6 +6,8 @@
 
 Golang client for the [Scryfall](https://scryfall.com/) API.
 
+## Example
+
 ```golang
 package main
 
@@ -37,3 +39,7 @@ func main() {
 	log.Printf("%s", result.Cards[0].Colors)
 }
 ```
+
+## Credits
+
+Logo drawn by [@jouste](https://twitter.com/jouste) the drawbarian!
