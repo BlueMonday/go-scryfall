@@ -4,7 +4,12 @@
 
 ![go-scryfall](./go-scryfall.png)
 
-Golang client for the [Scryfall](https://scryfall.com/) API.
+`go-scryfall` is a Golang client library for accessing the [Scryfall](https://scryfall.com/) API. 
+
+The Scryfall logo is copyrighted by Scryfall, LLC. `go-scryfall` is not created
+by, affiliated with, or supported by Scryfall.
+
+`go-scryfall` art was provided by [@jouste](https://twitter.com/jouste) the fierce drawbarian!
 
 ## Example
 
@@ -39,7 +44,3 @@ func main() {
 	log.Printf("%s", result.Cards[0].Colors)
 }
 ```
-
-## Credits
-
-Logo drawn by [@jouste](https://twitter.com/jouste) the drawbarian!
