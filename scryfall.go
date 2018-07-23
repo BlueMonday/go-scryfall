@@ -3,6 +3,7 @@ package scryfall
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -17,6 +18,8 @@ const (
 
 	dateFormat = "2006-01-02"
 )
+
+var ErrMultipleSecrets = errors.New("multiple secrets configured")
 
 // Color represents a color in Magic: The Gathering.
 type Color string
@@ -77,8 +80,10 @@ func (e *Error) Error() string {
 }
 
 type clientOptions struct {
-	baseURL string
-	client  *http.Client
+	baseURL      string
+	clientSecret string
+	grantSecret  string
+	client       *http.Client
 }
 
 // ClientOption configures the Scryfall API client.
@@ -91,6 +96,24 @@ func WithBaseURL(baseURL string) ClientOption {
 	}
 }
 
+// WithClientSecret returns an option which sets the client secret. The client
+// secret will configure the client to perform requests as the application
+// associated with the client secret.
+func WithClientSecret(clientSecret string) ClientOption {
+	return func(o *clientOptions) {
+		o.clientSecret = clientSecret
+	}
+}
+
+// WithGrantSecret returns an option which sets the grant secret. The grant
+// secret will configure the client to perform requests with the rights of the
+// grant account.
+func WithGrantSecret(grantSecret string) ClientOption {
+	return func(o *clientOptions) {
+		o.grantSecret = grantSecret
+	}
+}
+
 // WithHTTPClient returns an option which overrides the default HTTP client.
 func WithHTTPClient(client *http.Client) ClientOption {
 	return func(o *clientOptions) {
@@ -100,7 +123,8 @@ func WithHTTPClient(client *http.Client) ClientOption {
 
 // Client is a Scryfall API client.
 type Client struct {
-	baseURL *url.URL
+	baseURL       *url.URL
+	authorization string
 
 	client *http.Client
 }
@@ -117,14 +141,27 @@ func NewClient(options ...ClientOption) (*Client, error) {
 		option(co)
 	}
 
+	if len(co.clientSecret) != 0 && len(co.grantSecret) != 0 {
+		return nil, ErrMultipleSecrets
+	}
+
+	var authorization string
+	if len(co.clientSecret) != 0 {
+		authorization = "Bearer " + co.clientSecret
+	}
+	if len(co.grantSecret) != 0 {
+		authorization = "Bearer " + co.grantSecret
+	}
+
 	baseURL, err := url.Parse(co.baseURL)
 	if err != nil {
 		return nil, err
 	}
 
 	c := &Client{
-		baseURL: baseURL,
-		client:  co.client,
+		baseURL:       baseURL,
+		authorization: authorization,
+		client:        co.client,
 	}
 	return c, nil
 }
@@ -139,7 +176,12 @@ func (c *Client) get(ctx context.Context, relativeURL string, v interface{}) err
 	if err != nil {
 		return err
 	}
+
 	req.Header.Set("User-Agent", userAgent)
+	if len(c.authorization) != 0 {
+		req.Header.Set("Authorization", c.authorization)
+	}
+
 	reqWithContext := req.WithContext(ctx)
 	resp, err := c.client.Do(reqWithContext)
 	if err != nil {
