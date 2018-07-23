@@ -698,6 +698,13 @@ func (c *Client) GetCardByMTGOID(ctx context.Context, mtgoID int) (Card, error) 
 	return c.getCard(ctx, cardURL)
 }
 
+// GetCardByArenaID returns a single card with the given Magic: The Gathering
+// Arena ID.
+func (c *Client) GetCardByArenaID(ctx context.Context, arenaID int) (Card, error) {
+	cardURL := fmt.Sprintf("cards/arena/%d", arenaID)
+	return c.getCard(ctx, cardURL)
+}
+
 // GetCardBySetCodeAndCollectorNumber returns a single card with the given
 // set code and collector number.
 func (c *Client) GetCardBySetCodeAndCollectorNumber(ctx context.Context, setCode string, collectorNumber string) (Card, error) {

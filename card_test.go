@@ -304,6 +304,27 @@ func TestGetCardByMultiverseID(t *testing.T) {
 	}
 }
 
+func TestGetCardByArenaID(t *testing.T) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, duskDawnJSON)
+	})
+	client, ts, err := setupTestServer("/cards/arena/67330", handler)
+	if err != nil {
+		t.Fatalf("Error setting up test server: %v", err)
+	}
+	defer ts.Close()
+
+	ctx := context.Background()
+	card, err := client.GetCardByArenaID(ctx, 67330)
+	if err != nil {
+		t.Fatalf("Error getting card: %v", err)
+	}
+
+	if !reflect.DeepEqual(card, duskDawn) {
+		t.Errorf("got: %#v want: %#v", card, duskDawn)
+	}
+}
+
 func TestGetCardByMTGOID(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, duskDawnJSON)
