@@ -19,6 +19,8 @@ const (
 	dateFormat = "2006-01-02"
 )
 
+// ErrMultipleSecrets is returned if both the grant and client secret are set
+// when creating a new Scryfall client.
 var ErrMultipleSecrets = errors.New("multiple secrets configured")
 
 // Color represents a color in Magic: The Gathering.

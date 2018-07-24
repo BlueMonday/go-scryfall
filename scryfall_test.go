@@ -18,12 +18,14 @@ func intPointer(v int) *int {
 	return &v
 }
 
-func setupTestServer(pattern string, handler func(http.ResponseWriter, *http.Request)) (*Client, *httptest.Server, error) {
+func setupTestServer(pattern string, handler func(http.ResponseWriter, *http.Request), clientOptions ...ClientOption) (*Client, *httptest.Server, error) {
 	mux := http.NewServeMux()
 	mux.HandleFunc(pattern, handler)
 	ts := httptest.NewServer(mux)
 
-	client, err := NewClient(WithBaseURL(ts.URL))
+	mergedClientOptions := []ClientOption{WithBaseURL(ts.URL)}
+	mergedClientOptions = append(mergedClientOptions, clientOptions...)
+	client, err := NewClient(mergedClientOptions...)
 	if err != nil {
 		ts.Close()
 		return nil, nil, err
@@ -102,5 +104,60 @@ func TestError(t *testing.T) {
 	}
 	if !reflect.DeepEqual(err, expectedErr) {
 		t.Errorf("got: %#v want: %#v", err, expectedErr)
+	}
+}
+
+func TestNewClientWithClientSecret(t *testing.T) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		authorizationHeader := r.Header.Get("Authorization")
+		if authorizationHeader != "Bearer cs-12345" {
+			w.WriteHeader(http.StatusForbidden)
+			fmt.Fprintln(w, `{"object": "error", "code": "forbidden", "status": 403, "details": ""}`)
+			return
+		}
+
+		fmt.Fprintln(w, `{"object": "list", "has_more": false, "data": []}`)
+	})
+	client, ts, err := setupTestServer("/symbology", handler, WithClientSecret("cs-12345"))
+	if err != nil {
+		t.Fatalf("Error setting up test server: %v", err)
+	}
+	defer ts.Close()
+
+	ctx := context.Background()
+	_, err = client.ListCardSymbols(ctx)
+	if err != nil {
+		t.Fatalf("Error listing card symbols using client with client secret set: %v", err)
+	}
+}
+
+func TestNewClientWithGrantSecret(t *testing.T) {
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		authorizationHeader := r.Header.Get("Authorization")
+		if authorizationHeader != "Bearer 12345" {
+			w.WriteHeader(http.StatusForbidden)
+			fmt.Fprintln(w, `{"object": "error", "code": "forbidden", "status": 403, "details": ""}`)
+			return
+		}
+
+		fmt.Fprintln(w, `{"object": "list", "has_more": false, "data": []}`)
+	})
+	client, ts, err := setupTestServer("/symbology", handler, WithGrantSecret("12345"))
+	if err != nil {
+		t.Fatalf("Error setting up test server: %v", err)
+	}
+	defer ts.Close()
+
+	ctx := context.Background()
+	_, err = client.ListCardSymbols(ctx)
+	if err != nil {
+		t.Fatalf("Error listing card symbols using client with grant secret set: %v", err)
+	}
+}
+
+func TestNewClientMultipleSecrets(t *testing.T) {
+	_, err := NewClient(WithClientSecret("cs-12345"), WithGrantSecret("12345"))
+	if err != ErrMultipleSecrets {
+		t.Fatalf("Unexpected error %v received from NewClient when configured with multiple secrets", err)
 	}
 }
