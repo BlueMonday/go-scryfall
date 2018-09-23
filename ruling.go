@@ -62,6 +62,13 @@ func (c *Client) GetRulingsByMTGOID(ctx context.Context, mtgoID int) ([]Ruling, 
 	return c.getRulings(ctx, rulingsURL)
 }
 
+// GetRulingsByArenaID returns rulings for a card with the given Magic: The
+// Gathering Arena ID.
+func (c *Client) GetRulingsByArenaID(ctx context.Context, arenaID int) ([]Ruling, error) {
+	rulingsURL := fmt.Sprintf("cards/arena/%d/rulings", arenaID)
+	return c.getRulings(ctx, rulingsURL)
+}
+
 // GetRulingsBySetCodeAndCollectorNumber returns a list of rulings for the card
 // with the given set code and collector number.
 func (c *Client) GetRulingsBySetCodeAndCollectorNumber(ctx context.Context, setCode string, collectorNumber int) ([]Ruling, error) {

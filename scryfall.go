@@ -16,7 +16,8 @@ const (
 	defaultTimeout = 30 * time.Second
 	userAgent      = "go-scryfall"
 
-	dateFormat = "2006-01-02"
+	dateFormat      = "2006-01-02"
+	timestampFormat = "2006-01-02T15:04:05.999-07:00"
 )
 
 // ErrMultipleSecrets is returned if both the grant and client secret are set
@@ -52,19 +53,41 @@ type Date struct {
 func (d *Date) UnmarshalJSON(b []byte) error {
 	s := strings.Trim(string(b), "\"")
 	if s == "null" {
-		d.Time = time.Time{}
 		return nil
 	}
 
+	// This assumes that dates use the same the timezone as Wizards of the
+	// Coast's offices in Washington.
 	loc, err := time.LoadLocation("Etc/GMT-8")
 	if err != nil {
 		return err
 	}
+
 	parsedTime, err := time.ParseInLocation(dateFormat, s, loc)
 	if err != nil {
 		return err
 	}
 	d.Time = parsedTime
+	return nil
+}
+
+// Timestamp is a timestamp returned by the Scryfall API.
+type Timestamp struct {
+	time.Time
+}
+
+// UnmarshalJSON parses a JSON encoded Scryfall timestamp and stores the result.
+func (t *Timestamp) UnmarshalJSON(b []byte) error {
+	s := strings.Trim(string(b), "\"")
+	if s == "null" {
+		return nil
+	}
+
+	parsedTime, err := time.ParseInLocation(timestampFormat, s, time.UTC)
+	if err != nil {
+		return err
+	}
+	t.Time = parsedTime
 	return nil
 }
 

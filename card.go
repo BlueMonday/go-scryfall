@@ -108,8 +108,15 @@ const (
 // Card represents individual Magic: The Gathering cards that players could
 // obtain and add to their collection (with a few minor exceptions).
 type Card struct {
+	// ArenaID is this card’s Arena ID, if any. A large percentage of cards
+	// are not available on Arena and do not have this ID.
+	ArenaID *int `json:"arena_id"`
+
 	// ID is a unique ID for this card in Scryfall’s database.
 	ID string `json:"id"`
+
+	// Lang is the language code for this printing.
+	Lang string `json:"lang"`
 
 	// OracleID is a unique ID for this card’s oracle identity. This value
 	// is consistent across reprinted card editions, and unique among

@@ -37,6 +37,14 @@ func (c *Client) GetCardNamesCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "card-names")
 }
 
+// GetArtistNamesCatalog returns a list of all canonical artist names in
+// Scryfall’s database. This catalog won’t include duplicate, misspelled, or funny
+// names for artists. Values are updated as soon as a new card is entered for
+// spoiler seasons.
+func (c *Client) GetArtistNamesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "artist-names")
+}
+
 // GetWordBankCatalog returns a Catalog of all English words, of length 2 or
 // more, that could appear in a card name. Values are drawn from cards currently
 // in Scryfall’s database. Values are updated as soon as a new card is entered for
