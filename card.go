@@ -684,6 +684,13 @@ func (c *Client) GetRandomCard(ctx context.Context) (Card, error) {
 	return c.getCard(ctx, "cards/random")
 }
 
+// GetCardBySetCodeAndCollectorNumber returns a single card with the given
+// set code and collector number.
+func (c *Client) GetCardBySetCodeAndCollectorNumber(ctx context.Context, setCode string, collectorNumber string) (Card, error) {
+	cardURL := fmt.Sprintf("cards/%s/%s", setCode, collectorNumber)
+	return c.getCard(ctx, cardURL)
+}
+
 // GetCardByMultiverseID returns a single card with the given Multiverse ID. If
 // the card has multiple multiverse IDs, GetCardByMultiverseID can find either of
 // them.
@@ -707,10 +714,10 @@ func (c *Client) GetCardByArenaID(ctx context.Context, arenaID int) (Card, error
 	return c.getCard(ctx, cardURL)
 }
 
-// GetCardBySetCodeAndCollectorNumber returns a single card with the given
-// set code and collector number.
-func (c *Client) GetCardBySetCodeAndCollectorNumber(ctx context.Context, setCode string, collectorNumber string) (Card, error) {
-	cardURL := fmt.Sprintf("cards/%s/%s", setCode, collectorNumber)
+// GetCardByTCGPlayerID returns a single card with the given TCGPlayer ID, also
+// known as the productId on TCGPlayer’s API.
+func (c *Client) GetCardByTCGPlayerID(ctx context.Context, tcgPlayerID int) (Card, error) {
+	cardURL := fmt.Sprintf("cards/tcgplayer/%d", tcgPlayerID)
 	return c.getCard(ctx, cardURL)
 }
 
