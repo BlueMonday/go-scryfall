@@ -426,14 +426,9 @@ type RelatedURIs struct {
 
 // PurchaseURIs contains links to the card on online card stores.
 type PurchaseURIs struct {
-	Amazon          string `json:"amazon"`
-	Ebay            string `json:"ebay"`
-	TCGPlayer       string `json:"tcgplayer"`
-	MagicCardMarket string `json:"magiccardmarket"`
-	CardHoarder     string `json:"cardhoarder"`
-	CardKingdom     string `json:"card_kingdom"`
-	MTGOTraders     string `json:"mtgo_traders"`
-	CoolStuffInc    string `json:"coolstuffinc"`
+	TCGPlayer   string `json:"tcgplayer"`
+	CardMarket  string `json:"cardmarket"`
+	CardHoarder string `json:"cardhoarder"`
 }
 
 // CardListResponse represents a requested sequence of card
