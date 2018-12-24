@@ -132,7 +132,8 @@ const (
 	// FrameEffectColorShifted is the colorshifted frame effect.
 	FrameEffectColorShifted FrameEffect = "colorshifted"
 
-	// EffectSunMoonDFC is the sun and moon transform marks frame effect.
+	// FrameEffectSunMoonDFC is the sun and moon transform marks frame
+	// effect.
 	FrameEffectSunMoonDFC FrameEffect = "sunmoondfc"
 
 	// FrameEffectCompassLandDFC is the compass and land transform marks
