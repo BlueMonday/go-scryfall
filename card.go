@@ -105,6 +105,49 @@ const (
 	FrameFuture Frame = "future"
 )
 
+// FrameEffect tracks additional frame artwork applied over a particular
+// frame. For example, there are both 2003 and 2015-frame cards with the
+// Nyx-touched effect.
+type FrameEffect string
+
+const (
+	// FrameEffectLegendary is the legendary crown introduced in Dominaria.
+	FrameEffectLegendary FrameEffect = "legendary"
+
+	// FrameEffectMiracle is the miracle frame effect.
+	FrameEffectMiracle FrameEffect = "miracle"
+
+	// FrameEffectNyxTouched is the Nyx-touched frame effect.
+	FrameEffectNyxTouched FrameEffect = "nyxtouched"
+
+	// FrameEffectDraft is the draft-matters frame effect.
+	FrameEffectDraft FrameEffect = "draft"
+
+	// FrameEffectDevoid is the Devoid frame effect.
+	FrameEffectDevoid FrameEffect = "devoid"
+
+	// FrameEffectTombstone is the Odyssey tombstone mark frame effect.
+	FrameEffectTombstone FrameEffect = "tombstone"
+
+	// FrameEffectColorShifted is the colorshifted frame effect.
+	FrameEffectColorShifted FrameEffect = "colorshifted"
+
+	// EffectSunMoonDFC is the sun and moon transform marks frame effect.
+	FrameEffectSunMoonDFC FrameEffect = "sunmoondfc"
+
+	// FrameEffectCompassLandDFC is the compass and land transform marks
+	// frame effect.
+	FrameEffectCompassLandDFC FrameEffect = "compasslanddfc"
+
+	// FrameEffectOriginPWDFC is the Origins and planeswalker transform
+	// marks frame effect.
+	FrameEffectOriginPWDFC FrameEffect = "originpwdfc"
+
+	// FrameEffectMoonEldraziDFC is the moon and Eldrazi transform marks
+	// frame effect.
+	FrameEffectMoonEldraziDFC FrameEffect = "mooneldrazidfc"
+)
+
 // Card represents individual Magic: The Gathering cards that players could
 // obtain and add to their collection (with a few minor exceptions).
 type Card struct {
@@ -271,6 +314,9 @@ type Card struct {
 
 	// Frame is this card’s frame layout.
 	Frame Frame `json:"frame"`
+
+	// FrameEffect is this card's frame effect, if any.
+	FrameEffect FrameEffect `json:"frame_effect"`
 
 	// FullArt is true if this card’s artwork is larger than normal.
 	FullArt bool `json:"full_art"`
