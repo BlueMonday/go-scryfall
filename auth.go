@@ -155,8 +155,8 @@ type OAuthRevokeResponse struct {
 }
 
 // OAuthRevoke revokes the OAuth grant identified by the provided grantID. The
-// entire grant is immediately invalidated, no futher requests may be made using
-// its grant ID or grant secret. A minimal revoked version of the grant is
+// entire grant is immediately invalidated, no further requests may be made
+// using its grant ID or grant secret. A minimal revoked version of the grant is
 // returned as confirmation.
 //
 // The user must perform the full OAuth flow to establish a new grant with your
