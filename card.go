@@ -8,6 +8,62 @@ import (
 	qs "github.com/google/go-querystring/query"
 )
 
+// Lang is an ISO-like language code.
+type Lang string
+
+const (
+	// LangEnglish is the English language code.
+	LangEnglish Lang = "en"
+
+	// LangSpanish is the Spanish language code.
+	LangSpanish Lang = "es"
+
+	// LangFrench is the French language code.
+	LangFrench Lang = "fr"
+
+	// LangGerman is the German language code.
+	LangGerman Lang = "de"
+
+	// LangItalian is the Italian language code.
+	LangItalian Lang = "it"
+
+	// LangPortuguese is the Portuguese language code.
+	LangPortuguese Lang = "pt"
+
+	// LangJapanese is the Japanese language code.
+	LangJapanese Lang = "ja"
+
+	// LangKorean is the Korean language code.
+	LangKorean Lang = "ko"
+
+	// LangRussian is the Russian language code.
+	LangRussian Lang = "ru"
+
+	// LangSimplifiedChinese is the simplified Chinese language code.
+	LangSimplifiedChinese Lang = "zhs"
+
+	// LangTraditionalChinese is the traditional Chinese language code.
+	LangTraditionalChinese Lang = "zht"
+
+	// LangHebrew is the Hebrew language code.
+	LangHebrew Lang = "he"
+
+	// LangLatin is the Latin language code.
+	LangLatin Lang = "la"
+
+	// LangAncientGreek is the ancient Greek language code.
+	LangAncientGreek Lang = "grc"
+
+	// LangArabic is the Arabic language code.
+	LangArabic Lang = "ar"
+
+	// LangSanskrit is the Sanskrit language code.
+	LangSanskrit Lang = "sa"
+
+	// LangPhyrexian is the Phyrexian language code.
+	LangPhyrexian Lang = "px"
+)
+
 // Layout categorizes the arrangement of card parts, faces, and other bounded
 // regions on cards. The layout can be used to programmatically determine which
 // other properties on a card you can expect.
@@ -160,7 +216,7 @@ type Card struct {
 	ID string `json:"id"`
 
 	// Lang is the language code for this printing.
-	Lang string `json:"lang"`
+	Lang Lang `json:"lang"`
 
 	// OracleID is a unique ID for this card’s oracle identity. This value
 	// is consistent across reprinted card editions, and unique among
@@ -735,6 +791,13 @@ func (c *Client) GetRandomCard(ctx context.Context) (Card, error) {
 // set code and collector number.
 func (c *Client) GetCardBySetCodeAndCollectorNumber(ctx context.Context, setCode string, collectorNumber string) (Card, error) {
 	cardURL := fmt.Sprintf("cards/%s/%s", setCode, collectorNumber)
+	return c.getCard(ctx, cardURL)
+}
+
+// GetCardBySetCodeAndCollectorNumberInLang returns a single card with the given
+// set code and collector number in the provided language.
+func (c *Client) GetCardBySetCodeAndCollectorNumberInLang(ctx context.Context, setCode string, collectorNumber string, lang Lang) (Card, error) {
+	cardURL := fmt.Sprintf("cards/%s/%s/%s", setCode, collectorNumber, lang)
 	return c.getCard(ctx, cardURL)
 }
 
