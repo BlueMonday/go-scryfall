@@ -1,10 +1,12 @@
 package scryfall
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -191,17 +193,7 @@ func NewClient(options ...ClientOption) (*Client, error) {
 	return c, nil
 }
 
-func (c *Client) get(ctx context.Context, relativeURL string, v interface{}) error {
-	absoluteURL, err := c.baseURL.Parse(relativeURL)
-	if err != nil {
-		return err
-	}
-
-	req, err := http.NewRequest("GET", absoluteURL.String(), nil)
-	if err != nil {
-		return err
-	}
-
+func (c *Client) doReq(ctx context.Context, req *http.Request, respBody interface{}) error {
 	req.Header.Set("User-Agent", userAgent)
 	if len(c.authorization) != 0 {
 		req.Header.Set("Authorization", c.authorization)
@@ -225,7 +217,44 @@ func (c *Client) get(ctx context.Context, relativeURL string, v interface{}) err
 		return scryfallErr
 	}
 
-	return decoder.Decode(v)
+	return decoder.Decode(respBody)
+}
+
+func (c *Client) get(ctx context.Context, relativeURL string, respBody interface{}) error {
+	absoluteURL, err := c.baseURL.Parse(relativeURL)
+	if err != nil {
+		return err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, absoluteURL.String(), nil)
+	if err != nil {
+		return err
+	}
+
+	return c.doReq(ctx, req, respBody)
+}
+
+func (c *Client) post(ctx context.Context, relativeURL string, reqBody interface{}, respBody interface{}) error {
+	absoluteURL, err := c.baseURL.Parse(relativeURL)
+	if err != nil {
+		return err
+	}
+
+	var body io.Reader
+	if reqBody != nil {
+		b, err := json.Marshal(reqBody)
+		if err != nil {
+			return err
+		}
+		body = bytes.NewBuffer(b)
+	}
+
+	req, err := http.NewRequest(http.MethodPost, absoluteURL.String(), body)
+	if err != nil {
+		return err
+	}
+
+	return c.doReq(ctx, req, respBody)
 }
 
 // listResponse represents a requested sequence of other objects (Cards, Sets,
