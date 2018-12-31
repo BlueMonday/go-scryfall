@@ -98,7 +98,7 @@ func TestTimestampUnmarshalJSON(t *testing.T) {
 			timestamp := Timestamp{}
 			err := timestamp.UnmarshalJSON(test.in)
 			if err != nil {
-				t.Fatalf("Unexpected error while unmarshaling JSON date representation: %v", err)
+				t.Fatalf("Unexpected error while unmarshaling timestamp: %v", err)
 			}
 
 			if !timestamp.Time.Equal(test.out.Time) {
