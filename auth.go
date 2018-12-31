@@ -34,6 +34,15 @@ type Account struct {
 	Verified     bool   `json:"verified"`
 }
 
+// Application represents a Scryfall application.
+type Application struct {
+	ClientID     string `json:"client_id"`
+	Name         string `json:"name"`
+	HomepageURI  string `json:"homepage_uri"`
+	ContactURI   string `json:"contact_uri"`
+	ContactEmail string `json:"contact_email"`
+}
+
 // OAuthGrant is an OAuth grant.
 type OAuthGrant struct {
 	GrantID     string     `json:"grant_id"`
@@ -44,6 +53,35 @@ type OAuthGrant struct {
 	Account     Account    `json:"account"`
 }
 
+// GetAccount returns an object describing the currently authenticated Scryfall
+// account.
+//
+// Requires an OAuth grant with OAuthScopeRead or higher.
+func (c *Client) GetAccount(ctx context.Context) (Account, error) {
+	account := Account{}
+	err := c.get(ctx, "account", &account)
+	if err != nil {
+		return Account{}, err
+	}
+
+	return account, nil
+}
+
+// GetApplication returns an object describing the currently authenticated
+// application.
+//
+// Requires application authentication.
+func (c *Client) GetApplication(ctx context.Context) (Application, error) {
+	application := Application{}
+	err := c.get(ctx, "application", &application)
+	if err != nil {
+		return Application{}, err
+	}
+
+	return application, nil
+}
+
+// OAuthConvertRequest is an OAuth convert request.
 type OAuthConvertRequest struct {
 	Code string `json:"code"`
 }
@@ -58,6 +96,8 @@ type OAuthConvertRequest struct {
 // Ensure that you save both the GrantID and the GrantSecret you receive, as
 // well as recording any other data in the object that your application needs to
 // run, such as the information inside the account object.
+//
+// Requires application authentication.
 func (c *Client) OAuthConvert(ctx context.Context, code string) (OAuthGrant, error) {
 	oAuthConvertRequest := OAuthConvertRequest{
 		Code: code,
@@ -71,6 +111,7 @@ func (c *Client) OAuthConvert(ctx context.Context, code string) (OAuthGrant, err
 	return oAuthGrant, nil
 }
 
+// OAuthDowngradeRequest is an OAuth downgrade request.
 type OAuthDowngradeRequest struct {
 	GrantID string `json:"grant_id"`
 }
@@ -86,6 +127,8 @@ type OAuthDowngradeRequest struct {
 //
 // This method is designed to allow your application to proactively relinquish
 // rights to a user’s account if you no longer need OAuthScopeReadWrite scope.
+//
+// Requires application authentication.
 func (c *Client) OAuthDowngrade(ctx context.Context, grantID string) (OAuthGrant, error) {
 	oAuthDowngradeRequest := OAuthDowngradeRequest{
 		GrantID: grantID,
@@ -99,10 +142,12 @@ func (c *Client) OAuthDowngrade(ctx context.Context, grantID string) (OAuthGrant
 	return oAuthGrant, nil
 }
 
+// OAuthRevokeRequest is an OAuth revoke request.
 type OAuthRevokeRequest struct {
 	GrantID string `json:"grant_id"`
 }
 
+// OAuthRevokeResponse is an OAuth revoke response.
 type OAuthRevokeResponse struct {
 	GrantID   string    `json:"grant_id"`
 	CreatedAt Timestamp `json:"created_at"`
@@ -119,6 +164,8 @@ type OAuthRevokeResponse struct {
 //
 // This method is designed to allow your application to proactively disconnect
 // from this user’s Scryfall account from your side.
+//
+// Requires application authentication.
 func (c *Client) OAuthRevoke(ctx context.Context, grantID string) (OAuthRevokeResponse, error) {
 	oAuthRevokeRequest := OAuthRevokeRequest{
 		GrantID: grantID,
