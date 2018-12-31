@@ -35,7 +35,7 @@ func setupTestServer(pattern string, handler func(http.ResponseWriter, *http.Req
 }
 
 func TestDateUnmarshalJSON(t *testing.T) {
-	loc, err := time.LoadLocation("Etc/GMT-8")
+	loc, err := time.LoadLocation("Etc/GMT+8")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -50,7 +50,7 @@ func TestDateUnmarshalJSON(t *testing.T) {
 		},
 		{
 			[]byte("2018-04-27"),
-			Date{Time: time.Date(2018, 04, 27, 0, 0, 0, 0, loc)},
+			Date{Time: time.Date(2018, 4, 27, 0, 0, 0, 0, loc)},
 		},
 	}
 
@@ -62,8 +62,47 @@ func TestDateUnmarshalJSON(t *testing.T) {
 				t.Fatalf("Unexpected error while unmarshaling JSON date representation: %v", err)
 			}
 
-			if !reflect.DeepEqual(date, test.out) {
+			if !date.Time.Equal(test.out.Time) {
 				t.Errorf("got: %s want: %s", date, test.out)
+			}
+		})
+	}
+}
+
+func TestTimestampUnmarshalJSON(t *testing.T) {
+	loc, err := time.LoadLocation("Etc/GMT+5")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	tests := []struct {
+		in  []byte
+		out Timestamp
+	}{
+		{
+			[]byte("null"),
+			Timestamp{Time: time.Time{}},
+		},
+		{
+			[]byte("2018-12-01T14:31:43-05:00"),
+			Timestamp{Time: time.Date(2018, 12, 1, 14, 31, 43, 0, loc)},
+		},
+		{
+			[]byte("2018-12-31T09:05:07.949+00:00"),
+			Timestamp{Time: time.Date(2018, 12, 31, 9, 5, 7, 949000000, time.UTC)},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(string(test.in), func(t *testing.T) {
+			timestamp := Timestamp{}
+			err := timestamp.UnmarshalJSON(test.in)
+			if err != nil {
+				t.Fatalf("Unexpected error while unmarshaling JSON date representation: %v", err)
+			}
+
+			if !timestamp.Time.Equal(test.out.Time) {
+				t.Errorf("got: %s want: %s", timestamp, test.out)
 			}
 		})
 	}

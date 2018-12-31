@@ -25,7 +25,7 @@ func TestGetRulingsByMultiverseID(t *testing.T) {
 		t.Fatalf("Error getting rulings: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT-8")
+	loc, err := time.LoadLocation("Etc/GMT+8")
 	if err != nil {
 		t.Fatalf("Error loading location: %v", err)
 	}
@@ -58,7 +58,7 @@ func TestGetRulingsByMTGOID(t *testing.T) {
 		t.Fatalf("Error getting rulings: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT-8")
+	loc, err := time.LoadLocation("Etc/GMT+8")
 	if err != nil {
 		t.Fatalf("Error loading location: %v", err)
 	}
@@ -116,7 +116,7 @@ func TestGetRulingsBySetCodeAndCollectorNumber(t *testing.T) {
 		t.Fatalf("Error getting rulings: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT-8")
+	loc, err := time.LoadLocation("Etc/GMT+8")
 	if err != nil {
 		t.Fatalf("Error loading location: %v", err)
 	}
@@ -159,7 +159,7 @@ func TestGetRulings(t *testing.T) {
 		t.Fatalf("Error getting rulings: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT-8")
+	loc, err := time.LoadLocation("Etc/GMT+8")
 	if err != nil {
 		t.Fatalf("Error loading location: %v", err)
 	}

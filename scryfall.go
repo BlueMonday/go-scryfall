@@ -19,7 +19,7 @@ const (
 	userAgent      = "go-scryfall"
 
 	dateFormat      = "2006-01-02"
-	timestampFormat = "2006-01-02T15:04:05.999-07:00"
+	timestampFormat = "2006-01-02T15:04:05.999Z07:00"
 )
 
 // ErrMultipleSecrets is returned if both the grant and client secret are set
@@ -58,9 +58,12 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 		return nil
 	}
 
-	// This assumes that dates use the same the timezone as Wizards of the
-	// Coast's offices in Washington.
-	loc, err := time.LoadLocation("Etc/GMT-8")
+	// This assumes that all Scryfall dates use the same the timezone as
+	// Wizards of the Coast's offices in Washington.
+	//
+	// Note: GMT+8 actually corresponds to GMT-8 in the timezone
+	//       database...
+	loc, err := time.LoadLocation("Etc/GMT+8")
 	if err != nil {
 		return err
 	}
@@ -85,7 +88,7 @@ func (t *Timestamp) UnmarshalJSON(b []byte) error {
 		return nil
 	}
 
-	parsedTime, err := time.ParseInLocation(timestampFormat, s, time.UTC)
+	parsedTime, err := time.Parse(timestampFormat, s)
 	if err != nil {
 		return err
 	}

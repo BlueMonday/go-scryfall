@@ -25,7 +25,7 @@ func TestListSets(t *testing.T) {
 		t.Fatalf("Error listing sets: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT-8")
+	loc, err := time.LoadLocation("Etc/GMT+8")
 	if err != nil {
 		t.Fatalf("Error loading location: %v", err)
 	}
@@ -97,7 +97,7 @@ func TestGetSet(t *testing.T) {
 		t.Fatalf("Error getting set: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT-8")
+	loc, err := time.LoadLocation("Etc/GMT+8")
 	if err != nil {
 		t.Fatalf("Error loading location: %v", err)
 	}
