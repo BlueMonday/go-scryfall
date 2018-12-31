@@ -253,6 +253,7 @@ func (c *Client) post(ctx context.Context, relativeURL string, reqBody interface
 	if err != nil {
 		return err
 	}
+	req.Header.Set("Content-Type", "application/json")
 
 	return c.doReq(ctx, req, respBody)
 }
