@@ -391,15 +391,6 @@ type Card struct {
 	// StorySpotlightURI is a URL to this cards’s story article, if any.
 	StorySpotlightURI *string `json:"story_spotlight_uri"`
 
-	// Timeshifted is true if this card is timeshifted.
-	Timeshifted bool `json:"timeshifted"`
-
-	// Colorshifted is true if this card is colorshifted.
-	Colorshifted bool `json:"colorshifted"`
-
-	// Futureshifted is true if this card is from the future.
-	Futureshifted bool `json:"futureshifted"`
-
 	// USD is the price of the card in US dollars.
 	USD string `json:"usd"`
 
