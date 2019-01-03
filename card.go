@@ -787,6 +787,75 @@ func (c *Client) GetRandomCard(ctx context.Context) (Card, error) {
 	return c.getCard(ctx, "cards/random")
 }
 
+// CardIdentifier identifies a card.
+//
+// The following combinations are valid identifier schemas:
+// 	* ID
+// 	* MTGOID
+// 	* MultiverseID
+// 	* Name
+// 	* Name and Set
+// 	* Set and CollectorNumber
+type CardIdentifier struct {
+	// Name identifies a card with the specified Scryfall ID.
+	ID string `json:"id,omitempty"`
+
+	// MTGOID identifies a card with the specified MTGO ID or MTGO foil ID.
+	MTGOID int `json:"mtgo_id,omitempty"`
+
+	// MultiverseID identifies a card with the specified value among its
+	// multiverse IDs.
+	MultiverseID int `json:"multiverse_id,omitempty"`
+
+	// Name identifies the newest edition of a card with the specified
+	// name.
+	Name string `json:"name,omitempty"`
+
+	// Set identifies a card with the specified set.
+	Set string `json:"set,omitempty"`
+
+	// CollectorNumber identifies a card with the specified collector
+	// number.
+	CollectorNumber string `json:"collector_number,omitempty"`
+}
+
+// GetCardsByIdentifiersRequest represents a request to get cards which
+// correspond to the provided card identifiers.
+type GetCardsByIdentifiersRequest struct {
+	Identifiers []CardIdentifier `json:"identifiers"`
+}
+
+// GetCardsByIdentifiersResponse represents the list of cards retrieved using a
+// list of card identifiers.
+type GetCardsByIdentifiersResponse struct {
+	// NotFound contains the list of card identifiers which did not
+	// correspond to any card.
+	NotFound []CardIdentifier `json:"not_found"`
+
+	// Data is the list of cards retrieved using the provided card
+	// identifiers. The cards are in the order they were requested, cards that
+	// aren't found will throw off the mapping of request identifiers to
+	// results, so you should not rely on positional index alone while parsing
+	// the data.
+	Data []Card `json:"data"`
+}
+
+// GetCardsByIdentifiers accepts a list of card identifiers and returns the
+// collection of requested cards. A maximum of 75 card references may be submitted
+// per request.
+func (c *Client) GetCardsByIdentifiers(ctx context.Context, identifiers []CardIdentifier) (GetCardsByIdentifiersResponse, error) {
+	getCardsByIdentifiersRequest := GetCardsByIdentifiersRequest{
+		Identifiers: identifiers,
+	}
+	getCardsByIdentifiersResponse := GetCardsByIdentifiersResponse{}
+	err := c.post(ctx, "cards/collection", &getCardsByIdentifiersRequest, &getCardsByIdentifiersResponse)
+	if err != nil {
+		return GetCardsByIdentifiersResponse{}, err
+	}
+
+	return getCardsByIdentifiersResponse, nil
+}
+
 // GetCardBySetCodeAndCollectorNumber returns a single card with the given
 // set code and collector number.
 func (c *Client) GetCardBySetCodeAndCollectorNumber(ctx context.Context, setCode string, collectorNumber string) (Card, error) {
