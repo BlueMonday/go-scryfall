@@ -255,6 +255,11 @@ type Card struct {
 	// field will contain both names separated by ␣//␣.
 	Name string `json:"name"`
 
+	// PrintedName is the printed name of this card.
+	// This will only be set if the card is not in English.
+	// If this card has multiple faces, this field will not be set.
+	PrintedName *string `json:"printed_name"`
+
 	// Layout is a computer-readable designation for this card’s
 	// layout. See the layout article.
 	Layout Layout `json:"layout"`
@@ -266,8 +271,16 @@ type Card struct {
 	// TypeLine is the type line of this card.
 	TypeLine string `json:"type_line"`
 
+	// PrintedTypeLine is the type line of this card, as writted on the card.
+	// This will only be set if the card is not in English.
+	PrintedTypeLine *string `json:"printed_type_line"`
+
 	// OracleText is the Oracle text for this card, if any.
 	OracleText string `json:"oracle_text"`
+
+	// PrintedText is the printed text for this card, if any.
+	// This will only be set if the card is not in English.
+	PrintedText *string `json:"printed_text"`
 
 	// ManaCost is the mana cost for this card. This value will be any
 	// empty string "" if the cost is absent. Remember that per the game
@@ -426,11 +439,23 @@ type CardFace struct {
 	// Name is the name of this particular face.
 	Name string `json:"name"`
 
+	// PrintedName is the printed name of this particular face.
+	// This will only be set if the card is not in English.
+	PrintedName *string `json:"printed_name"`
+
 	// TypeLine is the type line of this particular face.
 	TypeLine string `json:"type_line"`
 
+	// PrintedTypeLine is the printed type line of this particular face.
+	// This will only be set if the card is not in English.
+	PrintedTypeLine *string `json:"printed_type_line"`
+
 	// OracleText is the Oracle text for this face, if any.
 	OracleText *string `json:"oracle_text"`
+
+	// PrintedText is the printed text for this face, if any.
+	// This will only be set if the card is not in English.
+	PrintedText *string `json:"printed_text"`
 
 	// ManaCost is the mana cost for this face. This value will be any
 	// empty string "" if the cost is absent. Remember that per the game
