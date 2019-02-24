@@ -205,6 +205,20 @@ const (
 	FrameEffectMoonEldraziDFC FrameEffect = "mooneldrazidfc"
 )
 
+// Component is a field explaining what role a card plays in a relationship.
+type Component string
+
+const (
+	// ComponentToken represents a token related to a card.
+	ComponentToken Component = "token"
+	// ComponentMeldPart represents one of the parts of a meld.
+	ComponentMeldPart Component = "meld_part"
+	// ComponentMeldResult represents the result of a meld.
+	ComponentMeldResult Component = "meld_result"
+	// ComponentComboPiece represents a combo piece related to a card.
+	ComponentComboPiece Component = "combo_piece"
+)
+
 // Card represents individual Magic: The Gathering cards that players could
 // obtain and add to their collection (with a few minor exceptions).
 type Card struct {
@@ -426,8 +440,15 @@ type RelatedCard struct {
 	// ID is a unique ID for this card in Scryfall’s database.
 	ID string `json:"id"`
 
+	// Component is a field explaining what role this card plays in the
+	// relationship.
+	Component Component `json:"component"`
+
 	// Name is the name of this particular related card.
 	Name string `json:"name"`
+
+	// TypeLine is the type line of this particular related card.
+	TypeLine string `json:"type_line"`
 
 	// URI is a URI where you can retrieve a full object describing this
 	// card on Scryfall’s API.
