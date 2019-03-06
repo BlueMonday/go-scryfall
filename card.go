@@ -344,6 +344,18 @@ type Card struct {
 	// Reserved is true if this card is on the Reserved List.
 	Reserved bool `json:"reserved"`
 
+	// Foil is true if this printing exists in a foil version.
+	Foil bool `json:"foil"`
+
+	// NonFoil is true if this printing exists in a nonfoil version.
+	NonFoil bool `json:"nonfoil"`
+
+	// Oversized is true if this card is oversized.
+	Oversized bool `json:"oversized"`
+
+	// Promo is true if this card is a promotional print.
+	Promo bool `json:"promo"`
+
 	// EDHRECRank is this card’s overall rank/popularity on EDHREC. Not all
 	// cards are ranked.
 	EDHRECRank *int `json:"edhrec_rank"`
