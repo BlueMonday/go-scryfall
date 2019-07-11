@@ -383,6 +383,10 @@ type Card struct {
 	// ImageURIs is an object listing available imagery for this card.
 	ImageURIs *ImageURIs `json:"image_uris"`
 
+	// Prices contains daily price information for this card, including
+	// usd, usd_foil, eur, and tix prices.
+	Prices Prices `json:"prices"`
+
 	// HighresImage is true if this card’s imagery is high resolution.
 	HighresImage bool `json:"highres_image"`
 
@@ -429,15 +433,6 @@ type Card struct {
 
 	// StorySpotlightURI is a URL to this cards’s story article, if any.
 	StorySpotlightURI *string `json:"story_spotlight_uri"`
-
-	// USD is the price of the card in US dollars.
-	USD string `json:"usd"`
-
-	// Tix is the price of the card in MTGO event tickets.
-	Tix string `json:"tix"`
-
-	// EUR is the price of the card in Euros.
-	EUR string `json:"eur"`
 
 	// RelatedURIs contains links related to a card.
 	RelatedURIs RelatedURIs `json:"related_uris"`
@@ -551,6 +546,22 @@ type ImageURIs struct {
 	// majority of the border cropped off. Designed for dated contexts where
 	// rounded images can’t be used.
 	BorderCrop string `json:"border_crop"`
+}
+
+// Prices contains daily price information for this card, including usd,
+// usd_foil, eur, and tix prices.
+type Prices struct {
+	// USD is the price of the card in US dollars.
+	USD string `json:"usd"`
+
+	// USD is the price of the foil card in US dollars.
+	USDFoil string `json:"usd_foil"`
+
+	// EUR is the price of the card in Euros.
+	EUR string `json:"eur"`
+
+	// Tix is the price of the card in MTGO event tickets.
+	Tix string `json:"tix"`
 }
 
 // Legalities describes the legality of a card across formats.
