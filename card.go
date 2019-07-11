@@ -566,17 +566,16 @@ type Prices struct {
 
 // Legalities describes the legality of a card across formats.
 type Legalities struct {
-	Standard     Legality `json:"standard"`
-	Frontier     Legality `json:"frontier"`
-	Modern       Legality `json:"modern"`
-	Pauper       Legality `json:"pauper"`
-	Legacy       Legality `json:"legacy"`
-	Penny        Legality `json:"penny"`
-	Vintage      Legality `json:"vintage"`
-	Duel         Legality `json:"duel"`
-	Commander    Legality `json:"commander"`
-	OneVersusOne Legality `json:"1v1"`
-	Future       Legality `json:"future"`
+	Standard  Legality `json:"standard"`
+	Frontier  Legality `json:"frontier"`
+	Modern    Legality `json:"modern"`
+	Pauper    Legality `json:"pauper"`
+	Legacy    Legality `json:"legacy"`
+	Penny     Legality `json:"penny"`
+	Vintage   Legality `json:"vintage"`
+	Duel      Legality `json:"duel"`
+	Commander Legality `json:"commander"`
+	Future    Legality `json:"future"`
 }
 
 // RelatedURIs contains links related to a card.
