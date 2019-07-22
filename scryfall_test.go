@@ -210,7 +210,7 @@ func TestDoReqRateLimit(t *testing.T) {
 
 	start := time.Now()
 	for i := 0; i < 10; i++ {
-		_, err := client.GetCardByMTGOID(ctx, 54957)
+		_, err := client.GetCardByMTGOID(ctx, 18969)
 		if err != nil {
 			t.Fatal(err)
 		}
