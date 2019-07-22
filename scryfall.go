@@ -20,6 +20,10 @@ const (
 
 	dateFormat      = "2006-01-02"
 	timestampFormat = "2006-01-02T15:04:05.999Z07:00"
+
+	// rateLimit is specified by Scryfall here:
+	// https://scryfall.com/docs/api#rate-limits-and-good-citizenship
+	rateLimit = time.Duration(100) * time.Millisecond
 )
 
 // ErrMultipleSecrets is returned if both the grant and client secret are set
@@ -155,6 +159,7 @@ func WithHTTPClient(client *http.Client) ClientOption {
 type Client struct {
 	baseURL       *url.URL
 	authorization string
+	lastRequestTime time.Time
 
 	client *http.Client
 }
@@ -203,11 +208,17 @@ func (c *Client) doReq(ctx context.Context, req *http.Request, respBody interfac
 	}
 
 	reqWithContext := req.WithContext(ctx)
+
+	if time.Since(c.lastRequestTime) < rateLimit {
+		time.Sleep(rateLimit - time.Since(c.lastRequestTime))
+	}
 	resp, err := c.client.Do(reqWithContext)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
+
+	c.lastRequestTime = time.Now()
 
 	decoder := json.NewDecoder(resp.Body)
 	if resp.StatusCode != http.StatusOK {

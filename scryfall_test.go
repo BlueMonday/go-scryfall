@@ -200,3 +200,23 @@ func TestNewClientMultipleSecrets(t *testing.T) {
 		t.Fatalf("Unexpected error %v received from NewClient when configured with multiple secrets", err)
 	}
 }
+
+func TestDoReqRateLimit(t *testing.T) {
+	ctx := context.Background()
+	client, err := NewClient()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	start := time.Now()
+	for i := 0; i < 10; i++ {
+		_, err := client.GetCardByMTGOID(ctx, 54957)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+	elapsed := time.Since(start)
+	if elapsed < time.Duration(1)*time.Second {
+		t.Errorf("Expected 10 requests to take at least 1 second (due to intentional rate limit); took: %s", elapsed)
+	}
+}
