@@ -567,7 +567,6 @@ type Prices struct {
 // Legalities describes the legality of a card across formats.
 type Legalities struct {
 	Standard  Legality `json:"standard"`
-	Frontier  Legality `json:"frontier"`
 	Modern    Legality `json:"modern"`
 	Pauper    Legality `json:"pauper"`
 	Legacy    Legality `json:"legacy"`
@@ -746,9 +745,9 @@ type SearchCardsOptions struct {
 	// IncludeExtras determines whether extra cards (tokens, planes, etc.)
 	// should be included.
 	IncludeExtras bool `url:"include_extras,omitempty"`
-	
-	// IncludeMultilingual determines whether non-english cards should be included
-	// and the default is false
+
+	// IncludeMultilingual determines whether cards in every language
+	// supported by Scryfall will be included. Defaults to false.
 	IncludeMultilingual bool `url:"include_multilingual,omitempty"`
 
 	// Page is the page number to return. Page numbers start at 1 and the
