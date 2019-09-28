@@ -746,6 +746,10 @@ type SearchCardsOptions struct {
 	// IncludeExtras determines whether extra cards (tokens, planes, etc.)
 	// should be included.
 	IncludeExtras bool `url:"include_extras,omitempty"`
+	
+	// IncludeMultilingual determines whether non-english cards should be included
+	// and the default is false
+	IncludeMultilingual bool `url:"include_multilingual,omitempty"`
 
 	// Page is the page number to return. Page numbers start at 1 and the
 	// default is 1.
