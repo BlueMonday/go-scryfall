@@ -750,6 +750,10 @@ type SearchCardsOptions struct {
 	// supported by Scryfall will be included. Defaults to false.
 	IncludeMultilingual bool `url:"include_multilingual,omitempty"`
 
+	// IncludeVariations determines whether rare care variants will be
+	// included, like the Hairy Runesword. Defaults to false.
+	IncludeVariations bool `url:"include_variations,omitempty"`
+
 	// Page is the page number to return. Page numbers start at 1 and the
 	// default is 1.
 	Page int `url:"page,omitempty"`
