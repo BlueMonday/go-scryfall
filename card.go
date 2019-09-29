@@ -205,6 +205,17 @@ const (
 	FrameEffectMoonEldraziDFC FrameEffect = "mooneldrazidfc"
 )
 
+type Preview struct {
+	// PreviewedAt is the date this card was previewed.
+	PreviewedAt Date `json:"previewed_at"`
+
+	// SourceURI is a link to the preview for this card.
+	SourceURI string `json:"source_uri"`
+
+	// Source is the name of the source that previewed this card.
+	Source string `json:"source"`
+}
+
 // Component is a field explaining what role a card plays in a relationship.
 type Component string
 
@@ -423,6 +434,9 @@ type Card struct {
 
 	// Watermark is this card’s watermark, if any.
 	Watermark *string `json:"watermark"`
+
+	// Preview contains information about who previewed/spoiled this card.
+	Preview Preview `json:"preview"`
 
 	// BorderColor is this card’s border color: black, borderless, gold,
 	// silver, or white.
