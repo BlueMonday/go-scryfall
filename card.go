@@ -426,8 +426,8 @@ type Card struct {
 	// Frame is this card’s frame layout.
 	Frame Frame `json:"frame"`
 
-	// FrameEffect is this card's frame effect, if any.
-	FrameEffect FrameEffect `json:"frame_effect"`
+	// FrameEffects is this card's frame effects, if any.
+	FrameEffects []FrameEffect `json:"frame_effects"`
 
 	// FullArt is true if this card’s artwork is larger than normal.
 	FullArt bool `json:"full_art"`
