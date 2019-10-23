@@ -63,10 +63,11 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 	//
 	// Note: GMT+8 actually corresponds to GMT-8 in the timezone
 	//       database...
-	loc, err := time.LoadLocation("Etc/GMT+8")
-	if err != nil {
-		return err
-	}
+	// loc, err := time.LoadLocation("Etc/GMT+8")
+	// if err != nil {
+	// 	return err
+	// }
+	loc := time.FixedZone("UTC+8", 8*60*60)
 
 	parsedTime, err := time.ParseInLocation(dateFormat, s, loc)
 	if err != nil {
