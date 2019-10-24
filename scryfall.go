@@ -60,16 +60,8 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 
 	// This assumes that all Scryfall dates use the same the timezone as
 	// Wizards of the Coast's offices in Washington.
-	//
-	// Note: GMT+8 actually corresponds to GMT-8 in the timezone
-	//       database...
-	// loc, err := time.LoadLocation("Etc/GMT+8")
-	// if err != nil {
-	// 	return err
-	// }
-	loc := time.FixedZone("UTC+8", 8*60*60)
 
-	parsedTime, err := time.ParseInLocation(dateFormat, s, loc)
+	parsedTime, err := time.ParseInLocation(dateFormat, s, time.FixedZone("UTC-4", -4*60*60))
 	if err != nil {
 		return err
 	}
