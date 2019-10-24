@@ -25,15 +25,10 @@ func TestGetRulingsByMultiverseID(t *testing.T) {
 		t.Fatalf("Error getting rulings: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT+8")
-	if err != nil {
-		t.Fatalf("Error loading location: %v", err)
-	}
-
 	want := []Ruling{
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2004, 10, 04, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2004, 10, 04, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "The ability is a mana ability, so it is activated and resolves as a mana ability, but it can only be activated at times when you can cast an instant. Yes, this is a bit weird.",
 		},
 	}
@@ -58,40 +53,35 @@ func TestGetRulingsByMTGOID(t *testing.T) {
 		t.Fatalf("Error getting rulings: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT+8")
-	if err != nil {
-		t.Fatalf("Error loading location: %v", err)
-	}
-
 	want := []Ruling{
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "You choose the mode as the triggered ability goes on the stack. You can choose a mode that requires targets only if there are legal targets available.",
 		},
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "If the ability is countered (either for having its target become illegal or because a spell or ability counters it), the mode chosen for that instance of the ability still counts as being chosen.",
 		},
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "The phrase “that hasn’t been chosen” refers only to that specific Demonic Pact. If you control one and cast another one, you can choose any mode for the second one the first time its ability triggers.",
 		},
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "It doesn’t matter who has chosen any particular mode. For example, say you control Demonic Pact and have chosen the first two modes. If an opponent gains control of Demonic Pact, that player can choose only the third or fourth mode.",
 		},
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "In some very unusual situations, you may not be able to choose a mode, either because all modes have previously been chosen or the only remaining modes require targets and there are no legal targets available. In this case, the ability is simply removed from the stack with no effect.",
 		},
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2015, 06, 22, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "Yes, if the fourth mode is the only one remaining, you must choose it. You read the whole contract, right?",
 		},
 	}
@@ -116,25 +106,20 @@ func TestGetRulingsBySetCodeAndCollectorNumber(t *testing.T) {
 		t.Fatalf("Error getting rulings: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT+8")
-	if err != nil {
-		t.Fatalf("Error loading location: %v", err)
-	}
-
 	want := []Ruling{
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2017, 11, 17, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2017, 11, 17, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "Mana Drain can target a spell that can’t be countered. When Mana Drain resolves, that spell won’t be countered, but you’ll still add mana to your mana pool at the beginning of your next main phase.",
 		},
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2017, 11, 17, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2017, 11, 17, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "If the target spell is an illegal target when Mana Drain tries to resolve, it will be countered and none of its effects will happen. You won’t get any mana.",
 		},
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2017, 11, 17, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2017, 11, 17, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "Mana Drain’s delayed triggered ability will usually trigger at the beginning of your precombat main phase. However, if you cast Mana Drain during your precombat main phase or during your combat phase, its delayed triggered ability will trigger at the beginning of that turn’s postcombat main phase.",
 		},
 	}
@@ -159,20 +144,15 @@ func TestGetRulings(t *testing.T) {
 		t.Fatalf("Error getting rulings: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT+8")
-	if err != nil {
-		t.Fatalf("Error loading location: %v", err)
-	}
-
 	want := []Ruling{
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2004, 10, 4, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2004, 10, 4, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "It must flip like a coin and not like a Frisbee.",
 		},
 		{
 			Source:      SourceWOTC,
-			PublishedAt: Date{Time: time.Date(2004, 10, 4, 0, 0, 0, 0, loc)},
+			PublishedAt: Date{Time: time.Date(2004, 10, 4, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			Comment:     "Only cards touched when it stops moving are affected. Not ones touched while it is moving.",
 		},
 	}

@@ -25,11 +25,6 @@ func TestListSets(t *testing.T) {
 		t.Fatalf("Error listing sets: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT+8")
-	if err != nil {
-		t.Fatalf("Error loading location: %v", err)
-	}
-
 	want := []Set{
 		{
 			Code:        "dom",
@@ -38,7 +33,7 @@ func TestListSets(t *testing.T) {
 			URI:         "https://api.scryfall.com/sets/dom",
 			ScryfallURI: "https://scryfall.com/sets/dom",
 			SearchURI:   "https://api.scryfall.com/cards/search?order=set&q=e%3Adom&unique=prints",
-			ReleasedAt:  &Date{Time: time.Date(2018, 04, 27, 0, 0, 0, 0, loc)},
+			ReleasedAt:  &Date{Time: time.Date(2018, 04, 27, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			SetType:     "expansion",
 			CardCount:   142,
 			Digital:     false,
@@ -52,7 +47,7 @@ func TestListSets(t *testing.T) {
 			URI:         "https://api.scryfall.com/sets/a25",
 			ScryfallURI: "https://scryfall.com/sets/a25",
 			SearchURI:   "https://api.scryfall.com/cards/search?order=set&q=e%3Aa25&unique=prints",
-			ReleasedAt:  &Date{Time: time.Date(2018, 03, 16, 0, 0, 0, 0, loc)},
+			ReleasedAt:  &Date{Time: time.Date(2018, 03, 16, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			SetType:     "masters",
 			CardCount:   249,
 			Digital:     false,
@@ -66,7 +61,7 @@ func TestListSets(t *testing.T) {
 			URI:         "https://api.scryfall.com/sets/rix",
 			ScryfallURI: "https://scryfall.com/sets/rix",
 			SearchURI:   "https://api.scryfall.com/cards/search?order=set&q=e%3Arix&unique=prints",
-			ReleasedAt:  &Date{Time: time.Date(2018, 01, 19, 0, 0, 0, 0, loc)},
+			ReleasedAt:  &Date{Time: time.Date(2018, 01, 19, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 			SetType:     "expansion",
 			CardCount:   205,
 			Digital:     false,
@@ -97,11 +92,6 @@ func TestGetSet(t *testing.T) {
 		t.Fatalf("Error getting set: %v", err)
 	}
 
-	loc, err := time.LoadLocation("Etc/GMT+8")
-	if err != nil {
-		t.Fatalf("Error loading location: %v", err)
-	}
-
 	aetherRevoltBlockCode := "kld"
 	aetherRevoltBlock := "Kaladesh"
 	want := Set{
@@ -111,7 +101,7 @@ func TestGetSet(t *testing.T) {
 		URI:         "https://api.scryfall.com/sets/aer",
 		ScryfallURI: "https://scryfall.com/sets/aer",
 		SearchURI:   "https://api.scryfall.com/cards/search?order=set&q=e%3Aaer&unique=prints",
-		ReleasedAt:  &Date{Time: time.Date(2017, 01, 20, 0, 0, 0, 0, loc)},
+		ReleasedAt:  &Date{Time: time.Date(2017, 01, 20, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 		SetType:     "expansion",
 		CardCount:   194,
 		Digital:     false,

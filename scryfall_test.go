@@ -35,10 +35,6 @@ func setupTestServer(pattern string, handler func(http.ResponseWriter, *http.Req
 }
 
 func TestDateUnmarshalJSON(t *testing.T) {
-	loc, err := time.LoadLocation("Etc/GMT+8")
-	if err != nil {
-		t.Fatal(err)
-	}
 
 	tests := []struct {
 		in  []byte
@@ -50,7 +46,7 @@ func TestDateUnmarshalJSON(t *testing.T) {
 		},
 		{
 			[]byte("2018-04-27"),
-			Date{Time: time.Date(2018, 4, 27, 0, 0, 0, 0, loc)},
+			Date{Time: time.Date(2018, 4, 27, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
 		},
 	}
 
@@ -70,11 +66,6 @@ func TestDateUnmarshalJSON(t *testing.T) {
 }
 
 func TestTimestampUnmarshalJSON(t *testing.T) {
-	loc, err := time.LoadLocation("Etc/GMT+5")
-	if err != nil {
-		t.Fatal(err)
-	}
-
 	tests := []struct {
 		in  []byte
 		out Timestamp
@@ -85,7 +76,7 @@ func TestTimestampUnmarshalJSON(t *testing.T) {
 		},
 		{
 			[]byte("2018-12-01T14:31:43-05:00"),
-			Timestamp{Time: time.Date(2018, 12, 1, 14, 31, 43, 0, loc)},
+			Timestamp{Time: time.Date(2018, 12, 1, 14, 31, 43, 0, time.FixedZone("UTC-5", -5*60*60))},
 		},
 		{
 			[]byte("2018-12-31T09:05:07.949+00:00"),
