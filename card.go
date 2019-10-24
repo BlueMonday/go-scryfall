@@ -583,6 +583,7 @@ type Legalities struct {
 	Standard  Legality `json:"standard"`
 	Modern    Legality `json:"modern"`
 	Pauper    Legality `json:"pauper"`
+	Pioneer   Legality `json:"pioneer"`
 	Legacy    Legality `json:"legacy"`
 	Penny     Legality `json:"penny"`
 	Vintage   Legality `json:"vintage"`
