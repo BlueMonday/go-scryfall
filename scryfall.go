@@ -59,9 +59,9 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 	}
 
 	// This assumes that all Scryfall dates use the same the timezone as
-	// Wizards of the Coast's offices in Washington.
+	// Wizards of the Coast's offices in Renton, Washington.
 
-	parsedTime, err := time.ParseInLocation(dateFormat, s, time.FixedZone("UTC-4", -4*60*60))
+	parsedTime, err := time.ParseInLocation(dateFormat, s, time.FixedZone("UTC-8", -8*60*60))
 	if err != nil {
 		return err
 	}
