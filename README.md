@@ -1,10 +1,10 @@
 # go-scryfall
 
-[![Build Status](https://travis-ci.org/BlueMonday/go-scryfall.svg?branch=master)](https://travis-ci.org/BlueMonday/go-scryfall) [![GoDoc](https://godoc.org/github.com/BlueMonday/go-scryfall?status.svg)](https://godoc.org/github.com/BlueMonday/go-scryfall) [![Coverage Status](https://img.shields.io/coveralls/github/BlueMonday/go-scryfall/master.svg)](https://coveralls.io/github/BlueMonday/go-scryfall?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/BlueMonday/go-scryfall)](https://goreportcard.com/report/github.com/BlueMonday/go-scryfall)
+[![Build Status](https://travis-ci.com/BlueMonday/go-scryfall.svg?branch=master)](https://travis-ci.com/BlueMonday/go-scryfall) [![GoDoc](https://godoc.org/github.com/BlueMonday/go-scryfall?status.svg)](https://godoc.org/github.com/BlueMonday/go-scryfall) [![Coverage Status](https://img.shields.io/coveralls/github/BlueMonday/go-scryfall/master.svg)](https://coveralls.io/github/BlueMonday/go-scryfall?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/BlueMonday/go-scryfall)](https://goreportcard.com/report/github.com/BlueMonday/go-scryfall)
 
 ![go-scryfall](./go-scryfall.png)
 
-`go-scryfall` is a Golang client library for accessing the [Scryfall](https://scryfall.com/) API. 
+`go-scryfall` is a Golang client library for accessing the [Scryfall](https://scryfall.com/) API.
 
 The Scryfall logo is copyrighted by Scryfall, LLC. `go-scryfall` is not created
 by, affiliated with, or supported by Scryfall.
