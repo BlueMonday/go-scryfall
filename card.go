@@ -92,6 +92,9 @@ const (
 	// LayoutSaga is saga card layout.
 	LayoutSaga Layout = "saga"
 
+	// LayoutAdventure is a card layout with an Adventure spell part.
+	LayoutAdventure Layout = "adventure"
+
 	// LayoutPlanar is a plane and phenomenon card layout.
 	LayoutPlanar Layout = "planar"
 
@@ -116,6 +119,12 @@ const (
 
 	// LayoutHost is host card layout.
 	LayoutHost Layout = "host"
+
+	// LayoutArtSeries is an Art Series collectable double-faced card layout.
+	LayoutArtSeries Layout = "art_series"
+
+	// LayoutDoubleSided is a card layout with two sides that are unrelated.
+	LayoutDoubleSided Layout = "double_sided"
 )
 
 // Legality is the legality of a card in a particular format.
@@ -188,6 +197,9 @@ const (
 	// FrameEffectColorShifted is the colorshifted frame effect.
 	FrameEffectColorShifted FrameEffect = "colorshifted"
 
+	// FrameEffectInverted is the FNM-style inverted frame effect.
+	FrameEffectInverted FrameEffect = "inverted"
+
 	// FrameEffectSunMoonDFC is the sun and moon transform marks frame
 	// effect.
 	FrameEffectSunMoonDFC FrameEffect = "sunmoondfc"
@@ -203,6 +215,16 @@ const (
 	// FrameEffectMoonEldraziDFC is the moon and Eldrazi transform marks
 	// frame effect.
 	FrameEffectMoonEldraziDFC FrameEffect = "mooneldrazidfc"
+
+	// FrameEffectMoonReverseMoonDFC is the waxing and waning crescent moon
+	// transform marks frame effect.
+	FrameEffectMoonReverseMoonDFC FrameEffect = "moonreversemoondfc"
+
+	// FrameEffectShowcase is a custom Showcase frame effect.
+	FrameEffectShowcase FrameEffect = "showcase"
+
+	// FrameEffectExtendedArt is an extended art frame effect.
+	FrameEffectExtendedArt FrameEffect = "extendedart"
 )
 
 type Preview struct {
