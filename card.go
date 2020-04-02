@@ -197,6 +197,9 @@ const (
 	// FrameEffectColorShifted is the colorshifted frame effect.
 	FrameEffectColorShifted FrameEffect = "colorshifted"
 
+	// FrameEffectInverted is the FNM-style inverted frame effect.
+	FrameEffectInverted FrameEffect = "inverted"
+
 	// FrameEffectSunMoonDFC is the sun and moon transform marks frame
 	// effect.
 	FrameEffectSunMoonDFC FrameEffect = "sunmoondfc"
@@ -212,6 +215,16 @@ const (
 	// FrameEffectMoonEldraziDFC is the moon and Eldrazi transform marks
 	// frame effect.
 	FrameEffectMoonEldraziDFC FrameEffect = "mooneldrazidfc"
+
+	// FrameEffectMoonReverseMoonDFC is the waxing and waning crescent moon
+	// transform marks frame effect.
+	FrameEffectMoonReverseMoonDFC FrameEffect = "moonreversemoondfc"
+
+	// FrameEffectShowcase is a custom Showcase frame effect.
+	FrameEffectShowcase FrameEffect = "showcase"
+
+	// FrameEffectExtendedArt is an extended art frame effect.
+	FrameEffectExtendedArt FrameEffect = "extendedart"
 )
 
 type Preview struct {
