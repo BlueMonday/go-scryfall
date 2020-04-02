@@ -92,6 +92,9 @@ const (
 	// LayoutSaga is saga card layout.
 	LayoutSaga Layout = "saga"
 
+	// LayoutAdventure is a card layout with an Adventure spell part.
+	LayoutAdventure Layout = "adventure"
+
 	// LayoutPlanar is a plane and phenomenon card layout.
 	LayoutPlanar Layout = "planar"
 
@@ -116,6 +119,12 @@ const (
 
 	// LayoutHost is host card layout.
 	LayoutHost Layout = "host"
+
+	// LayoutArtSeries is an Art Series collectable double-faced card layout.
+	LayoutArtSeries Layout = "art_series"
+
+	// LayoutDoubleSided is a card layout with two sides that are unrelated.
+	LayoutDoubleSided Layout = "double_sided"
 )
 
 // Legality is the legality of a card in a particular format.
