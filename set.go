@@ -27,20 +27,26 @@ const (
 	// SetTypeFromTheVault is a From the Vault gift set.
 	SetTypeFromTheVault SetType = "from_the_vault"
 
+	// SetTypeSpellbook is a Spellbook series gift set.
+	SetTypeSpellbook SetType = "spellbook"
+
 	// SetTypePremiumDeck is a premium Deck Series decks set.
 	SetTypePremiumDeck SetType = "premium_deck"
 
 	// SetTypeDuelDeck is a Duel Decks set.
 	SetTypeDuelDeck SetType = "duel_deck"
 
+	// SetTypeDraftInnovation is a special draft set, like Conspiracy and Battlebond
+	SetTypeDraftInnovation SetType = "draft_innovation"
+
+	// SetTypeTreasureChest is a Magic Online treasure chest prize set.
+	SetTypeTreasureChest SetType = "treasure_chest"
+
 	// SetTypeCommander is a commander preconstructed set.
 	SetTypeCommander SetType = "commander"
 
 	// SetTypePlanechase is a Planechase set.
 	SetTypePlanechase SetType = "planechase"
-
-	// SetTypeConspiracy is a Conspiracy set.
-	SetTypeConspiracy SetType = "conspiracy"
 
 	// SetTypeArchenemy is an Archenemy set.
 	SetTypeArchenemy SetType = "archenemy"
