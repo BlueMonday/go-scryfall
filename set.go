@@ -78,12 +78,22 @@ const (
 // Set is an object which represents a group of related Magic cards. All Card
 // objects on Scryfall belong to exactly one set.
 type Set struct {
+	// ID is a unique ID for this set in Scryfall’s database.
+	ID string `json:"id"`
+
 	// Code is the unique three or four-letter code for this set.
 	Code string `json:"code"`
 
 	// MTGOCode is the unique code for this set on MTGO, which may differ
 	// from the regular code.
-	MTGOCode string `json:"mtgo_code"`
+	MTGOCode *string `json:"mtgo_code"`
+
+	// ArenaCode is the unique code for this set on Magic: The Gathering Arena,
+	// which may differ from the regular code.
+	ArenaCode *string `json:"arena_code"`
+
+	// TCGplayerID is the set ID on TCGplayer's API, also known as the groupId.
+	TCGplayerID *string `json:"tcgplayer_id"`
 
 	// Name is the English name of the set.
 	Name string `json:"name"`
@@ -117,8 +127,8 @@ type Set struct {
 	// Digital is true if this set was only released on Magic Online.
 	Digital bool `json:"digital"`
 
-	// Foil is true if this set contains only foil cards.
-	Foil bool `json:"foil"`
+	// FoilOnly is true if this set contains only foil cards.
+	FoilOnly bool `json:"foil_only"`
 
 	// IconSVGURI is a URI to an SVG file for this set’s icon on Scryfall’s
 	// CDN. Hotlinking this image isn’t recommended, because it may change
