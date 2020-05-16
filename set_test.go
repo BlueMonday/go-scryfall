@@ -11,7 +11,7 @@ import (
 
 func TestListSets(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, `{"object": "list", "has_more": false, "data": [{"object": "set", "code": "dom", "mtgo_code": "dar", "arena_code": "dar", "name": "Dominaria", "uri": "https://api.scryfall.com/sets/dom", "scryfall_uri": "https://scryfall.com/sets/dom", "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Adom&unique=prints", "released_at": "2018-04-27", "set_type": "expansion", "card_count": 142, "digital": false, "foil": false, "icon_svg_uri": "https://assets.scryfall.com/assets/sets/dom.svg"}, {"object": "set", "code": "a25", "mtgo_code": "a25", "arena_code": "a25", "name": "Masters 25", "uri": "https://api.scryfall.com/sets/a25", "scryfall_uri": "https://scryfall.com/sets/a25", "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aa25&unique=prints", "released_at": "2018-03-16", "set_type": "masters", "card_count": 249, "digital": false, "foil": false, "icon_svg_uri": "https://assets.scryfall.com/assets/sets/a25.svg"},{"object":"set","code":"rix","mtgo_code":"rix","arena_code":"rix","name":"Rivals of Ixalan","uri":"https://api.scryfall.com/sets/rix","scryfall_uri":"https://scryfall.com/sets/rix","search_uri":"https://api.scryfall.com/cards/search?order=set\u0026q=e%3Arix\u0026unique=prints","released_at":"2018-01-19","set_type":"expansion","card_count":205,"digital":false,"foil":false,"block_code":"xln","block":"Ixalan","icon_svg_uri":"https://assets.scryfall.com/assets/sets/rix.svg"}]}`)
+		fmt.Fprintln(w, `{"object": "list", "has_more": false, "data": [{"object": "set", "code": "dom", "mtgo_code": "dar", "arena_code": "dar", "tcgplayer_id": 2199, "name": "Dominaria", "uri": "https://api.scryfall.com/sets/dom", "scryfall_uri": "https://scryfall.com/sets/dom", "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Adom&unique=prints", "released_at": "2018-04-27", "set_type": "expansion", "card_count": 142, "digital": false, "foil": false, "icon_svg_uri": "https://assets.scryfall.com/assets/sets/dom.svg"}, {"object": "set", "code": "a25", "mtgo_code": "a25", "arena_code": "a25", "tcgplayer_id": 2189, "name": "Masters 25", "uri": "https://api.scryfall.com/sets/a25", "scryfall_uri": "https://scryfall.com/sets/a25", "search_uri": "https://api.scryfall.com/cards/search?order=set&q=e%3Aa25&unique=prints", "released_at": "2018-03-16", "set_type": "masters", "card_count": 249, "digital": false, "foil": false, "icon_svg_uri": "https://assets.scryfall.com/assets/sets/a25.svg"},{"object":"set","code":"rix","mtgo_code":"rix","arena_code":"rix","tcgplayer_id":2098,"name":"Rivals of Ixalan","uri":"https://api.scryfall.com/sets/rix","scryfall_uri":"https://scryfall.com/sets/rix","search_uri":"https://api.scryfall.com/cards/search?order=set\u0026q=e%3Arix\u0026unique=prints","released_at":"2018-01-19","set_type":"expansion","card_count":205,"digital":false,"foil":false,"block_code":"xln","block":"Ixalan","icon_svg_uri":"https://assets.scryfall.com/assets/sets/rix.svg"}]}`)
 	})
 	client, ts, err := setupTestServer("/sets", handler)
 	if err != nil {
@@ -35,11 +35,17 @@ func TestListSets(t *testing.T) {
 		"a25",
 		"rix",
 	}
+	tcgplayerIDs := []int{
+		2199,
+		2189,
+		2098,
+	}
 	want := []Set{
 		{
 			Code:        "dom",
 			MTGOCode:    &mtgoCodes[0],
 			ArenaCode:   &arenaCodes[0],
+			TCGplayerID: &tcgplayerIDs[0],
 			Name:        "Dominaria",
 			URI:         "https://api.scryfall.com/sets/dom",
 			ScryfallURI: "https://scryfall.com/sets/dom",
@@ -55,6 +61,7 @@ func TestListSets(t *testing.T) {
 			Code:        "a25",
 			MTGOCode:    &mtgoCodes[1],
 			ArenaCode:   &arenaCodes[1],
+			TCGplayerID: &tcgplayerIDs[1],
 			Name:        "Masters 25",
 			URI:         "https://api.scryfall.com/sets/a25",
 			ScryfallURI: "https://scryfall.com/sets/a25",
@@ -70,6 +77,7 @@ func TestListSets(t *testing.T) {
 			Code:        "rix",
 			MTGOCode:    &mtgoCodes[2],
 			ArenaCode:   &arenaCodes[2],
+			TCGplayerID: &tcgplayerIDs[2],
 			Name:        "Rivals of Ixalan",
 			URI:         "https://api.scryfall.com/sets/rix",
 			ScryfallURI: "https://scryfall.com/sets/rix",
@@ -112,6 +120,7 @@ func TestGetSet(t *testing.T) {
 		Code:        aetherSetCode,
 		MTGOCode:    &aetherSetCode,
 		ArenaCode:   nil,
+		TCGplayerID: nil,
 		Name:        "Aether Revolt",
 		URI:         "https://api.scryfall.com/sets/aer",
 		ScryfallURI: "https://scryfall.com/sets/aer",

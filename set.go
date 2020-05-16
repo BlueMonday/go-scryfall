@@ -93,7 +93,7 @@ type Set struct {
 	ArenaCode *string `json:"arena_code"`
 
 	// TCGplayerID is the set ID on TCGplayer's API, also known as the groupId.
-	TCGplayerID *string `json:"tcgplayer_id"`
+	TCGplayerID *int `json:"tcgplayer_id"`
 
 	// Name is the English name of the set.
 	Name string `json:"name"`
