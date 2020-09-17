@@ -16,6 +16,9 @@ type BulkData struct {
 	// Name is a human-readable name for this file.
 	Name string `json:"name"`
 
+	// URI is a link to this bulk object on Scryfall’s API.
+	URI string `json:"uri"`
+
 	// Description is a human-readable name for this file.
 	Description string `json:"description"`
 
