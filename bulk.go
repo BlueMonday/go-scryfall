@@ -22,8 +22,8 @@ type BulkData struct {
 	// CompressedSize is the compressed size of this file in integer bytes.
 	CompressedSize int `json:"compressed_size"`
 
-	// PermalinkURI is the URL that hosts this bulk file.
-	PermalinkURI string `json:"permalink_uri"`
+	// DownloadURI is the URL that hosts this bulk file.
+	DownloadURI string `json:"download_uri"`
 
 	// ContentType is the MIME type of this file.
 	ContentType string `json:"content_type"`
