@@ -16,14 +16,17 @@ type BulkData struct {
 	// Name is a human-readable name for this file.
 	Name string `json:"name"`
 
+	// URI is a link to this bulk object on Scryfall’s API.
+	URI string `json:"uri"`
+
 	// Description is a human-readable name for this file.
 	Description string `json:"description"`
 
 	// CompressedSize is the compressed size of this file in integer bytes.
 	CompressedSize int `json:"compressed_size"`
 
-	// PermalinkURI is the URL that hosts this bulk file.
-	PermalinkURI string `json:"permalink_uri"`
+	// DownloadURI is the URL that hosts this bulk file.
+	DownloadURI string `json:"download_uri"`
 
 	// ContentType is the MIME type of this file.
 	ContentType string `json:"content_type"`
