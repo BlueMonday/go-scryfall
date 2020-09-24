@@ -228,6 +228,9 @@ const (
 
 	// FrameEffectExtendedArt is an extended art frame effect.
 	FrameEffectExtendedArt FrameEffect = "extendedart"
+
+	// FrameEffectCompanion is a companion frame effect.
+	FrameEffectCompanion FrameEffect = "companion"
 )
 
 type Preview struct {
