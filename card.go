@@ -83,6 +83,9 @@ const (
 	// LayoutTransform is a double-sided card layout that transforms.
 	LayoutTransform Layout = "transform"
 
+	// LayoutModalDFC is a double-sided card layout that can be played either-side
+	LayoutModalDFC Layout = "modal_dfc"
+
 	// LayoutMeld is a card layout with meld parts printed on the back.
 	LayoutMeld Layout = "meld"
 
@@ -225,6 +228,9 @@ const (
 
 	// FrameEffectExtendedArt is an extended art frame effect.
 	FrameEffectExtendedArt FrameEffect = "extendedart"
+
+	// FrameEffectCompanion is a companion frame effect.
+	FrameEffectCompanion FrameEffect = "companion"
 )
 
 type Preview struct {
