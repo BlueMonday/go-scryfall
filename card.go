@@ -83,7 +83,7 @@ const (
 	// LayoutTransform is a double-sided card layout that transforms.
 	LayoutTransform Layout = "transform"
 
-	// LayoutModalDFC is a double-sided card layout that can be played either-side
+	// LayoutModalDFC is a double-sided card layout that can be played either-side.
 	LayoutModalDFC Layout = "modal_dfc"
 
 	// LayoutMeld is a card layout with meld parts printed on the back.
