@@ -635,57 +635,6 @@ type PurchaseURIs struct {
 	CardHoarder string `json:"cardhoarder"`
 }
 
-// CardListResponse represents a requested sequence of card
-// objects. CardListResponse objects may be paginated, and also include
-// information about issues raised when generating the list.
-type CardListResponse struct {
-	// Cards is a list of the requested cards.
-	Cards []Card `json:"data"`
-
-	// HasMore is true if this List is paginated and there is a page beyond
-	// the current page.
-	HasMore bool `json:"has_more"`
-
-	// NextPage contains a full API URI to next page if there is a page
-	// beyond the current page.
-	NextPage *string `json:"next_page"`
-
-	// TotalCards contains the total number of cards found across all
-	// pages.
-	TotalCards int `json:"total_cards"`
-
-	// Warnings is a list of human-readable warnings issued when generating
-	// this list, as strings. Warnings are non-fatal issues that the API
-	// discovered with your input. In general, they indicate that the List
-	// will not contain the all of the information you requested. You should
-	// fix the warnings and re-submit your request.
-	Warnings []string `json:"warnings"`
-}
-
-// ListCardsOptions holds the options used to list cards.
-type ListCardsOptions struct {
-	// Page is the page number to return. Page numbers start at 1 and the
-	// default is 1.
-	Page int `url:"page,omitempty"`
-}
-
-// ListCards lists all the cards in Scryfall's database.
-func (c *Client) ListCards(ctx context.Context, opts ListCardsOptions) (CardListResponse, error) {
-	values, err := qs.Values(opts)
-	if err != nil {
-		return CardListResponse{}, err
-	}
-
-	cardsURL := fmt.Sprintf("cards?%s", values.Encode())
-	result := CardListResponse{}
-	err = c.get(ctx, cardsURL, &result)
-	if err != nil {
-		return CardListResponse{}, err
-	}
-
-	return result, nil
-}
-
 // UniqueMode specifies whether Scryfall should remove duplicates from search
 // results.
 type UniqueMode string
@@ -800,6 +749,33 @@ type SearchCardsOptions struct {
 	// Page is the page number to return. Page numbers start at 1 and the
 	// default is 1.
 	Page int `url:"page,omitempty"`
+}
+
+// CardListResponse represents a requested sequence of card
+// objects. CardListResponse objects may be paginated, and also include
+// information about issues raised when generating the list.
+type CardListResponse struct {
+	// Cards is a list of the requested cards.
+	Cards []Card `json:"data"`
+
+	// HasMore is true if this List is paginated and there is a page beyond
+	// the current page.
+	HasMore bool `json:"has_more"`
+
+	// NextPage contains a full API URI to next page if there is a page
+	// beyond the current page.
+	NextPage *string `json:"next_page"`
+
+	// TotalCards contains the total number of cards found across all
+	// pages.
+	TotalCards int `json:"total_cards"`
+
+	// Warnings is a list of human-readable warnings issued when generating
+	// this list, as strings. Warnings are non-fatal issues that the API
+	// discovered with your input. In general, they indicate that the List
+	// will not contain the all of the information you requested. You should
+	// fix the warnings and re-submit your request.
+	Warnings []string `json:"warnings"`
 }
 
 // SearchCards returns a list cards found using a full text search. The query
