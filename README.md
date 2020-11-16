@@ -44,3 +44,29 @@ func main() {
 	log.Printf("%s", result.Cards[0].Colors)
 }
 ```
+
+## Rate Limiting
+
+`go-scryfall` will rate limit requests to Scryfall's API. The default limit is
+10 requests per second as recommended in the [REST API
+documentation](https://scryfall.com/docs/api#rate-limits-and-good-citizenship).
+
+To disable rate limiting use the `WithLimiter` option with a `nil` limiter when
+constructing the client.
+
+```golang
+package main
+
+import (
+	"log"
+
+    scryfall "github.com/BlueMonday/go-scryfall"
+)
+
+func main() {
+	client, err := scryfall.NewClient(scryfall.WithLimiter(nil))
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+```

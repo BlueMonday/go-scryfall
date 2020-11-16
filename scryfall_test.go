@@ -23,7 +23,7 @@ func setupTestServer(pattern string, handler func(http.ResponseWriter, *http.Req
 	mux.HandleFunc(pattern, handler)
 	ts := httptest.NewServer(mux)
 
-	mergedClientOptions := []ClientOption{WithBaseURL(ts.URL)}
+	mergedClientOptions := []ClientOption{WithBaseURL(ts.URL), WithLimiter(nil)}
 	mergedClientOptions = append(mergedClientOptions, clientOptions...)
 	client, err := NewClient(mergedClientOptions...)
 	if err != nil {

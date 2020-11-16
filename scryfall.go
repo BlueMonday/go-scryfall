@@ -11,11 +11,14 @@ import (
 	"net/url"
 	"strings"
 	"time"
+
+	"go.uber.org/ratelimit"
 )
 
 const (
 	defaultBaseURL = "https://api.scryfall.com"
 	defaultTimeout = 30 * time.Second
+	defaultReqPerSecond = 10
 	userAgent      = "go-scryfall"
 
 	dateFormat      = "2006-01-02"
@@ -107,6 +110,7 @@ type clientOptions struct {
 	clientSecret string
 	grantSecret  string
 	client       *http.Client
+	limiter ratelimit.Limiter
 }
 
 // ClientOption configures the Scryfall API client.
@@ -144,12 +148,21 @@ func WithHTTPClient(client *http.Client) ClientOption {
 	}
 }
 
+// WithLimiter returns an option which overrides the default rate limiter. A
+// nil ratelimiter will disable rate limiting.
+func WithLimiter(limiter ratelimit.Limiter) ClientOption {
+	return func(o *clientOptions) {
+		o.limiter = limiter
+	}
+}
+
 // Client is a Scryfall API client.
 type Client struct {
 	baseURL       *url.URL
 	authorization string
 
 	client *http.Client
+	limiter ratelimit.Limiter
 }
 
 // NewClient returns a new Scryfall API client.
@@ -159,6 +172,7 @@ func NewClient(options ...ClientOption) (*Client, error) {
 		client: &http.Client{
 			Timeout: defaultTimeout,
 		},
+		limiter: ratelimit.New(defaultReqPerSecond),
 	}
 	for _, option := range options {
 		option(co)
@@ -185,6 +199,7 @@ func NewClient(options ...ClientOption) (*Client, error) {
 		baseURL:       baseURL,
 		authorization: authorization,
 		client:        co.client,
+		limiter: co.limiter,
 	}
 	return c, nil
 }
@@ -194,8 +209,12 @@ func (c *Client) doReq(ctx context.Context, req *http.Request, respBody interfac
 	if len(c.authorization) != 0 {
 		req.Header.Set("Authorization", c.authorization)
 	}
-
 	reqWithContext := req.WithContext(ctx)
+
+	if c.limiter != nil {
+		c.limiter.Take()
+	}
+	
 	resp, err := c.client.Do(reqWithContext)
 	if err != nil {
 		return err
