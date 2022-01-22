@@ -304,6 +304,12 @@ type Card struct {
 	// Magic Online and do not have this ID.
 	MTGOFoilID *int `json:"mtgo_foil_id,omitempty"`
 
+	// URI is a link to this card object on Scryfall’s API.
+	URI string `json:"uri"`
+
+	// ScryfallURI is a link to this card’s permapage on Scryfall’s website.
+	ScryfallURI string `json:"scryfall_uri"`
+
 	// TCGPlayerID is this card’s ID on TCGplayer’s API, also known as the productId.
 	TCGPlayerID *int `json:"tcgplayer_id,omitempty"`
 
