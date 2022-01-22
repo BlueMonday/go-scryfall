@@ -258,12 +258,25 @@ const (
 	ComponentComboPiece Component = "combo_piece"
 )
 
+type Finish string
+
+const (
+	// Foil represents a foild card finish
+	Foil Finish = "foil"
+	// NonFoil represents a nonfoild card finish
+	NonFoil Finish = "nonfoil"
+	// Etched represents a etched card finish
+	Etched Finish = "etched"
+	// Glossy represents a glossy card finish
+	Glossy Finish = "glossy"
+)
+
 // Card represents individual Magic: The Gathering cards that players could
 // obtain and add to their collection (with a few minor exceptions).
 type Card struct {
 	// ArenaID is this card’s Arena ID, if any. A large percentage of cards
 	// are not available on Arena and do not have this ID.
-	ArenaID *int `json:"arena_id"`
+	ArenaID *int `json:"arena_id,omitempty"`
 
 	// ID is a unique ID for this card in Scryfall’s database.
 	ID string `json:"id"`
@@ -284,18 +297,21 @@ type Card struct {
 	// MTGOID is this card’s Magic Online ID (also known as the Catalog
 	// ID), if any. A large percentage of cards are not available on Magic
 	// Online and do not have this ID.
-	MTGOID *int `json:"mtgo_id"`
+	MTGOID *int `json:"mtgo_id,omitempty"`
 
 	// MTGOFoilID is this card’s foil Magic Online ID (also known as the
 	// Catalog ID), if any. A large percentage of cards are not available on
 	// Magic Online and do not have this ID.
-	MTGOFoilID *int `json:"mtgo_foil_id"`
+	MTGOFoilID *int `json:"mtgo_foil_id,omitempty"`
 
-	// URI is a link to this card object on Scryfall’s API.
-	URI string `json:"uri"`
+	// TCGPlayerID is this card’s ID on TCGplayer’s API, also known as the productId.
+	TCGPlayerID *int `json:"tcgplayer_id,omitempty"`
 
-	// ScryfallURI is a link to this card’s permapage on Scryfall’s website.
-	ScryfallURI string `json:"scryfall_uri"`
+	// TCGPlayerEtchedID is this card’s ID on TCGplayer’s API, for its etched version if that version is a separate product.
+	TCGPlayerEtchedID *int `json:"tcgplayer_etched_id,omitempty"`
+
+	// CardMarketID is this card’s ID on Cardmarket’s API, also known as the idProduct.
+	CardMarketID *int `json:"Integer,omitempty"`
 
 	// PrintsSearchURI is a link to where you can begin paginating all
 	// re/prints for this card on Scryfall’s API.
@@ -487,6 +503,18 @@ type Card struct {
 
 	// PurchaseURIs contains links to the card on online card stores.
 	PurchaseURIs PurchaseURIs `json:"purchase_uris"`
+
+	// Keywords is an array of keywords that this card uses, such as 'Flying' and 'Cumulative upkeep'.
+	Keywords []string `json:"keywords"`
+
+	//ProducedMana are colors of mana that this card could produce.
+	ProducedMana []Color `json:"produced_mana"`
+
+	// Booster is a whether this card is found in boosters.
+	Booster bool `json:"booster"`
+
+	// Finishes is an array of computer-readable flags that indicate if this card can come in foil, nonfoil, etched, or glossy finishes.
+	Finishes []Finish `json:"finishes"`
 }
 
 // RelatedCard is a card that is closely related to another card (because it
@@ -605,8 +633,14 @@ type Prices struct {
 	// USD is the price of the foil card in US dollars.
 	USDFoil string `json:"usd_foil"`
 
+	// USDEtched is the price of the etched card in US dollars.
+	USDEtched string `json:"usd_etched"`
+
 	// EUR is the price of the card in Euros.
 	EUR string `json:"eur"`
+
+	// EURFoil is the price of the foil card in Euros.
+	EURFoil string `json:"eur_foil"`
 
 	// Tix is the price of the card in MTGO event tickets.
 	Tix string `json:"tix"`
