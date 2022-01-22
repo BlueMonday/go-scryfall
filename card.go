@@ -61,7 +61,7 @@ const (
 	LangSanskrit Lang = "sa"
 
 	// LangPhyrexian is the Phyrexian language code.
-	LangPhyrexian Lang = "px"
+	LangPhyrexian Lang = "ph"
 )
 
 // Layout categorizes the arrangement of card parts, faces, and other bounded
