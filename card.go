@@ -250,24 +250,31 @@ type Component string
 const (
 	// ComponentToken represents a token related to a card.
 	ComponentToken Component = "token"
+
 	// ComponentMeldPart represents one of the parts of a meld.
 	ComponentMeldPart Component = "meld_part"
+
 	// ComponentMeldResult represents the result of a meld.
 	ComponentMeldResult Component = "meld_result"
+
 	// ComponentComboPiece represents a combo piece related to a card.
 	ComponentComboPiece Component = "combo_piece"
 )
 
+// Finish is a finish a card can come in.
 type Finish string
 
 const (
-	// Foil represents a foild card finish
+	// Foil represents a foild card finish.
 	Foil Finish = "foil"
-	// NonFoil represents a nonfoild card finish
+
+	// NonFoil represents a nonfoild card finish.
 	NonFoil Finish = "nonfoil"
-	// Etched represents a etched card finish
+
+	// Etched represents a etched card finish.
 	Etched Finish = "etched"
-	// Glossy represents a glossy card finish
+
+	// Glossy represents a glossy card finish.
 	Glossy Finish = "glossy"
 )
 
@@ -407,13 +414,13 @@ type Card struct {
 
 	// Foil is true if this printing exists in a foil version.
 	//
-	// Deprecated: switch to finishes
+	// Deprecated: switch to finishes.
 	// https://scryfall.com/blog/upcoming-api-changes-for-etched-foils-and-glossy-cards-223
 	Foil bool `json:"foil"`
 
 	// NonFoil is true if this printing exists in a nonfoil version.
 	//
-	// Deprecated: switch to finishes
+	// Deprecated: switch to finishes.
 	// https://scryfall.com/blog/upcoming-api-changes-for-etched-foils-and-glossy-cards-223
 	NonFoil bool `json:"nonfoil"`
 
@@ -513,10 +520,10 @@ type Card struct {
 	// Keywords is an array of keywords that this card uses, such as 'Flying' and 'Cumulative upkeep'.
 	Keywords []string `json:"keywords"`
 
-	//ProducedMana are colors of mana that this card could produce.
+	// ProducedMana are colors of mana that this card could produce.
 	ProducedMana []Color `json:"produced_mana"`
 
-	// Booster is a whether this card is found in boosters.
+	// Booster is whether this card is found in boosters.
 	Booster bool `json:"booster"`
 
 	// Finishes is an array of computer-readable flags that indicate if this card can come in foil, nonfoil, etched, or glossy finishes.
