@@ -296,7 +296,7 @@ const (
 	// either because it was just spoiled or we don't have better photography for it yet.
 	ImageStatusLowres ImageStatus = "lowres"
 
-	// ImageStatus Highres represents that the card has a full-resolution scanner image. Crisp and glossy!
+	// ImageStatusHighres represents that the card has a full-resolution scanner image. Crisp and glossy!
 	ImageStatusHighres ImageStatus = "highres_scan"
 )
 
