@@ -278,6 +278,28 @@ const (
 	Glossy Finish = "glossy"
 )
 
+// ImageStatus A computer-readable indicator for the state of this card’s image,
+// one of missing, placeholder, lowres, or highres_scan.
+type ImageStatus string
+
+const (
+	// Missing represents that the card has no image, or the image is being processed.
+	// This value should only be temporary for very new cards.
+	Missing ImageStatus = "missing"
+
+	// Placeholder represents that Scryfall doesn’t have an image of this card,
+	// but we know it exists and we have uploaded a placeholder in the meantime.
+	// This value is most common on localized cards.
+	Placeholer ImageStatus = "placeholder"
+
+	// Highres represents that the card’s image is low-quality,
+	// either because it was just spoiled or we don’t have better photography for it yet.
+	Lowres ImageStatus = "lowres"
+
+	// Highres represents that the card has a full-resolution scanner image. Crisp and glossy!
+	Highres ImageStatus = "highres_scan"
+)
+
 // Card represents individual Magic: The Gathering cards that players could
 // obtain and add to their collection (with a few minor exceptions).
 type Card struct {
@@ -528,6 +550,9 @@ type Card struct {
 
 	// Finishes is an array of computer-readable flags that indicate if this card can come in foil, nonfoil, etched, or glossy finishes.
 	Finishes []Finish `json:"finishes"`
+
+	// ImageStatus is a computer-readable indicator for the state of this card’s image.
+	ImageStatus *ImageStatus `json:"image_status"`
 }
 
 // RelatedCard is a card that is closely related to another card (because it
