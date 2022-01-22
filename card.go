@@ -384,9 +384,15 @@ type Card struct {
 	Reserved bool `json:"reserved"`
 
 	// Foil is true if this printing exists in a foil version.
+	//
+	// Deprecated: switch to finishes
+	// https://scryfall.com/blog/upcoming-api-changes-for-etched-foils-and-glossy-cards-223
 	Foil bool `json:"foil"`
 
 	// NonFoil is true if this printing exists in a nonfoil version.
+	//
+	// Deprecated: switch to finishes
+	// https://scryfall.com/blog/upcoming-api-changes-for-etched-foils-and-glossy-cards-223
 	NonFoil bool `json:"nonfoil"`
 
 	// Oversized is true if this card is oversized.
