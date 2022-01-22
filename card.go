@@ -265,39 +265,39 @@ const (
 type Finish string
 
 const (
-	// Foil represents a foild card finish.
-	Foil Finish = "foil"
+	// FinishFoil represents a foild card finish.
+	FinishFoil Finish = "foil"
 
-	// NonFoil represents a nonfoild card finish.
-	NonFoil Finish = "nonfoil"
+	// FinishNonFoil represents a nonfoild card finish.
+	FinishNonFoil Finish = "nonfoil"
 
-	// Etched represents a etched card finish.
-	Etched Finish = "etched"
+	// FinishEtched represents a etched card finish.
+	FinishEtched Finish = "etched"
 
-	// Glossy represents a glossy card finish.
-	Glossy Finish = "glossy"
+	// FinishGlossy represents a glossy card finish.
+	FinishGlossy Finish = "glossy"
 )
 
-// ImageStatus A computer-readable indicator for the state of this card’s image,
+// ImageStatus is a computer-readable indicator for the state of this card's image,
 // one of missing, placeholder, lowres, or highres_scan.
 type ImageStatus string
 
 const (
-	// Missing represents that the card has no image, or the image is being processed.
+	// ImageStatusMissing represents that the card has no image, or the image is being processed.
 	// This value should only be temporary for very new cards.
-	Missing ImageStatus = "missing"
+	ImageStatusMissing ImageStatus = "missing"
 
-	// Placeholder represents that Scryfall doesn’t have an image of this card,
+	// ImageStatusPlaceholder represents that Scryfall doesn't have an image of this card,
 	// but we know it exists and we have uploaded a placeholder in the meantime.
 	// This value is most common on localized cards.
-	Placeholer ImageStatus = "placeholder"
+	ImageStatusPlaceholer ImageStatus = "placeholder"
 
-	// Highres represents that the card’s image is low-quality,
-	// either because it was just spoiled or we don’t have better photography for it yet.
-	Lowres ImageStatus = "lowres"
+	// ImageStatusHighres represents that the card's image is low-quality,
+	// either because it was just spoiled or we don't have better photography for it yet.
+	ImageStatusLowres ImageStatus = "lowres"
 
-	// Highres represents that the card has a full-resolution scanner image. Crisp and glossy!
-	Highres ImageStatus = "highres_scan"
+	// ImageStatus Highres represents that the card has a full-resolution scanner image. Crisp and glossy!
+	ImageStatusHighres ImageStatus = "highres_scan"
 )
 
 // Card represents individual Magic: The Gathering cards that players could
