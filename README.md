@@ -60,7 +60,7 @@ package main
 import (
 	"log"
 
-    scryfall "github.com/BlueMonday/go-scryfall"
+	scryfall "github.com/BlueMonday/go-scryfall"
 )
 
 func main() {
