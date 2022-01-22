@@ -158,7 +158,7 @@ func TestGetPlaneswalkerTypesCatalog(t *testing.T) {
 
 func TestGetLandTypesCatalog(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, `{"object": "catalog", "uri": "https://api.scryfall.com/catalog/land-types", "total_values": 13, "data": ["Desert", "Forest", "Gate", "Island", "Lair", "Locus", "Mine", "Mountain", "Plains", "Power-Plant", "Swamp", "Tower", "Urza’s"]}`)
+		fmt.Fprintln(w, `{"object": "catalog", "uri": "https://api.scryfall.com/catalog/land-types", "total_values": 13, "data": ["Desert", "Forest", "Gate", "Island", "Lair", "Locus", "Mine", "Mountain", "Plains", "Power-Plant", "Swamp", "Tower", "Urza's"]}`)
 	})
 	client, ts, err := setupTestServer("/catalog/land-types", handler)
 	if err != nil {
@@ -188,7 +188,7 @@ func TestGetLandTypesCatalog(t *testing.T) {
 			"Power-Plant",
 			"Swamp",
 			"Tower",
-			"Urza’s",
+			"Urza's",
 		},
 	}
 	if !reflect.DeepEqual(catalog, want) {

@@ -55,7 +55,7 @@ func (c *Client) GetRulingsByMultiverseID(ctx context.Context, multiverseID int)
 }
 
 // GetRulingsByMTGOID returns rulings for a card with the given MTGO ID (also
-// known as the Catalog ID). The ID can either be the card’s MTGO ID or its
+// known as the Catalog ID). The ID can either be the card's MTGO ID or its
 // MTGO foil ID.
 func (c *Client) GetRulingsByMTGOID(ctx context.Context, mtgoID int) ([]Ruling, error) {
 	rulingsURL := fmt.Sprintf("cards/mtgo/%d/rulings", mtgoID)

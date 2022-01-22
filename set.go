@@ -78,7 +78,7 @@ const (
 // Set is an object which represents a group of related Magic cards. All Card
 // objects on Scryfall belong to exactly one set.
 type Set struct {
-	// ID is a unique ID for this set in Scryfall’s database.
+	// ID is a unique ID for this set in Scryfall's database.
 	ID string `json:"id"`
 
 	// Code is the unique three or four-letter code for this set.
@@ -98,10 +98,10 @@ type Set struct {
 	// Name is the English name of the set.
 	Name string `json:"name"`
 
-	// URI is a link to this set object on Scryfall’s API.
+	// URI is a link to this set object on Scryfall's API.
 	URI string `json:"uri"`
 
-	// ScryfallURI is a link to this card’s permapage on Scryfall’s website.
+	// ScryfallURI is a link to this card's permapage on Scryfall's website.
 	ScryfallURI string `json:"scryfall_uri"`
 
 	// SetType is a computer-readable classification for this set.
@@ -130,8 +130,8 @@ type Set struct {
 	// FoilOnly is true if this set contains only foil cards.
 	FoilOnly bool `json:"foil_only"`
 
-	// IconSVGURI is a URI to an SVG file for this set’s icon on Scryfall’s
-	// CDN. Hotlinking this image isn’t recommended, because it may change
+	// IconSVGURI is a URI to an SVG file for this set's icon on Scryfall's
+	// CDN. Hotlinking this image isn't recommended, because it may change
 	// slightly over time. You should download it and use it locally for your
 	// particular user interface needs.
 	IconSVGURI string `json:"icon_svg_uri"`

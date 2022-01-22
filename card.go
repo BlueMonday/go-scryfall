@@ -149,7 +149,7 @@ const (
 )
 
 // Frame tracks the major edition of the card frame of used for the re/print in
-// question. The frame has gone though several major revisions in Magic’s
+// question. The frame has gone though several major revisions in Magic's
 // lifetime.
 type Frame string
 
@@ -303,56 +303,56 @@ const (
 // Card represents individual Magic: The Gathering cards that players could
 // obtain and add to their collection (with a few minor exceptions).
 type Card struct {
-	// ArenaID is this card’s Arena ID, if any. A large percentage of cards
+	// ArenaID is this card's Arena ID, if any. A large percentage of cards
 	// are not available on Arena and do not have this ID.
 	ArenaID *int `json:"arena_id,omitempty"`
 
-	// ID is a unique ID for this card in Scryfall’s database.
+	// ID is a unique ID for this card in Scryfall's database.
 	ID string `json:"id"`
 
 	// Lang is the language code for this printing.
 	Lang Lang `json:"lang"`
 
-	// OracleID is a unique ID for this card’s oracle identity. This value
+	// OracleID is a unique ID for this card's oracle identity. This value
 	// is consistent across reprinted card editions, and unique among
 	// different cards with the same name (tokens, Unstable variants, etc).
 	OracleID string `json:"oracle_id"`
 
-	// MultiverseIDs is this card’s multiverse IDs on Gatherer, if any, as
+	// MultiverseIDs is this card's multiverse IDs on Gatherer, if any, as
 	// an array of integers. Note that Scryfall includes many promo cards,
 	// tokens, and other esoteric objects that do not have these identifiers.
 	MultiverseIDs []int `json:"multiverse_ids"`
 
-	// MTGOID is this card’s Magic Online ID (also known as the Catalog
+	// MTGOID is this card's Magic Online ID (also known as the Catalog
 	// ID), if any. A large percentage of cards are not available on Magic
 	// Online and do not have this ID.
 	MTGOID *int `json:"mtgo_id,omitempty"`
 
-	// MTGOFoilID is this card’s foil Magic Online ID (also known as the
+	// MTGOFoilID is this card's foil Magic Online ID (also known as the
 	// Catalog ID), if any. A large percentage of cards are not available on
 	// Magic Online and do not have this ID.
 	MTGOFoilID *int `json:"mtgo_foil_id,omitempty"`
 
-	// URI is a link to this card object on Scryfall’s API.
+	// URI is a link to this card object on Scryfall's API.
 	URI string `json:"uri"`
 
-	// ScryfallURI is a link to this card’s permapage on Scryfall’s website.
+	// ScryfallURI is a link to this card's permapage on Scryfall's website.
 	ScryfallURI string `json:"scryfall_uri"`
 
-	// TCGPlayerID is this card’s ID on TCGplayer’s API, also known as the productId.
+	// TCGPlayerID is this card's ID on TCGplayer's API, also known as the productId.
 	TCGPlayerID *int `json:"tcgplayer_id,omitempty"`
 
-	// TCGPlayerEtchedID is this card’s ID on TCGplayer’s API, for its etched version if that version is a separate product.
+	// TCGPlayerEtchedID is this card's ID on TCGplayer's API, for its etched version if that version is a separate product.
 	TCGPlayerEtchedID *int `json:"tcgplayer_etched_id,omitempty"`
 
-	// CardMarketID is this card’s ID on Cardmarket’s API, also known as the idProduct.
+	// CardMarketID is this card's ID on Cardmarket's API, also known as the idProduct.
 	CardMarketID *int `json:"Integer,omitempty"`
 
 	// PrintsSearchURI is a link to where you can begin paginating all
-	// re/prints for this card on Scryfall’s API.
+	// re/prints for this card on Scryfall's API.
 	PrintsSearchURI string `json:"prints_search_uri"`
 
-	// RulingsURI is a link to this card’s rulings on Scryfall’s API.
+	// RulingsURI is a link to this card's rulings on Scryfall's API.
 	RulingsURI string `json:"rulings_uri"`
 
 	// Name is the name of this card. If this card has multiple faces, this
@@ -364,11 +364,11 @@ type Card struct {
 	// If this card has multiple faces, this field will not be set.
 	PrintedName *string `json:"printed_name"`
 
-	// Layout is a computer-readable designation for this card’s
+	// Layout is a computer-readable designation for this card's
 	// layout. See the layout article.
 	Layout Layout `json:"layout"`
 
-	// CMC is the card’s converted mana cost. Note that some funny cards
+	// CMC is the card's converted mana cost. Note that some funny cards
 	// have fractional mana costs.
 	CMC float64 `json:"cmc"`
 
@@ -391,11 +391,11 @@ type Card struct {
 	// rules, a missing mana cost and a mana cost of {0} are different values.
 	ManaCost string `json:"mana_cost"`
 
-	// Power is this card’s power, if any. Note that some cards have powers
+	// Power is this card's power, if any. Note that some cards have powers
 	// that are not numeric, such as *.
 	Power *string `json:"power"`
 
-	// Toughness is this card’s toughness, if any. Note that some cards
+	// Toughness is this card's toughness, if any. Note that some cards
 	// have toughnesses that are not numeric, such as *.
 	Toughness *string `json:"toughness"`
 
@@ -403,22 +403,22 @@ type Card struct {
 	// that are not numeric, such as X.
 	Loyalty *string `json:"loyalty"`
 
-	// LifeModifier is this card’s life modifier, if it is Vanguard
+	// LifeModifier is this card's life modifier, if it is Vanguard
 	// card. This value will contain a delta, such as +2.
 	LifeModifier *string `json:"life_modifier"`
 
-	// HandModifier is this card’s hand modifier, if it is Vanguard
+	// HandModifier is this card's hand modifier, if it is Vanguard
 	// card. This value will contain a delta, such as -1.
 	HandModifier *string `json:"hand_modifier"`
 
-	// Colors is this card’s colors.
+	// Colors is this card's colors.
 	Colors []Color `json:"colors"`
 
-	// ColorIndicator is the colors in this card’s color indicator, if
+	// ColorIndicator is the colors in this card's color indicator, if
 	// any. A nil value for this field indicates the card does not have one.
 	ColorIndicator []Color `json:"color_indicator"`
 
-	// ColorIdentity is this card’s color identity.
+	// ColorIdentity is this card's color identity.
 	ColorIdentity []Color `json:"color_identity"`
 
 	// AllParts is a list of closely related cards, if any.
@@ -452,28 +452,28 @@ type Card struct {
 	// Promo is true if this card is a promotional print.
 	Promo bool `json:"promo"`
 
-	// EDHRECRank is this card’s overall rank/popularity on EDHREC. Not all
+	// EDHRECRank is this card's overall rank/popularity on EDHREC. Not all
 	// cards are ranked.
 	EDHRECRank *int `json:"edhrec_rank"`
 
-	// Set is this card’s set code.
+	// Set is this card's set code.
 	Set string `json:"set"`
 
-	// SetName is this card’s full set name.
+	// SetName is this card's full set name.
 	SetName string `json:"set_name"`
 
-	// CollectorNumber is this card’s collector number. Note that collector
+	// CollectorNumber is this card's collector number. Note that collector
 	// numbers can contain non-numeric characters, such as letters or ★.
 	CollectorNumber string `json:"collector_number"`
 
-	// SetURI is a link to this card's set on Scryfall’s API.
+	// SetURI is a link to this card's set on Scryfall's API.
 	SetURI string `json:"set_uri"`
 
-	// SetSearchURI is a link to where you can begin paginating this card’s
+	// SetSearchURI is a link to where you can begin paginating this card's
 	// set on the Scryfall API.
 	SetSearchURI string `json:"set_search_uri"`
 
-	// ScryfallSetURI is a link to this card’s set on Scryfall’s website.
+	// ScryfallSetURI is a link to this card's set on Scryfall's website.
 	ScryfallSetURI string `json:"scryfall_set_uri"`
 
 	// ImageURIs is an object listing available imagery for this card.
@@ -483,7 +483,7 @@ type Card struct {
 	// usd, usd_foil, eur, and tix prices.
 	Prices Prices `json:"prices"`
 
-	// HighresImage is true if this card’s imagery is high resolution.
+	// HighresImage is true if this card's imagery is high resolution.
 	HighresImage bool `json:"highres_image"`
 
 	// Reprint is true if this card is a reprint.
@@ -492,7 +492,7 @@ type Card struct {
 	// Digital is true if this is a digital card on Magic Online.
 	Digital bool `json:"digital"`
 
-	// Rarity is this card’s rarity. One of common, uncommon, rare, or
+	// Rarity is this card's rarity. One of common, uncommon, rare, or
 	// mythic.
 	Rarity string `json:"rarity"`
 
@@ -508,29 +508,29 @@ type Card struct {
 	// this field yet.
 	IllustrationID *string `json:"illustration_id"`
 
-	// Frame is this card’s frame layout.
+	// Frame is this card's frame layout.
 	Frame Frame `json:"frame"`
 
 	// FrameEffects is this card's frame effects, if any.
 	FrameEffects []FrameEffect `json:"frame_effects"`
 
-	// FullArt is true if this card’s artwork is larger than normal.
+	// FullArt is true if this card's artwork is larger than normal.
 	FullArt bool `json:"full_art"`
 
-	// Watermark is this card’s watermark, if any.
+	// Watermark is this card's watermark, if any.
 	Watermark *string `json:"watermark"`
 
 	// Preview contains information about who previewed/spoiled this card.
 	Preview Preview `json:"preview"`
 
-	// BorderColor is this card’s border color: black, borderless, gold,
+	// BorderColor is this card's border color: black, borderless, gold,
 	// silver, or white.
 	BorderColor string `json:"border_color"`
 
-	// StorySpotlightNumber is this card’s story spotlight number, if any.
+	// StorySpotlightNumber is this card's story spotlight number, if any.
 	StorySpotlightNumber *int `json:"story_spotlight_number"`
 
-	// StorySpotlightURI is a URL to this cards’s story article, if any.
+	// StorySpotlightURI is a URL to this cards's story article, if any.
 	StorySpotlightURI *string `json:"story_spotlight_uri"`
 
 	// RelatedURIs contains links related to a card.
@@ -551,14 +551,14 @@ type Card struct {
 	// Finishes is an array of computer-readable flags that indicate if this card can come in foil, nonfoil, etched, or glossy finishes.
 	Finishes []Finish `json:"finishes"`
 
-	// ImageStatus is a computer-readable indicator for the state of this card’s image.
+	// ImageStatus is a computer-readable indicator for the state of this card's image.
 	ImageStatus *ImageStatus `json:"image_status"`
 }
 
 // RelatedCard is a card that is closely related to another card (because it
 // calls it by name, or generates a token, or meld, etc).
 type RelatedCard struct {
-	// ID is a unique ID for this card in Scryfall’s database.
+	// ID is a unique ID for this card in Scryfall's database.
 	ID string `json:"id"`
 
 	// Component is a field explaining what role this card plays in the
@@ -572,7 +572,7 @@ type RelatedCard struct {
 	TypeLine string `json:"type_line"`
 
 	// URI is a URI where you can retrieve a full object describing this
-	// card on Scryfall’s API.
+	// card on Scryfall's API.
 	URI string `json:"uri"`
 }
 
@@ -604,20 +604,20 @@ type CardFace struct {
 	// rules, a missing mana cost and a mana cost of {0} are different values.
 	ManaCost string `json:"mana_cost"`
 
-	// Colors is this face’s colors.
+	// Colors is this face's colors.
 	Colors []Color `json:"colors"`
 
-	// ColorIndicator is the colors in this face’s color indicator, if any.
+	// ColorIndicator is the colors in this face's color indicator, if any.
 	ColorIndicator []Color `json:"color_indicator"`
 
-	// Power is this face’s power, if any. Note that some cards have powers
+	// Power is this face's power, if any. Note that some cards have powers
 	// that are not numeric, such as *.
 	Power *string `json:"power"`
 
-	// Toughness is this face’s toughness, if any.
+	// Toughness is this face's toughness, if any.
 	Toughness *string `json:"toughness"`
 
-	// Loyalty is this face’s loyalty, if any.
+	// Loyalty is this face's loyalty, if any.
 	Loyalty *string `json:"loyalty"`
 
 	// FlavorText is the flavor text printed on this face, if any.
@@ -651,14 +651,14 @@ type ImageURIs struct {
 	// to use for videos or other high-quality content.
 	PNG string `json:"png"`
 
-	// ArtCrop is a rectangular crop of the card’s art only. Not guaranteed
+	// ArtCrop is a rectangular crop of the card's art only. Not guaranteed
 	// to be perfect for cards with outlier designs or strange frame
 	// arrangements
 	ArtCrop string `json:"art_crop"`
 
 	// BorderCrop is a full card image with the rounded corners and the
 	// majority of the border cropped off. Designed for dated contexts where
-	// rounded images can’t be used.
+	// rounded images can't be used.
 	BorderCrop string `json:"border_crop"`
 }
 
@@ -1042,7 +1042,7 @@ func (c *Client) GetCardByMultiverseID(ctx context.Context, multiverseID int) (C
 }
 
 // GetCardByMTGOID returns a single card with the given MTGO ID (also known as
-// the Catalog ID). The ID can either be the card’s MTGO ID or its MTGO foil
+// the Catalog ID). The ID can either be the card's MTGO ID or its MTGO foil
 // ID.
 func (c *Client) GetCardByMTGOID(ctx context.Context, mtgoID int) (Card, error) {
 	cardURL := fmt.Sprintf("cards/mtgo/%d", mtgoID)
@@ -1057,7 +1057,7 @@ func (c *Client) GetCardByArenaID(ctx context.Context, arenaID int) (Card, error
 }
 
 // GetCardByTCGPlayerID returns a single card with the given TCGPlayer ID, also
-// known as the productId on TCGPlayer’s API.
+// known as the productId on TCGPlayer's API.
 func (c *Client) GetCardByTCGPlayerID(ctx context.Context, tcgPlayerID int) (Card, error) {
 	cardURL := fmt.Sprintf("cards/tcgplayer/%d", tcgPlayerID)
 	return c.getCard(ctx, cardURL)

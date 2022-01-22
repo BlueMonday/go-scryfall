@@ -6,11 +6,11 @@ import "context"
 type OAuthScope string
 
 const (
-	// OAuthScopeRead grants the ability to inspect data on a user’s
+	// OAuthScopeRead grants the ability to inspect data on a user's
 	// account. No methods that change data will be allowed.
 	OAuthScopeRead OAuthScope = "read"
 
-	// OAuthScopeReadWrite grants full API access to a user’s account. The
+	// OAuthScopeReadWrite grants full API access to a user's account. The
 	// application will be able to use methods that update, delete, and add
 	// account data on behalf of the user.
 	OAuthScopeReadWrite OAuthScope = "read_write"
@@ -126,7 +126,7 @@ type OAuthDowngradeRequest struct {
 // Downgraded grants cannot be upgraded later, this change is permanent.
 //
 // This method is designed to allow your application to proactively relinquish
-// rights to a user’s account if you no longer need OAuthScopeReadWrite scope.
+// rights to a user's account if you no longer need OAuthScopeReadWrite scope.
 //
 // Requires application authentication.
 func (c *Client) OAuthDowngrade(ctx context.Context, grantID string) (OAuthGrant, error) {
@@ -163,7 +163,7 @@ type OAuthRevokeResponse struct {
 // application if they so desire.
 //
 // This method is designed to allow your application to proactively disconnect
-// from this user’s Scryfall account from your side.
+// from this user's Scryfall account from your side.
 //
 // Requires application authentication.
 func (c *Client) OAuthRevoke(ctx context.Context, grantID string) (OAuthRevokeResponse, error) {

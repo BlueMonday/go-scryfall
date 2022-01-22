@@ -6,7 +6,7 @@ import (
 	"net/url"
 )
 
-// CardSymbol represents an illustrated symbol that may appear in card’s
+// CardSymbol represents an illustrated symbol that may appear in card's
 // mana cost or Oracle text. Symbols are based on the notation used in the
 // Comprehensive Rules.
 //
@@ -35,7 +35,7 @@ type CardSymbol struct {
 	// RepresentsMana is true if this is a mana symbol.
 	RepresentsMana bool `json:"represents_mana"`
 
-	// CMC is a decimal number representing this symbol’s converted mana
+	// CMC is a decimal number representing this symbol's converted mana
 	// cost. Note that mana symbols from funny sets can have fractional
 	// converted mana costs.
 	CMC float64 `json:"cmc"`
