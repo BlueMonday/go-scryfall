@@ -2,7 +2,6 @@ package scryfall
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"reflect"
 	"testing"
@@ -114,7 +113,7 @@ func TestSearchCards(t *testing.T) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		fmt.Fprintln(w, `{"object": "list", "total_cards": 1000, "has_more": true, "next_page": "https://api.scryfall.com/cards?page=3", "data": [`+duskDawnJSON+`]}`)
+		w.Write([]byte(`{"object": "list", "total_cards": 1000, "has_more": true, "next_page": "https://api.scryfall.com/cards?page=3", "data": [` + duskDawnJSON + `]}`))
 	})
 	client, ts, err := setupTestServer("/cards/search", handler)
 	if err != nil {
@@ -155,7 +154,7 @@ func TestGetCardByName(t *testing.T) {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		fmt.Fprintln(w, duskDawnJSON)
+		w.Write([]byte(duskDawnJSON))
 	})
 	client, ts, err := setupTestServer("/cards/named", handler)
 	if err != nil {
@@ -185,7 +184,7 @@ func TestAutocompleteCard(t *testing.T) {
 			return
 		}
 
-		fmt.Fprintln(w, `{"object": "catalog", "total_items": 20, "data": ["Thallid", "Thorn Thallid", "Thalakos Seer", "Thalakos Scout", "Thalia's Lancers", "Thalakos Sentry", "Thallid Devourer", "Thalakos Deceiver", "Thalakos Drifters", "Thalakos Lowlands", "Thalakos Mistfolk", "Thallid Soothsayer", "Thallid Germinator", "Thalia's Lieutenant", "Thallid Shell-Dweller", "Thalia, Heretic Cathar", "Thalakos Dreamsower", "Thalia, Guardian of Thraben", "Tukatongue Thallid", "Lethal Sting"]}`)
+		w.Write([]byte(`{"object": "catalog", "total_items": 20, "data": ["Thallid", "Thorn Thallid", "Thalakos Seer", "Thalakos Scout", "Thalia's Lancers", "Thalakos Sentry", "Thallid Devourer", "Thalakos Deceiver", "Thalakos Drifters", "Thalakos Lowlands", "Thalakos Mistfolk", "Thallid Soothsayer", "Thallid Germinator", "Thalia's Lieutenant", "Thallid Shell-Dweller", "Thalia, Heretic Cathar", "Thalakos Dreamsower", "Thalia, Guardian of Thraben", "Tukatongue Thallid", "Lethal Sting"]}`))
 	})
 	client, ts, err := setupTestServer("/cards/autocomplete", handler)
 	if err != nil {
@@ -228,7 +227,7 @@ func TestAutocompleteCard(t *testing.T) {
 
 func TestGetRandomCard(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, duskDawnJSON)
+		w.Write([]byte(duskDawnJSON))
 	})
 	client, ts, err := setupTestServer("/cards/random", handler)
 	if err != nil {
@@ -249,7 +248,7 @@ func TestGetRandomCard(t *testing.T) {
 
 func TestGetCardByMultiverseID(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, duskDawnJSON)
+		w.Write([]byte(duskDawnJSON))
 	})
 	client, ts, err := setupTestServer("/cards/multiverse/426912", handler)
 	if err != nil {
@@ -270,7 +269,7 @@ func TestGetCardByMultiverseID(t *testing.T) {
 
 func TestGetCardByArenaID(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, duskDawnJSON)
+		w.Write([]byte(duskDawnJSON))
 	})
 	client, ts, err := setupTestServer("/cards/arena/67330", handler)
 	if err != nil {
@@ -291,7 +290,7 @@ func TestGetCardByArenaID(t *testing.T) {
 
 func TestGetCardByMTGOID(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, duskDawnJSON)
+		w.Write([]byte(duskDawnJSON))
 	})
 	client, ts, err := setupTestServer("/cards/mtgo/64026", handler)
 	if err != nil {
@@ -312,7 +311,7 @@ func TestGetCardByMTGOID(t *testing.T) {
 
 func TestGetCardBySetCodeAndCollectorNumber(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, duskDawnJSON)
+		w.Write([]byte(duskDawnJSON))
 	})
 	client, ts, err := setupTestServer("/cards/akh/210", handler)
 	if err != nil {
@@ -333,7 +332,7 @@ func TestGetCardBySetCodeAndCollectorNumber(t *testing.T) {
 
 func TestGetCard(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, duskDawnJSON)
+		w.Write([]byte(duskDawnJSON))
 	})
 	client, ts, err := setupTestServer("/cards/937dbc51-b589-4237-9fce-ea5c757f7c48", handler)
 	if err != nil {
