@@ -266,7 +266,7 @@ const (
 	// FrameEffectFanDFC is the fan transforming marks frame effect.
 	FrameEffectFanDFC FrameEffect = "fandfc"
 
-	// FrameEffectUpsideDownDFC is a upside down transforming marks frame
+	// FrameEffectUpsideDownDFC is the upside down transforming marks frame
 	// effect.
 	FrameEffectUpsideDownDFC FrameEffect = "upsidedowndfc"
 )
