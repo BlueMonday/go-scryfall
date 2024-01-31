@@ -92,8 +92,10 @@ const (
 	// LayoutLeveler is a level up card layout.
 	LayoutLeveler Layout = "leveler"
 
+	// LayoutClass is class-type enchantment cards layout.
 	LayoutClass Layout = "class"
 
+	// LayoutCase is a case-type enchantment cards layout.
 	LayoutCase Layout = "case"
 
 	// LayoutSaga is saga card layout.
@@ -102,10 +104,13 @@ const (
 	// LayoutAdventure is a card layout with an Adventure spell part.
 	LayoutAdventure Layout = "adventure"
 
+	// LayoutMutate is mutate card layout.
 	LayoutMutate Layout = "mutate"
 
+	// LayoutPrototype is prototype card layout.
 	LayoutPrototype Layout = "prototype"
 
+	// LayoutBattle is a battle-type card layout.
 	LayoutBattle Layout = "battle"
 
 	// LayoutPlanar is a plane and phenomenon card layout.
@@ -233,27 +238,36 @@ const (
 	// transform marks frame effect.
 	FrameEffectMoonReverseMoonDFC FrameEffect = "moonreversemoondfc"
 
-	// FrameEffectShowcase is a custom Showcase frame effect.
+	// FrameEffectShowcase is the custom Showcase frame effect.
 	FrameEffectShowcase FrameEffect = "showcase"
 
-	// FrameEffectExtendedArt is an extended art frame effect.
+	// FrameEffectExtendedArt is the extended art frame effect.
 	FrameEffectExtendedArt FrameEffect = "extendedart"
 
-	// FrameEffectCompanion is a companion frame effect.
+	// FrameEffectCompanion is the companion frame effect.
 	FrameEffectCompanion FrameEffect = "companion"
 
+	// FrameEffectEtched is the etched foil treatment frame effect.
 	FrameEffectEtched FrameEffect = "etched"
 
+	// FrameEffectSnow is the snowy frame effect.
 	FrameEffectSnow FrameEffect = "snow"
 
+	// FrameEffectLesson is the lesson frame effect.
 	FrameEffectLesson FrameEffect = "lesson"
 
+	// FrameEffectShatteredGlass is the shattered glass frame effect.
 	FrameEffectShatteredGlass FrameEffect = "shatteredglass"
 
+	// FrameEffectConvertDFC is the more than meets the eye marks frame
+	// effect.
 	FrameEffectConvertDFC FrameEffect = "convertdfc"
 
+	// FrameEffectFanDFC is the fan transforming marks frame effect.
 	FrameEffectFanDFC FrameEffect = "fandfc"
 
+	// FrameEffectUpsideDownDFC is a upside down transforming marks frame
+	// effect.
 	FrameEffectUpsideDownDFC FrameEffect = "upsidedowndfc"
 )
 
@@ -427,6 +441,7 @@ type Card struct {
 	// that are not numeric, such as X.
 	Loyalty *string `json:"loyalty"`
 
+	// Defense is the face's defense, if any.
 	Defense *string `json:"defense"`
 
 	// LifeModifier is this card's life modifier, if it is Vanguard
@@ -580,10 +595,15 @@ type Card struct {
 	// ImageStatus is a computer-readable indicator for the state of this card's image.
 	ImageStatus *ImageStatus `json:"image_status"`
 
+	// AttractionLights are the Unfinity attractions lights on this card, if any.
 	AttractionLights []int `json:"attraction_lights,omitempty"`
 
+	// ContentWarning is whether you should consider avoiding use of this
+	// print downstream.
 	ContentWarning *bool `json:"content_warning,omitempty"`
 
+	// FlavorName is the just-for-fun name printed on the card (such as for
+	// Godzilla series cards).
 	FlavorName *string `json:"flavor_name,omitempty"`
 }
 
@@ -617,8 +637,6 @@ type CardFace struct {
 	// This will only be set if the card is not in English.
 	PrintedName *string `json:"printed_name"`
 
-	FlavorName *string `json:"flavor_name,omitempty"`
-
 	// TypeLine is the type line of this particular face.
 	TypeLine string `json:"type_line"`
 
@@ -651,14 +669,18 @@ type CardFace struct {
 	// Toughness is this face's toughness, if any.
 	Toughness *string `json:"toughness"`
 
-	Layout *string `json:"layout"`
+	// Layout is the layout of this card face, if the card is reversible.
+	Layout *Layout `json:"layout"`
 
 	// Loyalty is this face's loyalty, if any.
 	Loyalty *string `json:"loyalty"`
 
-	// Appears on reversible cards.
+	// OracleID is the Oracle ID of this particular face, if the card is
+	// reversible.
 	OracleID *string `json:"oracle_id,omitempty"`
 
+	// Defense is the face's defense, if the game defines colors for the
+	// individual face of this card.
 	Defense *string `json:"defense"`
 
 	// FlavorText is the flavor text printed on this face, if any.
