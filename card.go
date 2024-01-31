@@ -92,11 +92,21 @@ const (
 	// LayoutLeveler is a level up card layout.
 	LayoutLeveler Layout = "leveler"
 
+	LayoutClass Layout = "class"
+
+	LayoutCase Layout = "case"
+
 	// LayoutSaga is saga card layout.
 	LayoutSaga Layout = "saga"
 
 	// LayoutAdventure is a card layout with an Adventure spell part.
 	LayoutAdventure Layout = "adventure"
+
+	LayoutMutate Layout = "mutate"
+
+	LayoutPrototype Layout = "prototype"
+
+	LayoutBattle Layout = "battle"
 
 	// LayoutPlanar is a plane and phenomenon card layout.
 	LayoutPlanar Layout = "planar"
@@ -126,8 +136,8 @@ const (
 	// LayoutArtSeries is an Art Series collectable double-faced card layout.
 	LayoutArtSeries Layout = "art_series"
 
-	// LayoutDoubleSided is a card layout with two sides that are unrelated.
-	LayoutDoubleSided Layout = "double_sided"
+	// LayoutReversible is a card layout with two sides that are unrelated.
+	LayoutReversible Layout = "reversible_card"
 )
 
 // Legality is the legality of a card in a particular format.
@@ -231,6 +241,20 @@ const (
 
 	// FrameEffectCompanion is a companion frame effect.
 	FrameEffectCompanion FrameEffect = "companion"
+
+	FrameEffectEtched FrameEffect = "etched"
+
+	FrameEffectSnow FrameEffect = "snow"
+
+	FrameEffectLesson FrameEffect = "lesson"
+
+	FrameEffectShatteredGlass FrameEffect = "shatteredglass"
+
+	FrameEffectConvertDFC FrameEffect = "convertdfc"
+
+	FrameEffectFanDFC FrameEffect = "fandfc"
+
+	FrameEffectUpsideDownDFC FrameEffect = "upsidedowndfc"
 )
 
 type Preview struct {
@@ -403,6 +427,8 @@ type Card struct {
 	// that are not numeric, such as X.
 	Loyalty *string `json:"loyalty"`
 
+	Defense *string `json:"defense"`
+
 	// LifeModifier is this card's life modifier, if it is Vanguard
 	// card. This value will contain a delta, such as +2.
 	LifeModifier *string `json:"life_modifier"`
@@ -553,6 +579,12 @@ type Card struct {
 
 	// ImageStatus is a computer-readable indicator for the state of this card's image.
 	ImageStatus *ImageStatus `json:"image_status"`
+
+	AttractionLights []int `json:"attraction_lights,omitempty"`
+
+	ContentWarning *bool `json:"content_warning,omitempty"`
+
+	FlavorName *string `json:"flavor_name,omitempty"`
 }
 
 // RelatedCard is a card that is closely related to another card (because it
@@ -584,6 +616,8 @@ type CardFace struct {
 	// PrintedName is the printed name of this particular face.
 	// This will only be set if the card is not in English.
 	PrintedName *string `json:"printed_name"`
+
+	FlavorName *string `json:"flavor_name,omitempty"`
 
 	// TypeLine is the type line of this particular face.
 	TypeLine string `json:"type_line"`
@@ -617,8 +651,15 @@ type CardFace struct {
 	// Toughness is this face's toughness, if any.
 	Toughness *string `json:"toughness"`
 
+	Layout *string `json:"layout"`
+
 	// Loyalty is this face's loyalty, if any.
 	Loyalty *string `json:"loyalty"`
+
+	// Appears on reversible cards.
+	OracleID *string `json:"oracle_id,omitempty"`
+
+	Defense *string `json:"defense"`
 
 	// FlavorText is the flavor text printed on this face, if any.
 	FlavorText *string `json:"flavor_text"`
@@ -953,12 +994,12 @@ func (c *Client) GetRandomCard(ctx context.Context) (Card, error) {
 // CardIdentifier identifies a card.
 //
 // The following combinations are valid identifier schemas:
-// 	* ID
-// 	* MTGOID
-// 	* MultiverseID
-// 	* Name
-// 	* Name and Set
-// 	* Set and CollectorNumber
+//   - ID
+//   - MTGOID
+//   - MultiverseID
+//   - Name
+//   - Name and Set
+//   - Set and CollectorNumber
 type CardIdentifier struct {
 	// Name identifies a card with the specified Scryfall ID.
 	ID string `json:"id,omitempty"`
