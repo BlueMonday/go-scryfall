@@ -1,6 +1,6 @@
 # go-scryfall
 
-[![PkgGoDev](https://pkg.go.dev/badge/github.com/BlueMonday/go-scryfall)](https://pkg.go.dev/github.com/BlueMonday/go-scryfall) [![Coverage Status](https://img.shields.io/coveralls/github/BlueMonday/go-scryfall/master.svg)](https://coveralls.io/github/BlueMonday/go-scryfall?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/BlueMonday/go-scryfall)](https://goreportcard.com/report/github.com/BlueMonday/go-scryfall)
+[![Go](https://github.com/BlueMonday/go-scryfall/actions/workflows/go.yml/badge.svg)](https://github.com/BlueMonday/go-scryfall/actions/workflows/go.yml) [![PkgGoDev](https://pkg.go.dev/badge/github.com/BlueMonday/go-scryfall)](https://pkg.go.dev/github.com/BlueMonday/go-scryfall) [![Coverage Status](https://img.shields.io/coveralls/github/BlueMonday/go-scryfall/master.svg)](https://coveralls.io/github/BlueMonday/go-scryfall?branch=master) [![Go Report Card](https://goreportcard.com/badge/github.com/BlueMonday/go-scryfall)](https://goreportcard.com/report/github.com/BlueMonday/go-scryfall)
 
 ![go-scryfall](./go-scryfall.png)
 
