@@ -65,6 +65,55 @@ func TestDateUnmarshalJSON(t *testing.T) {
 	}
 }
 
+func TestDateMarshalJSON(t *testing.T) {
+	tests := []struct {
+		in  Date
+		out []byte
+	}{
+		{
+			Date{Time: time.Date(2018, 4, 27, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
+			[]byte("\"2018-04-27\""),
+		},
+	}
+	for _, test := range tests {
+		t.Run(string(test.out), func(t *testing.T) {
+			got, err := test.in.MarshalJSON()
+			if err != nil {
+				t.Fatalf("Unexpected error while marshaling date: %v", err)
+			}
+			if string(got) != string(test.out) {
+				t.Errorf("got: %s want: %s", got, test.out)
+			}
+		})
+	}
+}
+
+func TestDateUnmashalMarshaledJSON(t *testing.T) {
+	tests := []struct {
+		in Date
+	}{
+		{
+			Date{Time: time.Date(2018, 4, 27, 0, 0, 0, 0, time.FixedZone("UTC-8", -8*60*60))},
+		},
+	}
+	for _, test := range tests {
+		t.Run(string(test.in.Time.Format(dateFormat)), func(t *testing.T) {
+			marshaled, err := test.in.MarshalJSON()
+			if err != nil {
+				t.Fatalf("Unexpected error while marshaling date: %v", err)
+			}
+			var out Date
+			err = out.UnmarshalJSON(marshaled)
+			if err != nil {
+				t.Fatalf("Unexpected error while unmarshaling JSON date: %v", err)
+			}
+			if !out.Time.Equal(test.in.Time) {
+				t.Errorf("got: %s want: %s", out, test.in)
+			}
+		})
+	}
+}
+
 func TestTimestampUnmarshalJSON(t *testing.T) {
 	tests := []struct {
 		in  []byte
