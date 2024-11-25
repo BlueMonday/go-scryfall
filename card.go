@@ -269,6 +269,9 @@ const (
 	// FrameEffectUpsideDownDFC is the upside down transforming marks frame
 	// effect.
 	FrameEffectUpsideDownDFC FrameEffect = "upsidedowndfc"
+
+	// FrameEffectSpree is the spree asterisk frame effect.
+	FrameEffectSpree FrameEffect = "spree"
 )
 
 type Preview struct {
@@ -563,6 +566,9 @@ type Card struct {
 
 	// Preview contains information about who previewed/spoiled this card.
 	Preview Preview `json:"preview"`
+
+	// PromoTypes is an array of promo types for this card, if any.
+	PromoTypes []string `json:"promo_types,omitempty"`
 
 	// BorderColor is this card's border color: black, borderless, gold,
 	// silver, or white.
