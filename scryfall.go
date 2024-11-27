@@ -16,10 +16,10 @@ import (
 )
 
 const (
-	defaultBaseURL = "https://api.scryfall.com"
-	defaultTimeout = 30 * time.Second
+	defaultBaseURL      = "https://api.scryfall.com"
+	defaultTimeout      = 30 * time.Second
 	defaultReqPerSecond = 10
-	userAgent      = "go-scryfall"
+	userAgent           = "go-scryfall"
 
 	dateFormat      = "2006-01-02"
 	timestampFormat = "2006-01-02T15:04:05.999Z07:00"
@@ -72,6 +72,10 @@ func (d *Date) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
+func (d *Date) MarshalJSON() ([]byte, error) {
+	return []byte(fmt.Sprintf("\"%s\"", d.Format(dateFormat))), nil
+}
+
 // Timestamp is a timestamp returned by the Scryfall API.
 type Timestamp struct {
 	time.Time
@@ -110,7 +114,7 @@ type clientOptions struct {
 	clientSecret string
 	grantSecret  string
 	client       *http.Client
-	limiter ratelimit.Limiter
+	limiter      ratelimit.Limiter
 }
 
 // ClientOption configures the Scryfall API client.
@@ -161,7 +165,7 @@ type Client struct {
 	baseURL       *url.URL
 	authorization string
 
-	client *http.Client
+	client  *http.Client
 	limiter ratelimit.Limiter
 }
 
@@ -199,7 +203,7 @@ func NewClient(options ...ClientOption) (*Client, error) {
 		baseURL:       baseURL,
 		authorization: authorization,
 		client:        co.client,
-		limiter: co.limiter,
+		limiter:       co.limiter,
 	}
 	return c, nil
 }
@@ -214,7 +218,7 @@ func (c *Client) doReq(ctx context.Context, req *http.Request, respBody interfac
 	if c.limiter != nil {
 		c.limiter.Take()
 	}
-	
+
 	resp, err := c.client.Do(reqWithContext)
 	if err != nil {
 		return err
