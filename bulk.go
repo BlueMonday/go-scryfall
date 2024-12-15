@@ -1,6 +1,9 @@
 package scryfall
 
-import "context"
+import (
+	"context"
+	"fmt"
+)
 
 // BulkData is a Scryfall bulk data item.
 type BulkData struct {
@@ -37,9 +40,6 @@ type BulkData struct {
 }
 
 // ListBulkData returns a list of all bulk data items on Scryfall.
-//
-// Note: Card objects in bulk data do not contain prices, and will omit the
-// USD, EUR, Tix, and purchase URIs properties.
 func (c *Client) ListBulkData(ctx context.Context) ([]BulkData, error) {
 	bulkDataItems := []BulkData{}
 	err := c.listGet(ctx, "bulk-data", &bulkDataItems)
@@ -48,4 +48,28 @@ func (c *Client) ListBulkData(ctx context.Context) ([]BulkData, error) {
 	}
 
 	return bulkDataItems, nil
+}
+
+// GetBulkDataByID gets a bulk data item by ID.
+func (c *Client) GetBulkDataByID(ctx context.Context, id string) (BulkData, error) {
+	bulkDataURL := fmt.Sprintf("bulk-data/%s", id)
+	bulkData := BulkData{}
+	err := c.get(ctx, bulkDataURL, &bulkData)
+	if err != nil {
+		return BulkData{}, err
+	}
+
+	return bulkData, nil
+}
+
+// GetBulkDataByType gets a bulk data item by type.
+func (c *Client) GetBulkDataByType(ctx context.Context, typ string) (BulkData, error) {
+	bulkDataURL := fmt.Sprintf("bulk-data/%s", typ)
+	bulkData := BulkData{}
+	err := c.get(ctx, bulkDataURL, &bulkData)
+	if err != nil {
+		return BulkData{}, err
+	}
+
+	return bulkData, nil
 }
