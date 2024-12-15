@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	Version = "0.6.0"
+	Version = "0.6.1"
 
 	defaultBaseURL      = "https://api.scryfall.com"
 	defaultUserAgent    = "go-scryfall/" + Version
@@ -223,6 +223,8 @@ func NewClient(options ...ClientOption) (*Client, error) {
 
 func (c *Client) doReq(ctx context.Context, req *http.Request, respBody interface{}) error {
 	req.Header.Set("User-Agent", c.userAgent)
+	req.Header.Set("Accept", "application/json")
+
 	if len(c.authorization) != 0 {
 		req.Header.Set("Authorization", c.authorization)
 	}
