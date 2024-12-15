@@ -35,7 +35,6 @@ func setupTestServer(pattern string, handler func(http.ResponseWriter, *http.Req
 }
 
 func TestDateUnmarshalJSON(t *testing.T) {
-
 	tests := []struct {
 		in  []byte
 		out Date
@@ -183,6 +182,53 @@ func TestError(t *testing.T) {
 	}
 	if !reflect.DeepEqual(err, expectedErr) {
 		t.Errorf("got: %#v want: %#v", err, expectedErr)
+	}
+}
+
+func TestNewClientUserAgent(t *testing.T) {
+	tests := []struct {
+		name              string
+		clientOptions     []ClientOption
+		expectedUserAgent string
+	}{
+		{
+			name:              "default user agent",
+			clientOptions:     nil,
+			expectedUserAgent: defaultUserAgent,
+		},
+		{
+			name:              "custom user agent",
+			clientOptions:     []ClientOption{WithUserAgent("custom/1.2.3")},
+			expectedUserAgent: "custom/1.2.3",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(string(test.name), func(t *testing.T) {
+			handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				userAgent := r.Header.Get("User-Agent")
+				if userAgent != test.expectedUserAgent {
+					// I don't beleive they currently return an error for user agent
+					// issues but we want to make the test fail.
+					w.WriteHeader(http.StatusBadRequest)
+					fmt.Fprintln(w, `{"object": "error", "code": "bad_request", "status": 400, "details": ""}`)
+					return
+				}
+
+				fmt.Fprintln(w, `{"object": "list", "has_more": false, "data": []}`)
+			})
+			client, ts, err := setupTestServer("/symbology", handler, test.clientOptions...)
+			if err != nil {
+				t.Fatalf("Error setting up test server: %v", err)
+			}
+			defer ts.Close()
+
+			ctx := context.Background()
+			_, err = client.ListCardSymbols(ctx)
+			if err != nil {
+				t.Fatalf("Error validating user agent: %v", err)
+			}
+		})
 	}
 }
 
