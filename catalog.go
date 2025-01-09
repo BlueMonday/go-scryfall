@@ -53,6 +53,18 @@ func (c *Client) GetWordBankCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "word-bank")
 }
 
+// GetSuperTypesCatalog returns a Catalog of all Magic card supertypes.
+// Values are updated as soon as a new card is entered for spoiler seasons.
+func (c *Client) GetSuperTypesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "supertypes")
+}
+
+// GetCardTypesCatalog returns a Catalog of all Magic card types.
+// Values are updated as soon as a new card is entered for spoiler seasons.
+func (c *Client) GetCardTypesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "card-types")
+}
+
 // GetCreatureTypesCatalog returns a Catalog of all creature types in
 // Scryfall's database. Values are updated as soon as a new card is entered for
 // spoiler seasons.
