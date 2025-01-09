@@ -137,6 +137,34 @@ func (c *Client) GetLoyaltiesCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "loyalties")
 }
 
+// GetKeywordAbilitiesCatalog returns a Catalog of all keyword abilities in Scryfall's
+// database. Values are updated as soon as a new card is entered for spoiler
+// seasons.
+func (c *Client) GetKeywordAbilitiesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "keyword-abilities")
+}
+
+// GetKeywordActionsCatalog returns a Catalog of all keyword actions in Scryfall's
+// database. Values are updated as soon as a new card is entered for spoiler
+// seasons.
+func (c *Client) GetKeywordActionsCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "keyword-actions")
+}
+
+// GetAbilityWordsCatalog returns a Catalog of all ability words in Scryfall's
+// database. Values are updated as soon as a new card is entered for spoiler
+// seasons.
+func (c *Client) GetAbilityWordsCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "ability-words")
+}
+
+// GetFlavorWordsCatalog returns a Catalog of all flavor words in Scryfall's
+// database. Values are updated as soon as a new card is entered for spoiler
+// seasons.
+func (c *Client) GetFlavorWordsCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "flavor-words")
+}
+
 // GetWatermarksCatalog returns a Catalog of all card watermarks in Scryfall's
 // database. Values are updated as soon as a new card is entered for spoiler
 // seasons.
