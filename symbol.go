@@ -17,6 +17,21 @@ type CardSymbol struct {
 	// {}. Note that not all symbols are ASCII text (for example, {∞}).
 	Symbol string `json:"symbol"`
 
+	// TODO
+	SVGURI string `json:"svg_uri"`
+
+	// TODO
+	ManaValue float64 `json:"mana_value"`
+
+	// TODO
+	Hybrid bool `json:"hybrid"`
+
+	// TODO
+	Phyrexian bool `json:"phyrexian"`
+
+	// TODO
+	GathererAlternatives interface{} `json:"gatherer_alternatives"`
+
 	// LooseVariant is an alternate version of this symbol, if it is
 	// possible to write it without curly braces.
 	LooseVariant *string `json:"loose_variant"`
