@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.0
+* Add missing catalog API calls
+
 ## 0.7.0
 * Add support for APIs to get bulk data by ID or type
 

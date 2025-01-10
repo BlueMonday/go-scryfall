@@ -53,25 +53,18 @@ func (c *Client) GetWordBankCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "word-bank")
 }
 
-// GetCreatureTypesCatalog returns a Catalog of all creature types in
+// GetSuperTypesCatalog returns a Catalog of all Magic card supertypes in
 // Scryfall's database. Values are updated as soon as a new card is entered for
 // spoiler seasons.
-func (c *Client) GetCreatureTypesCatalog(ctx context.Context) (Catalog, error) {
-	return c.getCatalog(ctx, "creature-types")
+func (c *Client) GetSuperTypesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "supertypes")
 }
 
-// GetPlaneswalkerTypesCatalog returns a Catalog of all Planeswalker types in
+// GetCardTypesCatalog returns a Catalog of all Magic card types in
 // Scryfall's database. Values are updated as soon as a new card is entered for
 // spoiler seasons.
-func (c *Client) GetPlaneswalkerTypesCatalog(ctx context.Context) (Catalog, error) {
-	return c.getCatalog(ctx, "planeswalker-types")
-}
-
-// GetLandTypesCatalog returns a Catalog of all Land types in Scryfall's
-// database. Values are updated as soon as a new card is entered for spoiler
-// seasons.
-func (c *Client) GetLandTypesCatalog(ctx context.Context) (Catalog, error) {
-	return c.getCatalog(ctx, "land-types")
+func (c *Client) GetCardTypesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "card-types")
 }
 
 // GetArtifactTypesCatalog returns a Catalog of all artifact types in
@@ -81,11 +74,39 @@ func (c *Client) GetArtifactTypesCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "artifact-types")
 }
 
+// GetBattleTypesCatalog returns a Catalog of all battle types in
+// Scryfall's database. Values are updated as soon as a new card is entered for
+// spoiler seasons.
+func (c *Client) GetBattleTypesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "battle-types")
+}
+
+// GetCreatureTypesCatalog returns a Catalog of all creature types in
+// Scryfall's database. Values are updated as soon as a new card is entered for
+// spoiler seasons.
+func (c *Client) GetCreatureTypesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "creature-types")
+}
+
 // GetEnchantmentTypesCatalog returns a Catalog of all enchantment types in
 // Scryfall's database. Values are updated as soon as a new card is entered for
 // spoiler seasons.
 func (c *Client) GetEnchantmentTypesCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "enchantment-types")
+}
+
+// GetLandTypesCatalog returns a Catalog of all Land types in Scryfall's
+// database. Values are updated as soon as a new card is entered for spoiler
+// seasons.
+func (c *Client) GetLandTypesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "land-types")
+}
+
+// GetPlaneswalkerTypesCatalog returns a Catalog of all Planeswalker types in
+// Scryfall's database. Values are updated as soon as a new card is entered for
+// spoiler seasons.
+func (c *Client) GetPlaneswalkerTypesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "planeswalker-types")
 }
 
 // GetSpellTypesCatalog returns a Catalog of all spell types in Scryfall's
@@ -114,6 +135,34 @@ func (c *Client) GetToughnessesCatalog(ctx context.Context) (Catalog, error) {
 // new card is entered for spoiler seasons.
 func (c *Client) GetLoyaltiesCatalog(ctx context.Context) (Catalog, error) {
 	return c.getCatalog(ctx, "loyalties")
+}
+
+// GetKeywordAbilitiesCatalog returns a Catalog of all keyword abilities in Scryfall's
+// database. Values are updated as soon as a new card is entered for spoiler
+// seasons.
+func (c *Client) GetKeywordAbilitiesCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "keyword-abilities")
+}
+
+// GetKeywordActionsCatalog returns a Catalog of all keyword actions in Scryfall's
+// database. Values are updated as soon as a new card is entered for spoiler
+// seasons.
+func (c *Client) GetKeywordActionsCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "keyword-actions")
+}
+
+// GetAbilityWordsCatalog returns a Catalog of all ability words in Scryfall's
+// database. Values are updated as soon as a new card is entered for spoiler
+// seasons.
+func (c *Client) GetAbilityWordsCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "ability-words")
+}
+
+// GetFlavorWordsCatalog returns a Catalog of all flavor words in Scryfall's
+// database. Values are updated as soon as a new card is entered for spoiler
+// seasons.
+func (c *Client) GetFlavorWordsCatalog(ctx context.Context) (Catalog, error) {
+	return c.getCatalog(ctx, "flavor-words")
 }
 
 // GetWatermarksCatalog returns a Catalog of all card watermarks in Scryfall's
