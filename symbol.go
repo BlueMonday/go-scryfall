@@ -13,6 +13,9 @@ import (
 // For more information about how the Scryfall API represents mana and costs, see
 // the colors and costs overview: https://scryfall.com/docs/api/colors.
 type CardSymbol struct {
+	// Object is the content type for this object, always card_symbol.
+	Object string `json:"object"`
+
 	// Symbol is the plaintext symbol. Often surrounded with curly braces
 	// {}. Note that not all symbols are ASCII text (for example, {∞}).
 	Symbol string `json:"symbol"`
@@ -38,7 +41,14 @@ type CardSymbol struct {
 	// CMC is a decimal number representing this symbol's converted mana
 	// cost. Note that mana symbols from funny sets can have fractional
 	// converted mana costs.
+	//
+	// Deprecated: Use ManaValue instead.
 	CMC float64 `json:"cmc"`
+
+	// ManaValue is a decimal number representing this symbol’s mana value
+	// (also knowns as the converted mana cost). Note that mana symbols
+	// from funny sets can have fractional mana values.
+	ManaValue *float64 `json:"mana_value"`
 
 	// AppearsInManaCosts is true if this symbol appears in a mana cost on
 	// any Magic card. For example {20} has this field set to false because
@@ -50,6 +60,22 @@ type CardSymbol struct {
 
 	// Color is an array of colors that this symbol represents.
 	Colors []Color `json:"colors"`
+
+	// Hybrid is true if the symbol is a hybrid mana symbol. Note that
+	// monocolor Phyrexian symbols aren’t considered hybrid.
+	Hybrid bool `json:"hybrid"`
+
+	// Phyrexian is true if the symbol is a Phyrexian mana symbol, i.e. it
+	// can be paid with 2 life.
+	Phyrexian bool `json:"phyrexian"`
+
+	// GathererAlternates is an array of plaintext versions of this symbol
+	// that Gatherer uses on old cards to describe original printed
+	// text. For example: {W} has ["oW", "ooW"] as alternates.
+	GathererAlternates []string `json:"gatherer_alternates"`
+
+	// SVGURI is a URI to an SVG image of this symbol on Scryfall’s CDNs.
+	SVGURI *string `json:"svg_uri"`
 }
 
 // ManaCost is Scryfall's interpretation of a mana cost.

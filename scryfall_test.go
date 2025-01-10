@@ -18,6 +18,10 @@ func intPointer(v int) *int {
 	return &v
 }
 
+func float64Pointer(v float64) *float64 {
+	return &v
+}
+
 func setupTestServer(pattern string, handler func(http.ResponseWriter, *http.Request), clientOptions ...ClientOption) (*Client, *httptest.Server, error) {
 	mux := http.NewServeMux()
 	mux.HandleFunc(pattern, handler)

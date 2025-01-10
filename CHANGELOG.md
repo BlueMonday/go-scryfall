@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.0
+* Add missing object, mana_value, hybrid, phyrexian, gatherer_alternates, and svg_uri card symbol fields
+* Deprecate cmc card symbol field, has been replaced by mana_value
+
 ## 0.8.0
 * Add missing supertypes, card-types, battle-types, keyword-abilities, keyword-actions, ability-words, and flavor-words catalog API calls
 

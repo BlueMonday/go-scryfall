@@ -10,7 +10,7 @@ import (
 
 func TestListCardSymbols(t *testing.T) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, `{"object": "list", "has_more": false, "data": [{"object": "card_symbol", "symbol": "{T}", "loose_variant": null, "english": "tap this permanent", "transposable": false, "represents_mana": false, "appears_in_mana_costs": false, "cmc": 0, "funny": false, "colors": []}, {"object": "card_symbol", "symbol": "{Q}", "loose_variant": null, "english": "untap this permanent", "transposable": false, "represents_mana": false, "appears_in_mana_costs": false, "cmc": 0, "funny": false, "colors": []}, {"object": "card_symbol", "symbol": "{W/U}", "loose_variant": null, "english": "one white or blue mana", "transposable": true, "represents_mana": true, "appears_in_mana_costs": true, "cmc": 1, "funny": false, "colors": ["W", "U"]}]}`)
+		fmt.Fprintln(w, `{"object": "list", "has_more": false, "data": [{"object": "card_symbol", "symbol": "{T}", "svg_uri": "https://svgs.scryfall.io/card-symbols/T.svg", "loose_variant": null, "english": "tap this permanent", "transposable": false, "represents_mana": false, "appears_in_mana_costs": false, "mana_value": 0, "hybrid": false, "phyrexian": false, "cmc": 0, "funny": false, "colors": [], "gatherer_alternates": ["ocT", "oT"]}, {"object": "card_symbol", "symbol": "{Q}", "svg_uri": "https://svgs.scryfall.io/card-symbols/Q.svg", "loose_variant": null, "english": "untap this permanent", "transposable": false, "represents_mana": false, "appears_in_mana_costs": false, "mana_value": 0, "hybrid": false, "phyrexian": false, "cmc": 0, "funny": false, "colors": [], "gatherer_alternates": null}, {"object": "card_symbol", "symbol": "{W}", "svg_uri": "https://svgs.scryfall.io/card-symbols/W.svg", "loose_variant": "W", "english": "one white mana", "transposable": false, "represents_mana": true, "appears_in_mana_costs": true, "mana_value": 1, "hybrid": false, "phyrexian": false, "cmc": 1, "funny": false, "colors": ["W"], "gatherer_alternates": ["oW", "ooW"]}]}`)
 	})
 	client, ts, err := setupTestServer("/symbology", handler)
 	if err != nil {
@@ -26,37 +26,55 @@ func TestListCardSymbols(t *testing.T) {
 
 	want := []CardSymbol{
 		{
+			Object:             "card_symbol",
 			Symbol:             "{T}",
+			SVGURI:             stringPointer("https://svgs.scryfall.io/card-symbols/T.svg"),
 			LooseVariant:       nil,
 			English:            "tap this permanent",
 			Transposable:       false,
 			RepresentsMana:     false,
-			CMC:                0,
 			AppearsInManaCosts: false,
+			ManaValue:          float64Pointer(0),
+			Hybrid:             false,
+			Phyrexian:          false,
+			CMC:                0,
 			Funny:              false,
 			Colors:             []Color{},
+			GathererAlternates: []string{"ocT", "oT"},
 		},
 		{
+			Object:             "card_symbol",
 			Symbol:             "{Q}",
+			SVGURI:             stringPointer("https://svgs.scryfall.io/card-symbols/Q.svg"),
 			LooseVariant:       nil,
 			English:            "untap this permanent",
 			Transposable:       false,
-			RepresentsMana:     false,
-			CMC:                0,
 			AppearsInManaCosts: false,
+			RepresentsMana:     false,
+			ManaValue:          float64Pointer(0),
+			Hybrid:             false,
+			Phyrexian:          false,
+			CMC:                0,
 			Funny:              false,
 			Colors:             []Color{},
+			GathererAlternates: nil,
 		},
 		{
-			Symbol:             "{W/U}",
-			LooseVariant:       nil,
-			English:            "one white or blue mana",
-			Transposable:       true,
-			RepresentsMana:     true,
-			CMC:                1,
+			Object:             "card_symbol",
+			Symbol:             "{W}",
+			SVGURI:             stringPointer("https://svgs.scryfall.io/card-symbols/W.svg"),
+			LooseVariant:       stringPointer("W"),
+			English:            "one white mana",
+			Transposable:       false,
 			AppearsInManaCosts: true,
+			RepresentsMana:     true,
+			ManaValue:          float64Pointer(1),
+			Hybrid:             false,
+			Phyrexian:          false,
+			CMC:                1,
 			Funny:              false,
-			Colors:             []Color{ColorWhite, ColorBlue},
+			Colors:             []Color{ColorWhite},
+			GathererAlternates: []string{"oW", "ooW"},
 		},
 	}
 	if !reflect.DeepEqual(cardSymbols, want) {
