@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.1
+* Add released_at field to Card type
+
 ## 0.9.0
 * Add missing object, mana_value, hybrid, phyrexian, gatherer_alternates, and svg_uri card symbol fields
 * Deprecate cmc card symbol field, has been replaced by mana_value

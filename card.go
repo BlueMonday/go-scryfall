@@ -583,6 +583,9 @@ type Card struct {
 	// RelatedURIs contains links related to a card.
 	RelatedURIs RelatedURIs `json:"related_uris"`
 
+	// ReleasedAt is the date this card was first released.
+	ReleasedAt Date `json:"released_at"`
+
 	// PurchaseURIs contains links to the card on online card stores.
 	PurchaseURIs PurchaseURIs `json:"purchase_uris"`
 

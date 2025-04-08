@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	Version = "0.9.0"
+	Version = "0.9.1"
 
 	defaultBaseURL      = "https://api.scryfall.com"
 	defaultUserAgent    = "go-scryfall/" + Version
