@@ -10,7 +10,7 @@ import (
 
 // TODO: Replace urls with the new
 // https://scryfall.com/blog/upcoming-api-changes-to-scryfall-image-uris-and-download-uris-221
-const duskDawnJSON = `{"object":"card","id":"937dbc51-b589-4237-9fce-ea5c757f7c48","oracle_id":"7bc3f92f-68a2-4934-afc4-89f6d0e8cf98","multiverse_ids":[426912],"mtgo_id":64026,"tcgplayer_id":129823,"cardmarket_id":296759,"name":"Dusk // Dawn","lang":"en","released_at":"2017-04-28","uri":"https://api.scryfall.com/cards/937dbc51-b589-4237-9fce-ea5c757f7c48","scryfall_uri":"https://scryfall.com/card/akh/210/dusk-dawn?utm_source=api","layout":"split","highres_image":true,"image_status":"highres_scan","image_uris":{"small":"https://cards.scryfall.io/small/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.jpg?1549941330","normal":"https://cards.scryfall.io/normal/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.jpg?1549941330","large":"https://cards.scryfall.io/large/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.jpg?1549941330","png":"https://cards.scryfall.io/png/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.png?1549941330","art_crop":"https://cards.scryfall.io/art_crop/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.jpg?1549941330","border_crop":"https://cards.scryfall.io/border_crop/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.jpg?1549941330"},"mana_cost":"{2}{W}{W} // {3}{W}{W}","cmc":9.0,"type_line":"Sorcery // Sorcery","colors":["W"],"color_identity":["W"],"keywords":["Aftermath"],"card_faces":[{"object":"card_face","name":"Dusk","mana_cost":"{2}{W}{W}","type_line":"Sorcery","oracle_text":"Destroy all creatures with power 3 or greater.","artist":"Noah Bradley","artist_id":"81995d11-da98-4f8b-89bd-b88ca2ddb06b","illustration_id":"f3d63aed-2784-4ef5-9676-846b1e65e040"},{"object":"card_face","name":"Dawn","mana_cost":"{3}{W}{W}","type_line":"Sorcery","oracle_text":"Aftermath (Cast this spell only from your graveyard. Then exile it.)\nReturn all creature cards with power 2 or less from your graveyard to your hand.","artist":"Noah Bradley","artist_id":"81995d11-da98-4f8b-89bd-b88ca2ddb06b"}],"legalities":{"standard":"not_legal","future":"not_legal","historic":"legal","timeless":"legal","gladiator":"legal","pioneer":"legal","explorer":"legal","modern":"legal","legacy":"legal","pauper":"not_legal","vintage":"legal","penny":"legal","commander":"legal","oathbreaker":"legal","standardbrawl":"not_legal","brawl":"legal","alchemy":"not_legal","paupercommander":"not_legal","duel":"legal","oldschool":"not_legal","premodern":"not_legal","predh":"not_legal"},"games":["paper","mtgo"],"reserved":false,"game_changer":false,"foil":true,"nonfoil":true,"finishes":["nonfoil","foil"],"oversized":false,"promo":false,"reprint":false,"variation":false,"set_id":"02d1c536-68bc-4208-9b65-7741ef1f9da8","set":"akh","set_name":"Amonkhet","set_type":"expansion","set_uri":"https://api.scryfall.com/sets/02d1c536-68bc-4208-9b65-7741ef1f9da8","set_search_uri":"https://api.scryfall.com/cards/search?order=set&q=e%3Aakh&unique=prints","scryfall_set_uri":"https://scryfall.com/sets/akh?utm_source=api","rulings_uri":"https://api.scryfall.com/cards/937dbc51-b589-4237-9fce-ea5c757f7c48/rulings","prints_search_uri":"https://api.scryfall.com/cards/search?order=released&q=oracleid%3A7bc3f92f-68a2-4934-afc4-89f6d0e8cf98&unique=prints","collector_number":"210","digital":false,"rarity":"rare","card_back_id":"0aeebaf5-8c7d-4636-9e82-8c27447861f7","artist":"Noah Bradley","artist_ids":["81995d11-da98-4f8b-89bd-b88ca2ddb06b"],"illustration_id":"f3d63aed-2784-4ef5-9676-846b1e65e040","border_color":"black","frame":"2015","security_stamp":"oval","full_art":false,"textless":false,"booster":true,"story_spotlight":false,"edhrec_rank":830,"penny_rank":3788,"prices":{"usd":"0.35","usd_foil":"4.17","usd_etched":null,"eur":"0.54","eur_foil":"1.55","tix":"0.02"},"related_uris":{"gatherer":"https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=426912&printed=false","tcgplayer_infinite_articles":"https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=infinite&u=https%3A%2F%2Finfinite.tcgplayer.com%2Fsearch%3FcontentMode%3Darticle%26game%3Dmagic%26q%3DDusk%2B%252F%252F%2BDawn","tcgplayer_infinite_decks":"https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=infinite&u=https%3A%2F%2Finfinite.tcgplayer.com%2Fsearch%3FcontentMode%3Ddeck%26game%3Dmagic%26q%3DDusk%2B%252F%252F%2BDawn","edhrec":"https://edhrec.com/route/?cc=Dusk+%2F%2F+Dawn"},"purchase_uris":{"tcgplayer":"https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F129823%3Fpage%3D1","cardmarket":"https://www.cardmarket.com/en/Magic/Products/Singles/Amonkhet/Dusk-Dawn?referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall","cardhoarder":"https://www.cardhoarder.com/cards/64026?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"}}`
+const duskDawnJSON = `{"object":"card","id":"937dbc51-b589-4237-9fce-ea5c757f7c48","oracle_id":"7bc3f92f-68a2-4934-afc4-89f6d0e8cf98","multiverse_ids":[426912],"mtgo_id":64026,"tcgplayer_id":129823,"cardmarket_id":296759,"name":"Dusk // Dawn","lang":"en","released_at":"2017-04-28","uri":"https://api.scryfall.com/cards/937dbc51-b589-4237-9fce-ea5c757f7c48","scryfall_uri":"https://scryfall.com/card/akh/210/dusk-dawn?utm_source=api","layout":"split","highres_image":true,"image_status":"highres_scan","image_uris":{"small":"https://cards.scryfall.io/small/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.jpg?1549941330","normal":"https://cards.scryfall.io/normal/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.jpg?1549941330","large":"https://cards.scryfall.io/large/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.jpg?1549941330","png":"https://cards.scryfall.io/png/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.png?1549941330","art_crop":"https://cards.scryfall.io/art_crop/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.jpg?1549941330","border_crop":"https://cards.scryfall.io/border_crop/front/9/3/937dbc51-b589-4237-9fce-ea5c757f7c48.jpg?1549941330"},"mana_cost":"{2}{W}{W} // {3}{W}{W}","cmc":9.0,"type_line":"Sorcery // Sorcery","colors":["W"],"color_identity":["W"],"keywords":["Aftermath"],"card_faces":[{"object":"card_face","name":"Dusk","mana_cost":"{2}{W}{W}","type_line":"Sorcery","oracle_text":"Destroy all creatures with power 3 or greater.","artist":"Noah Bradley","artist_id":"81995d11-da98-4f8b-89bd-b88ca2ddb06b","illustration_id":"f3d63aed-2784-4ef5-9676-846b1e65e040"},{"object":"card_face","name":"Dawn","mana_cost":"{3}{W}{W}","type_line":"Sorcery","oracle_text":"Aftermath (Cast this spell only from your graveyard. Then exile it.)\nReturn all creature cards with power 2 or less from your graveyard to your hand.","artist":"Noah Bradley","artist_id":"81995d11-da98-4f8b-89bd-b88ca2ddb06b"}],"legalities":{"standard":"not_legal","future":"not_legal","historic":"legal","timeless":"legal","gladiator":"legal","pioneer":"legal","explorer":"legal","modern":"legal","legacy":"legal","pauper":"not_legal","vintage":"legal","penny":"legal","commander":"legal","oathbreaker":"legal","standardbrawl":"not_legal","brawl":"legal","alchemy":"not_legal","paupercommander":"not_legal","duel":"legal","oldschool":"not_legal","premodern":"not_legal","predh":"not_legal","tlr":"not_legal"},"games":["paper","mtgo"],"reserved":false,"game_changer":false,"foil":true,"nonfoil":true,"finishes":["nonfoil","foil"],"oversized":false,"promo":false,"reprint":false,"variation":false,"set_id":"02d1c536-68bc-4208-9b65-7741ef1f9da8","set":"akh","set_name":"Amonkhet","set_type":"expansion","set_uri":"https://api.scryfall.com/sets/02d1c536-68bc-4208-9b65-7741ef1f9da8","set_search_uri":"https://api.scryfall.com/cards/search?order=set&q=e%3Aakh&unique=prints","scryfall_set_uri":"https://scryfall.com/sets/akh?utm_source=api","rulings_uri":"https://api.scryfall.com/cards/937dbc51-b589-4237-9fce-ea5c757f7c48/rulings","prints_search_uri":"https://api.scryfall.com/cards/search?order=released&q=oracleid%3A7bc3f92f-68a2-4934-afc4-89f6d0e8cf98&unique=prints","collector_number":"210","digital":false,"rarity":"rare","card_back_id":"0aeebaf5-8c7d-4636-9e82-8c27447861f7","artist":"Noah Bradley","artist_ids":["81995d11-da98-4f8b-89bd-b88ca2ddb06b"],"illustration_id":"f3d63aed-2784-4ef5-9676-846b1e65e040","border_color":"black","frame":"2015","security_stamp":"oval","full_art":false,"textless":false,"booster":true,"story_spotlight":false,"edhrec_rank":830,"penny_rank":3788,"prices":{"usd":"0.35","usd_foil":"4.17","usd_etched":null,"eur":"0.54","eur_foil":"1.55","tix":"0.02"},"related_uris":{"gatherer":"https://gatherer.wizards.com/Pages/Card/Details.aspx?multiverseid=426912&printed=false","tcgplayer_infinite_articles":"https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=infinite&u=https%3A%2F%2Finfinite.tcgplayer.com%2Fsearch%3FcontentMode%3Darticle%26game%3Dmagic%26q%3DDusk%2B%252F%252F%2BDawn","tcgplayer_infinite_decks":"https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&trafcat=infinite&u=https%3A%2F%2Finfinite.tcgplayer.com%2Fsearch%3FcontentMode%3Ddeck%26game%3Dmagic%26q%3DDusk%2B%252F%252F%2BDawn","edhrec":"https://edhrec.com/route/?cc=Dusk+%2F%2F+Dawn"},"purchase_uris":{"tcgplayer":"https://partner.tcgplayer.com/c/4931599/1830156/21018?subId1=api&u=https%3A%2F%2Fwww.tcgplayer.com%2Fproduct%2F129823%3Fpage%3D1","cardmarket":"https://www.cardmarket.com/en/Magic/Products/Singles/Amonkhet/Dusk-Dawn?referrer=scryfall&utm_campaign=card_prices&utm_medium=text&utm_source=scryfall","cardhoarder":"https://www.cardhoarder.com/cards/64026?affiliate_id=scryfall&ref=card-profile&utm_campaign=affiliate&utm_medium=card&utm_source=scryfall"}}`
 
 var duskDawn = Card{
 	ID:            "937dbc51-b589-4237-9fce-ea5c757f7c48",
@@ -54,16 +54,28 @@ var duskDawn = Card{
 		},
 	},
 	Legalities: Legalities{
-		Standard:  "not_legal",
-		Modern:    "legal",
-		Pauper:    "not_legal",
-		Pioneer:   "legal",
-		Legacy:    "legal",
-		Penny:     "legal",
-		Vintage:   "legal",
-		Duel:      "legal",
-		Commander: "legal",
-		Future:    "not_legal",
+		Standard:          "not_legal",
+		Modern:            "legal",
+		Pauper:            "not_legal",
+		Pioneer:           "legal",
+		Legacy:            "legal",
+		Penny:             "legal",
+		Vintage:           "legal",
+		Duel:              "legal",
+		Commander:         "legal",
+		Future:            "not_legal",
+		Historic:          "legal",
+		Timeless:          "legal",
+		Gladiator:         "legal",
+		OathBreaker:       "legal",
+		StandardBrawl:     "not_legal",
+		Brawl:             "legal",
+		Alchemy:           "not_legal",
+		PauperCommander:   "not_legal",
+		OldSchool:         "not_legal",
+		PreModern:         "not_legal",
+		PreDH:             "not_legal",
+		TinyLeadersReborn: "not_legal",
 	},
 	Reserved:        false,
 	Foil:            true,
@@ -109,6 +121,7 @@ var duskDawn = Card{
 	Booster:     true,
 	Finishes:    []Finish{FinishNonFoil, FinishFoil},
 	ImageStatus: (*ImageStatus)(stringPointer(string(ImageStatusHighres))),
+	GameChanger: (*bool)(boolPointer(false)),
 }
 
 func TestSearchCards(t *testing.T) {
