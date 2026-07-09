@@ -67,7 +67,7 @@ var duskDawn = Card{
 		Historic:          "legal",
 		Timeless:          "legal",
 		Gladiator:         "legal",
-		OathBreaker:       "legal",
+		Oathbreaker:       "legal",
 		StandardBrawl:     "not_legal",
 		Brawl:             "legal",
 		Alchemy:           "not_legal",

@@ -774,7 +774,7 @@ type Legalities struct {
 	Historic          Legality `json:"historic"`
 	Timeless          Legality `json:"timeless"`
 	Gladiator         Legality `json:"gladiator"`
-	OathBreaker       Legality `json:"oathbreaker"`
+	Oathbreaker       Legality `json:"oathbreaker"`
 	StandardBrawl     Legality `json:"standardbrawl"`
 	Brawl             Legality `json:"brawl"`
 	Alchemy           Legality `json:"alchemy"`
