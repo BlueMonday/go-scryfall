@@ -121,7 +121,7 @@ var duskDawn = Card{
 	Booster:     true,
 	Finishes:    []Finish{FinishNonFoil, FinishFoil},
 	ImageStatus: (*ImageStatus)(stringPointer(string(ImageStatusHighres))),
-	GameChanger: (*bool)(boolPointer(false)),
+	GameChanger: boolPointer(false),
 }
 
 func TestSearchCards(t *testing.T) {
