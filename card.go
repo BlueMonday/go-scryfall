@@ -615,7 +615,9 @@ type Card struct {
 	// Godzilla series cards).
 	FlavorName *string `json:"flavor_name,omitempty"`
 
-	// GameChanger is whether this card is a game changer in EDH
+	// GameChanger is whether this card is on the [Commander Game Changer list].
+	//
+	// [Commander Game Changer list]: https://mtg.wiki/page/Game_Changers
 	GameChanger *bool `json:"game_changer,omitempty"`
 }
 
