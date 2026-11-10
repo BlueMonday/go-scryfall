@@ -604,6 +604,10 @@ type Card struct {
 	// ImageStatus is a computer-readable indicator for the state of this card's image.
 	ImageStatus *ImageStatus `json:"image_status"`
 
+	// ImageUpdatedAt is when Scryfall last changed this card's image. Use it
+	// to detect when a cached copy of the image should be refreshed.
+	ImageUpdatedAt *Timestamp `json:"image_updated_at,omitempty"`
+
 	// AttractionLights are the Unfinity attractions lights on this card, if any.
 	AttractionLights []int `json:"attraction_lights,omitempty"`
 
@@ -713,29 +717,74 @@ type CardFace struct {
 
 // ImageURIs contains links to the different image sizes and crops for a given
 // card.
+//
+// Scryfall is migrating its images to WebP. After January 1st, 2027 the
+// Small, Large, ArtCrop and BorderCrop JPEG versions are no longer available,
+// Normal is replaced by JPEG, and PNG may no longer be hotlinked. Use the WebP
+// versions (Thumb, Grid, Display, Crop, Art) instead.
 type ImageURIs struct {
+	// Thumb is a small full card WebP image (146 × 204). Designed for use as
+	// thumbnail or list icon. Replaces Small.
+	Thumb string `json:"thumb"`
+
+	// Grid is a medium-sized full card WebP image (488 × 680). Replaces
+	// Normal.
+	Grid string `json:"grid"`
+
+	// Display is a large full card WebP image (672 × 936). Replaces Large.
+	Display string `json:"display"`
+
+	// Crop is a full card WebP image with the rounded corners and the
+	// majority of the border cropped off (480 × 680). Replaces BorderCrop.
+	Crop string `json:"crop"`
+
+	// Art is a WebP crop of the card's art only. Its size varies. Replaces
+	// ArtCrop.
+	Art string `json:"art"`
+
+	// JPEG is a medium-sized full card JPEG image (488 × 680). It is the only
+	// JPEG version that remains available and is intended for legacy
+	// software; prefer Grid where possible.
+	JPEG string `json:"jpeg"`
+
 	// Small is a small full card image. Designed for use as thumbnail or
 	// list icon.
+	//
+	// Deprecated: Scryfall removes this image after January 1st, 2027. Use
+	// Thumb instead.
 	Small string `json:"small"`
 
 	// Normal is a medium-sized full card image.
+	//
+	// Deprecated: Scryfall renames this image to jpeg. Use Grid or JPEG
+	// instead.
 	Normal string `json:"normal"`
 
 	// Large is a large full card image.
+	//
+	// Deprecated: Scryfall removes this image after January 1st, 2027. Use
+	// Display instead.
 	Large string `json:"large"`
 
-	// PNG is a transparent, rounded full card PNG. This is the best image
-	// to use for videos or other high-quality content.
+	// PNG is a transparent, rounded full card PNG. Use it as input for your
+	// own image processing. After January 1st, 2027 it may no longer be
+	// hotlinked; use a WebP image for display instead.
 	PNG string `json:"png"`
 
 	// ArtCrop is a rectangular crop of the card's art only. Not guaranteed
 	// to be perfect for cards with outlier designs or strange frame
 	// arrangements
+	//
+	// Deprecated: Scryfall removes this image after January 1st, 2027. Use
+	// Art instead.
 	ArtCrop string `json:"art_crop"`
 
 	// BorderCrop is a full card image with the rounded corners and the
 	// majority of the border cropped off. Designed for dated contexts where
 	// rounded images can't be used.
+	//
+	// Deprecated: Scryfall removes this image after January 1st, 2027. Use
+	// Crop instead.
 	BorderCrop string `json:"border_crop"`
 }
 

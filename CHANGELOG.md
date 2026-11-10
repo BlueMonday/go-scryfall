@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.0
+* Add WebP image URI fields (thumb, grid, display, crop, art) and the jpeg field to ImageURIs
+* Add image_updated_at field to Card type
+* Deprecate small, normal, large, art_crop, and border_crop image URI fields, which Scryfall removes after 2027-01-01
+
 ## 0.9.1
 * Add released_at field to Card type
 
